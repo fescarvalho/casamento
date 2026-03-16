@@ -18,6 +18,7 @@ import {
     MessageCircle
 } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
+import WhatsAppButton from "./WhatsAppButton";
 
 interface GiftItem {
     id: number;
@@ -231,17 +232,21 @@ export default function GiftRegistry() {
                 )}
 
                 {/* Floating Quick PIX Card */}
-                <div className="fixed bottom-24 right-4 md:right-12 z-40 bg-white/80 backdrop-blur-md rounded-2xl pl-6 pr-2 py-2 flex items-center shadow-2xl border border-white/50 group hover:scale-105 transition-transform cursor-pointer"
-                    onClick={() => navigator.clipboard.writeText("151751447909")}
+                <div className="fixed bottom-12 right-4 md:right-12 z-40 bg-white/80 backdrop-blur-md rounded-2xl p-2 flex items-center shadow-2xl border border-white/50 group transition-all cursor-pointer overflow-hidden max-w-[50px] hover:max-w-[300px]"
+                    onClick={() => {
+                        navigator.clipboard.writeText("15175144790");
+                        alert("Chave PIX copiada!");
+                    }}
                 >
-                    <div className="mr-6">
-                        <p className="text-[9px] font-bold uppercase tracking-widest text-sage">Chave PIX Rápida (CPF)</p>
-                        <p className="text-xs font-mono text-charcoal">151.751.447-909</p>
-                    </div>
-                    <div className="bg-sage p-3 rounded-xl text-white shadow-inner group-hover:bg-gold transition-colors">
+                    <div className="bg-sage p-3 rounded-xl text-white shadow-inner group-hover:bg-gold transition-colors shrink-0">
                         <QrCode size={20} />
                     </div>
+                    <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pr-4">
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-sage">Chave PIX Rápida (CPF)</p>
+                        <p className="text-xs font-mono text-charcoal">151.751.447-90</p>
+                    </div>
                 </div>
+                <WhatsAppButton />
             </main>
 
             {/* Gifting Modal (same logic as before but updated style) */}
@@ -290,11 +295,11 @@ export default function GiftRegistry() {
                                                 </div>
                                                 <div>
                                                     <p className="text-[10px] text-charcoal/50 uppercase tracking-widest mb-1 font-bold">Chave PIX (CPF)</p>
-                                                    <p className="font-bold text-charcoal">151.751.447-909</p>
+                                                    <p className="font-bold text-charcoal">151.751.447-90</p>
                                                 </div>
                                             </div>
                                             <button
-                                                onClick={() => navigator.clipboard.writeText("151751447909")}
+                                                onClick={() => navigator.clipboard.writeText("15175144790")}
                                                 className="text-[10px] uppercase tracking-tighter font-bold text-gold hover:text-charcoal transition-colors border-b border-gold/30"
                                             >
                                                 Copiar

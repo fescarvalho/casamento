@@ -44,21 +44,21 @@ export default function HomeCover() {
                     alt="Background"
                     className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-ivory/70 backdrop-blur-md" />
+                <div className="absolute inset-0 bg-ivory/40 backdrop-blur-[5px]" />
             </div>
 
             {/* Lateral Decorative Elements (Left) */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 md:w-64 h-full flex flex-col justify-between items-center py-20 pointer-events-none opacity-20">
-                <Leaf className="w-24 h-24 md:w-40 md:h-40 text-sage" strokeWidth={1} />
+            <div className="absolute -left-12 md:left-0 top-1/2 -translate-y-1/2 w-48 md:w-64 h-full flex flex-col justify-between items-center py-20 pointer-events-none opacity-20 z-0">
+                <Leaf className="w-16 h-16 md:w-40 md:h-40 text-sage" strokeWidth={1} />
                 <Heart className="text-gold w-10 h-10 opacity-30" />
-                <Sprout className="w-24 h-24 md:w-40 md:h-40 text-sage rotate-180" strokeWidth={1} />
+                <Sprout className="w-16 h-16 md:w-40 md:h-40 text-sage rotate-180" strokeWidth={1} />
             </div>
 
             {/* Lateral Decorative Elements (Right) */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 md:w-64 h-full flex flex-col justify-between items-center py-20 pointer-events-none opacity-20">
-                <Sprout className="w-24 h-24 md:w-40 md:h-40 text-sage scale-x-[-1]" strokeWidth={1} />
+            <div className="absolute -right-12 md:right-0 top-1/2 -translate-y-1/2 w-48 md:w-64 h-full flex flex-col justify-between items-center py-20 pointer-events-none opacity-20 z-0">
+                <Sprout className="w-16 h-16 md:w-40 md:h-40 text-sage scale-x-[-1]" strokeWidth={1} />
                 <Heart className="text-gold w-10 h-10 opacity-30 fill-gold" />
-                <Leaf className="w-24 h-24 md:w-40 md:h-40 text-sage scale-x-[-1] rotate-180" strokeWidth={1} />
+                <Leaf className="w-16 h-16 md:w-40 md:h-40 text-sage scale-x-[-1] rotate-180" strokeWidth={1} />
             </div>
 
             {/* Central Hero Section */}
@@ -96,21 +96,23 @@ export default function HomeCover() {
 
                 {/* Wedding Date/Countdown */}
                 {mounted && (
-                    <div className="flex flex-wrap justify-center gap-4 md:gap-6 mt-8 md:mt-10 px-4">
-                        <div className="bg-white/60 backdrop-blur-md border border-gold/20 px-6 py-4 md:px-8 md:py-6 rounded-xl flex flex-col items-center min-w-[80px] md:min-w-[100px] shadow-sm">
-                            <span className="text-2xl md:text-3xl font-headline text-gold font-bold">{timeLeft.days}</span>
-                            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-charcoal/70 mt-1">Dias</span>
+                    <div className="flex flex-row justify-center gap-2 md:gap-6 mt-8 md:mt-10 px-2 sm:px-4">
+                        <div className="bg-white/60 backdrop-blur-md border border-gold/20 px-3 py-3 md:px-8 md:py-6 rounded-xl flex flex-col items-center min-w-[70px] md:min-w-[100px] shadow-sm">
+                            <span className="text-xl md:text-3xl font-headline text-gold font-bold">{timeLeft.days}</span>
+                            <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-charcoal/70 mt-1">Dias</span>
                         </div>
-                        <div className="bg-white/60 backdrop-blur-md border border-gold/20 px-6 py-4 md:px-8 md:py-6 rounded-xl flex flex-col items-center min-w-[80px] md:min-w-[100px] shadow-sm">
-                            <span className="text-2xl md:text-3xl font-headline text-gold font-bold">{timeLeft.hours}</span>
-                            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-charcoal/70 mt-1">Horas</span>
+                        <div className="bg-white/60 backdrop-blur-md border border-gold/20 px-3 py-3 md:px-8 md:py-6 rounded-xl flex flex-col items-center min-w-[70px] md:min-w-[100px] shadow-sm">
+                            <span className="text-xl md:text-3xl font-headline text-gold font-bold">{timeLeft.hours}</span>
+                            <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-charcoal/70 mt-1">Horas</span>
                         </div>
-                        <div className="bg-white/60 backdrop-blur-md border border-gold/20 px-6 py-4 md:px-8 md:py-6 rounded-xl flex flex-col items-center min-w-[80px] md:min-w-[100px] shadow-sm">
-                            <span className="text-2xl md:text-3xl font-headline text-gold font-bold">{timeLeft.mins}</span>
-                            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-charcoal/70 mt-1">Minutos</span>
+                        <div className="bg-white/60 backdrop-blur-md border border-gold/20 px-3 py-3 md:px-8 md:py-6 rounded-xl flex flex-col items-center min-w-[70px] md:min-w-[100px] shadow-sm">
+                            <span className="text-xl md:text-3xl font-headline text-gold font-bold">{timeLeft.mins}</span>
+                            <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-charcoal/70 mt-1">Minutos</span>
                         </div>
                     </div>
                 )}
+
+
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 px-6">

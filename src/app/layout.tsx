@@ -18,7 +18,6 @@ export const metadata: Metadata = {
 };
 
 import Navbar from "@/components/Navbar";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import Footer from "@/components/Footer";
 
 export default function RootLayout({
@@ -34,7 +33,6 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-        <WhatsAppButton />
       </body>
     </html>
   );
