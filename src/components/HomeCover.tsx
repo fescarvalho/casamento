@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Church, Heart, Gift } from "lucide-react";
+import { Church, Heart, Gift, Leaf, Sprout } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
@@ -48,37 +48,17 @@ export default function HomeCover() {
             </div>
 
             {/* Lateral Decorative Elements (Left) */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 md:w-64 h-full flex flex-col justify-between py-20 pointer-events-none opacity-40">
-                <img
-                    className="w-full object-contain"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSsHgHNKfiAKc2kSNCwJ4frabY4w-ICKdDG7xn0sfYUXC1uOtTmpOT3TR3rhqF5g4JVC6gOsNN1r6_jC3lgAZdUXe5LS1Ir5-5Jvd7KgRme9xBoU6HLh3xp8wwHgvUx_BoiVzK6g__CEhq4hGJDXSga3U1nTP6Y8Zu15XRPQr_W6U8mnAzSqQf72MHtbUwN0W5ZTjslJxmO-lLnPeVuahBYBY1fXdcRVHIOacDISINvVFDUI7pmkfG3PLxzfHq21UQIWxddLe_KoHL"
-                    alt="Sage watercolor leaves"
-                />
-                <div className="flex justify-center">
-                    <Heart className="text-gold w-10 h-10 opacity-20" />
-                </div>
-                <img
-                    className="w-full object-contain rotate-180"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD07wokwk0CyuSOMgYR5LhfczfN9RI8WRfsX55dEuOR7YK-eLhep5GeBMedsC54hFFd3tuiBp7VMbH56ihCvLOgTWrhol1srWEeQkCbATTG3U3u8O5gZkzgjm133Wwg1IT-gD2U2Q7i6Cp0IByt3bPy82yp-xk8Z9yrzKNwqHh9u22rGScmnXFR98exqsw7lIziCyghahYrCevhjbcYZXNGFPPaby3TK_VkgMccoX5oWisbV0834JgP-AEscXGnnapmUpFewChfrIPz"
-                    alt="Eucalyptus branch"
-                />
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 md:w-64 h-full flex flex-col justify-between items-center py-20 pointer-events-none opacity-20">
+                <Leaf className="w-24 h-24 md:w-40 md:h-40 text-sage" strokeWidth={1} />
+                <Heart className="text-gold w-10 h-10 opacity-30" />
+                <Sprout className="w-24 h-24 md:w-40 md:h-40 text-sage rotate-180" strokeWidth={1} />
             </div>
 
             {/* Lateral Decorative Elements (Right) */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 md:w-64 h-full flex flex-col justify-between py-20 pointer-events-none opacity-40">
-                <img
-                    className="w-full object-contain scale-x-[-1]"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjfhWd6NTElDuoWwBBLxIMG-gLvwI0DZmuClccJaeqOPLv9Ww-XqheotqM7E8FFKna4K_OrgsGzTsYKpTR8990HVzUY2vBCGoRU90jGKAJjBK9cGPdg5xXnJJZnbky0uw7EjWdl5uavhKK7F6G-rjB8c-M_Qo8c0qpGSKmDQcaWtHJmnfxzYCk7ckx_zGCHC5B0g9wwXlt6nDgp_XW6YXzlqLTT5U3uf0gc7SPcu3fDOSP1EAE1Ftu7FwQ7C68bm2ymRD_MCx2u4hN"
-                    alt="Watercolor branch"
-                />
-                <div className="flex justify-center">
-                    <Heart className="text-gold w-10 h-10 opacity-20 fill-gold" />
-                </div>
-                <img
-                    className="w-full object-contain scale-x-[-1] rotate-180"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKJwb_cqGu2riARloov0X6FIjepW3fHE_8mwaLm2lNecKr8FAX2EfRChGoSLEseRPqEH9JDcNQGNqAjnG6xyc1i3_zSnEFrxl9cz9AvBmDYfSfmu5xS_SgAt9n2lozSuoDPmFNbZPzFCR_e59ZonXILh517meZkImVSl5jvUdIFnDsUF0ym9jbzY18zZUur_yMVYNaSHJlKl8mvM1xQanV7SwFHeO25ofJmUsok9VhFlFIZFtXN3LGjMZEdsygRMkJEGumVniZrmRU"
-                    alt="Botanical heart"
-                />
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 md:w-64 h-full flex flex-col justify-between items-center py-20 pointer-events-none opacity-20">
+                <Sprout className="w-24 h-24 md:w-40 md:h-40 text-sage scale-x-[-1]" strokeWidth={1} />
+                <Heart className="text-gold w-10 h-10 opacity-30 fill-gold" />
+                <Leaf className="w-24 h-24 md:w-40 md:h-40 text-sage scale-x-[-1] rotate-180" strokeWidth={1} />
             </div>
 
             {/* Central Hero Section */}
