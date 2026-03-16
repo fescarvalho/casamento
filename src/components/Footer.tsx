@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
     return (
-        <footer className="relative z-10 w-full py-16 text-center text-charcoal/60 text-[10px] tracking-widest uppercase overflow-hidden">
+        <footer className="relative z-10 w-full py-8 text-center text-charcoal/60 text-[10px] tracking-widest uppercase overflow-hidden">
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
                 <img
