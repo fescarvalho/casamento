@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Church, Heart, Diamond, Gift } from "lucide-react";
+import { Church, Heart, Gift } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
@@ -151,16 +151,6 @@ export default function HomeCover() {
                 </div>
 
             </motion.div>
-
-            {/* Geometric Heart Accents */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-[20%] left-[15%] opacity-10">
-                    <Diamond className="w-16 h-16 text-sage" />
-                </div>
-                <div className="absolute bottom-[20%] right-[15%] opacity-10">
-                    <Diamond className="w-16 h-16 text-sage" />
-                </div>
-            </div>
         </section>
     );
 }
