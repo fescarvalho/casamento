@@ -15,9 +15,9 @@ export async function GET() {
             orderBy: { id: "asc" },
         });
         return NextResponse.json(gifts);
-    } catch (error) {
+    } catch (error: any) {
         console.error("GET /api/gifts error:", error);
-        return NextResponse.json({ error: "Erro ao buscar presentes" }, { status: 500 });
+        return NextResponse.json({ error: "Erro ao buscar presentes", details: error.message || error }, { status: 500 });
     }
 }
 
