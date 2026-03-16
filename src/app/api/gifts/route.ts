@@ -16,6 +16,7 @@ export async function GET() {
         });
         return NextResponse.json(gifts);
     } catch (error) {
+        console.error("GET /api/gifts error:", error);
         return NextResponse.json({ error: "Erro ao buscar presentes" }, { status: 500 });
     }
 }
