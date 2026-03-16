@@ -61,26 +61,26 @@ export default function RSVP() {
     };
 
     return (
-        <section className="relative h-screen w-full flex items-center justify-center pt-20 bg-ivory shrink-0">
+        <section className="relative min-h-screen w-full flex items-center justify-center pt-32 pb-20 bg-ivory shrink-0 overflow-x-hidden">
             {/* Background Decorations */}
-            <div className="absolute inset-0 pointer-events-none opacity-15 flex justify-between px-10">
+            <div className="absolute inset-0 pointer-events-none opacity-15 flex justify-between px-4 md:px-10">
                 <div className="h-full flex flex-col justify-between py-20">
-                    <Leaf className="w-48 h-48 text-sage" />
-                    <Heart className="w-32 h-32 text-sage fill-sage" />
+                    <Leaf className="w-24 h-24 md:w-48 md:h-48 text-sage" />
+                    <Heart className="w-16 h-16 md:w-32 md:h-32 text-sage fill-sage" />
                 </div>
                 <div className="h-full flex flex-col justify-center py-20">
                     <div className="rotate-180">
-                        <Sprout className="w-60 h-60 text-sage" />
+                        <Sprout className="w-32 h-32 md:w-60 md:h-60 text-sage" />
                     </div>
                 </div>
             </div>
 
             {/* RSVP Card */}
-            <div className="relative z-10 w-full max-w-2xl px-6">
+            <div className="relative z-10 w-full max-w-2xl px-4 md:px-6">
                 <motion.div
                     initial={{ scale: 0.95, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
-                    className="bg-white/40 backdrop-blur-xl border border-white/60 p-10 md:p-16 rounded-xl shadow-2xl shadow-sage/5"
+                    className="bg-white/40 backdrop-blur-xl border border-white/60 p-6 md:p-16 rounded-3xl shadow-2xl shadow-sage/5"
                 >
                     <div className="text-center mb-12">
                         <div className="flex justify-center mb-4">

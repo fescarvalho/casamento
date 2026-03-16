@@ -129,10 +129,10 @@ export default function GiftRegistry() {
             <div className="fixed top-0 left-0 w-[300px] h-[300px] opacity-15 pointer-events-none z-0 bg-[url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVBDO02Hq9k8zUv7wBKjU_nDcdrNiqiSx2kmj7Vsttpnr1LmgbffIaY6BqIf5QFCn14DtWfVSmSnRoE3xpqWzND1P-ptSmJiyCx5FKZ5nULIeu5Nyxy_UzipVuWDbex7-Ku4oQCajzxWrMfvBVaVqfLEBXlm1NYQX1sXxsgSUBSrq_eeSC_6B0ID4pV7rljtS4FZ46A9XtiaB66vfXYX5hZkwi2QMVOH5vEhjuihx6lquN2KiJevkm1gqO6T3ncS4qx2isCE_otGuY')] bg-contain bg-no-repeat" />
             <div className="fixed bottom-0 right-0 w-[350px] h-[350px] opacity-15 pointer-events-none z-0 bg-[url('https://lh3.googleusercontent.com/aida-public/AB6AXuAo0O8JjnIqraFjWSb9pH3qF_uIlKrt4IsFel8KU7E6EhC2x3hbXXXABMO9iHswKqcitNeu_qg4Oc2edRgT2fqf6l9ZT1tVYd6cLU0_y_SNXoDeqoB2s81uHpbQUgxVrYANxwqnFpf1GLgckkbqxTexs0Pl5IYCvifl13pYSQ1hDh6C5DgUPM2rZoXiAkLi5Cy-t7Uw5P2OHNvWLejqG0lxiFdnEf5QIYShXKkr7bxvoQQfa38ucJkn7-jFt9yz1awELu8hYxuLpl0M')] bg-contain bg-no-repeat bg-bottom bg-right" />
 
-            <main className="relative z-10 flex flex-col items-center px-6 lg:px-24 pt-32">
+            <main className="relative z-10 flex flex-col items-center px-4 md:px-24 pt-32">
                 <header className="text-center max-w-2xl mb-12">
                     <h1 className="font-headline text-4xl md:text-5xl text-charcoal mb-4">Nossa Lista de Presentes</h1>
-                    <p className="text-charcoal/70 leading-relaxed font-light">
+                    <p className="text-charcoal/70 leading-relaxed font-light text-sm md:text-base">
                         Sua presença é o que mais importa, mas se quiser nos presentear, aqui estão algumas sugestões para o nosso novo lar.
                     </p>
                 </header>
@@ -147,10 +147,10 @@ export default function GiftRegistry() {
                                 placeholder="Buscar por nome..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="w-full bg-white/60 border border-gold/10 rounded-full py-3 pl-12 pr-6 focus:ring-2 focus:ring-gold/20 outline-none transition-all placeholder:text-charcoal/50"
+                                className="w-full bg-white/60 border border-gold/10 rounded-full py-3 pl-12 pr-6 focus:ring-2 focus:ring-gold/20 outline-none transition-all placeholder:text-charcoal/50 text-sm"
                             />
                         </div>
-                        <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+                        <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar px-2 -mx-2">
                             {categories.map((cat) => (
                                 <button
                                     key={cat}
@@ -172,7 +172,7 @@ export default function GiftRegistry() {
                         <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }} className="w-8 h-8 border-4 border-gold border-t-transparent rounded-full" />
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full max-w-6xl">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 w-full max-w-6xl">
                         {filteredGifts.map((gift, index) => {
                             // Create a bento pattern: every 5th element is wide
                             const isLarge = index % 7 === 0;
@@ -186,39 +186,39 @@ export default function GiftRegistry() {
                                     animate={{ opacity: 1, scale: 1 }}
                                     whileHover={{ y: -5 }}
                                     className={`
-                    ${isLarge ? "md:col-span-2 md:row-span-2" : ""}
-                    ${isWide ? "md:col-span-2" : ""}
-                    bg-white/60 backdrop-blur-md border border-white/30 rounded-2xl p-6 flex flex-col justify-between hover:shadow-xl transition-shadow duration-300 group
-                  `}
+                                        ${isLarge ? "md:col-span-2 md:row-span-2" : ""}
+                                        ${isWide ? "md:col-span-2" : ""}
+                                        bg-white/60 backdrop-blur-md border border-white/30 rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:shadow-xl transition-all duration-300 group
+                                    `}
                                 >
                                     <div>
-                                        <div className="flex items-center justify-between mb-4">
+                                        <div className="flex items-center justify-between mb-6">
                                             <span className="text-[10px] font-bold uppercase tracking-widest text-sage border border-sage/20 bg-sage-50/50 px-3 py-1 rounded-full">{gift.category}</span>
                                             {getCategoryIcon(gift.category)}
                                         </div>
                                         {isLarge && (
-                                            <div className="w-full h-40 bg-gold/5 rounded-xl mb-4 flex items-center justify-center">
+                                            <div className="hidden border md:flex w-full h-40 bg-gold/5 rounded-2xl mb-6 items-center justify-center">
                                                 <Gift size={48} className="text-gold/20" />
                                             </div>
                                         )}
-                                        <h3 className={`font-headline text-charcoal mb-2 ${isLarge ? "text-2xl" : "text-lg"}`}>{gift.name}</h3>
-                                        <p className="text-xs text-charcoal/60 mb-4">Um toque de carinho para o nosso lar.</p>
+                                        <h3 className={`font-headline text-charcoal mb-3 ${isLarge ? "text-2xl" : "text-xl"}`}>{gift.name}</h3>
+                                        <p className="text-xs text-charcoal/60 mb-6 leading-relaxed">Um toque de carinho para o nosso lar.</p>
                                     </div>
 
-                                    <div className="space-y-3">
+                                    <div className="space-y-4">
                                         <div className="h-[1px] w-full bg-gold/10"></div>
-                                        <div className={`${isWide ? "flex gap-3" : "grid grid-cols-1 gap-2"}`}>
+                                        <div className={`${isWide ? "flex flex-col sm:flex-row gap-3" : "grid grid-cols-1 gap-3"}`}>
                                             {gift.productUrl && (
                                                 <button
                                                     onClick={() => window.open(gift.productUrl, "_blank")}
-                                                    className="flex-1 border border-gold/30 text-charcoal py-2 rounded-lg text-[10px] font-bold uppercase hover:bg-white transition-colors"
+                                                    className="flex-1 border border-gold/30 text-charcoal py-3 rounded-xl text-[10px] font-bold uppercase hover:bg-white transition-colors"
                                                 >
                                                     Ver na Loja
                                                 </button>
                                             )}
                                             <button
                                                 onClick={() => handleGiftClick(gift)}
-                                                className="flex-1 bg-sage text-white py-2 rounded-lg text-[10px] font-bold uppercase hover:bg-sage/80 transition-colors shadow-md flex items-center justify-center gap-2"
+                                                className="flex-1 bg-sage text-white py-3 rounded-xl text-[10px] font-bold uppercase hover:bg-sage/80 transition-colors shadow-lg flex items-center justify-center gap-2"
                                             >
                                                 Presentear via PIX
                                             </button>
@@ -231,23 +231,18 @@ export default function GiftRegistry() {
                 )}
 
                 {/* Floating Quick PIX Card */}
-                <div className="fixed bottom-24 right-8 md:right-12 z-40 bg-white/70 backdrop-blur-md rounded-full pl-6 pr-2 py-2 flex items-center shadow-2xl border border-white/50 group hover:scale-105 transition-transform cursor-pointer"
+                <div className="fixed bottom-24 right-4 md:right-12 z-40 bg-white/80 backdrop-blur-md rounded-2xl pl-6 pr-2 py-2 flex items-center shadow-2xl border border-white/50 group hover:scale-105 transition-transform cursor-pointer"
                     onClick={() => navigator.clipboard.writeText("151751447909")}
                 >
                     <div className="mr-6">
                         <p className="text-[9px] font-bold uppercase tracking-widest text-sage">Chave PIX Rápida (CPF)</p>
                         <p className="text-xs font-mono text-charcoal">151.751.447-909</p>
                     </div>
-                    <div className="bg-sage p-2 rounded-full text-white shadow-inner group-hover:bg-gold transition-colors">
+                    <div className="bg-sage p-3 rounded-xl text-white shadow-inner group-hover:bg-gold transition-colors">
                         <QrCode size={20} />
                     </div>
                 </div>
             </main>
-
-            {/* Footer */}
-            <footer className="relative z-10 w-full py-12 text-center text-charcoal/30 text-[10px] tracking-widest uppercase">
-                Fernando & Vittorya | Made with Love
-            </footer>
 
             {/* Gifting Modal (same logic as before but updated style) */}
             <AnimatePresence>

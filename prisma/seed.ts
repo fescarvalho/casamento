@@ -69,6 +69,23 @@ async function main() {
             data: gift,
         });
     }
+
+    console.log("Seeding guests...");
+    await prisma.guest.deleteMany();
+    const guestList = [
+        { name: "Família Carvalho", maxCompanions: 4 },
+        { name: "Família Silva", maxCompanions: 3 },
+        { name: "João Silva", maxCompanions: 1 },
+        { name: "Maria Oliveira", maxCompanions: 1 },
+        { name: "Pedro Santos", maxCompanions: 0 },
+    ];
+
+    for (const guest of guestList) {
+        await prisma.guest.create({
+            data: guest,
+        });
+    }
+
     console.log("Seeding finished.");
 }
 
