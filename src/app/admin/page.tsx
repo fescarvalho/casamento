@@ -160,6 +160,10 @@ export default function AdminDashboard() {
         return gifts.filter(g => g.name.toLowerCase().includes(searchTerm.toLowerCase()) || g.giverName?.toLowerCase().includes(searchTerm.toLowerCase()));
     }, [gifts, searchTerm]);
 
+    const filteredInvitedGuests = useMemo(() => {
+        return invitedGuests.filter(g => g.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    }, [invitedGuests, searchTerm]);
+
     if (!isAuthorized) {
         return (
             <div className="min-h-screen bg-ivory flex items-center justify-center px-6">
@@ -280,7 +284,7 @@ export default function AdminDashboard() {
                         {activeTab === "summary" && <SummaryView rsvps={rsvps} gifts={gifts} />}
                         {activeTab === "guests" && <GuestTable rsvps={filteredRSVPs} onDelete={handleDeleteRSVP} />}
                         {activeTab === "gifts" && <GiftTable gifts={filteredGifts} />}
-                        {activeTab === "pending" && <MasterGuestList guests={invitedGuests} rsvps={rsvps} onToggle={handleToggleGuest} />}
+                        {activeTab === "pending" && <MasterGuestList guests={filteredInvitedGuests} rsvps={rsvps} onToggle={handleToggleGuest} />}
                     </div>
                 </div>
             </div>
@@ -455,54 +459,58 @@ function MasterGuestList({ guests, rsvps, onToggle }: { guests: Guest[], rsvps: 
 
     const fernandoGuests = guests.filter(g => g.group === "Fernando");
     const vittoryaGuests = guests.filter(g => g.group === "Vittorya");
+    const otherGuests = guests.filter(g => g.group !== "Fernando" && g.group !== "Vittorya");
 
-    const GuestSection = ({ title, list }: { title: string, list: Guest[] }) => (
-        <div className="mb-12">
-            <h3 className="font-headline text-xl text-sage mb-6 border-b border-gold/10 pb-2">{title}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {list.map(g => {
-                    const isConfirmed = confirmedNames.has(g.name.toLowerCase());
-                    return (
-                        <div key={g.id} className="flex items-center justify-between p-3 bg-white/40 rounded-xl border border-gold/5 hover:border-gold/20 transition-all">
-                            <div className="flex items-center gap-3">
-                                <button
-                                    onClick={() => onToggle(g.id)}
-                                    className={`w-5 h-5 rounded border transition-all flex items-center justify-center ${g.isChecked
+    const GuestSection = ({ title, list }: { title: string, list: Guest[] }) => {
+        if (list.length === 0) return null;
+        return (
+            <div className="mb-12">
+                <h3 className="font-headline text-xl text-sage mb-6 border-b border-gold/10 pb-2">{title}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {list.map(g => {
+                        const isConfirmed = confirmedNames.has(g.name.toLowerCase());
+                        return (
+                            <div key={g.id} className="flex items-center justify-between p-3 bg-white/40 rounded-xl border border-gold/5 hover:border-gold/20 transition-all">
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        onClick={() => onToggle(g.id)}
+                                        className={`w-5 h-5 rounded border transition-all flex items-center justify-center ${g.isChecked
                                             ? "bg-sage border-sage text-white"
                                             : "border-gold/30 hover:border-gold"
-                                        }`}
-                                >
-                                    {g.isChecked && <CheckCircle size={12} />}
-                                </button>
-                                <div>
-                                    <p className={`text-sm font-medium ${g.isChecked ? "text-sage" : "text-charcoal"}`}>{g.name}</p>
-                                    {isConfirmed && (
-                                        <span className="text-[8px] font-bold text-gold uppercase tracking-tighter">RSVP OK</span>
-                                    )}
+                                            }`}
+                                    >
+                                        {g.isChecked && <CheckCircle size={12} />}
+                                    </button>
+                                    <div>
+                                        <p className={`text-sm font-medium ${g.isChecked ? "text-sage" : "text-charcoal"}`}>{g.name}</p>
+                                        {isConfirmed && (
+                                            <span className="text-[8px] font-bold text-gold uppercase tracking-tighter">RSVP OK</span>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+                </div>
             </div>
-            {list.length === 0 && <p className="text-xs text-charcoal/40 italic">Sem convidados neste grupo.</p>}
-        </div>
-    );
+        );
+    };
 
     return (
         <div className="space-y-8">
             <div className="bg-gold/5 p-4 rounded-2xl border border-gold/10 mb-8">
                 <p className="text-[10px] text-gold font-bold uppercase tracking-widest text-center">
-                    Total: {guests.length} convidados | {guests.filter(g => g.isChecked).length} Presentes (Check)
+                    Exibindo {guests.length} convidados | {guests.filter(g => g.isChecked).length} Marcados como Presentes
                 </p>
             </div>
 
             <GuestSection title="Grupo do Fernando" list={fernandoGuests} />
             <GuestSection title="Grupo da Vittórya" list={vittoryaGuests} />
+            <GuestSection title="Outros / Sem Grupo" list={otherGuests} />
 
             {guests.length === 0 && (
                 <div className="py-12 text-center bg-gold/5 rounded-3xl border border-dashed border-gold/20">
-                    <p className="text-sm text-charcoal/60">A lista master está vazia.</p>
+                    <p className="text-sm text-charcoal/60">Nenhum convidado encontrado para esta busca.</p>
                 </div>
             )}
         </div>
