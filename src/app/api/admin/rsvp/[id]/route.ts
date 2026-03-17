@@ -1,10 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export async function DELETE(
-    request: Request,
-    { params }: { params: { id: string } }
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
 ) {
+    const { id: idParam } = await params;
     const { searchParams } = new URL(request.url);
     const password = searchParams.get("password");
 
@@ -13,7 +14,7 @@ export async function DELETE(
     }
 
     try {
-        const id = parseInt(params.id);
+        const id = parseInt(idParam);
         await prisma.rSVP.delete({
             where: { id }
         });
