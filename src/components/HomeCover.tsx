@@ -9,17 +9,17 @@ export default function HomeCover() {
         <section className="relative min-h-[100dvh] flex flex-col items-center justify-center bg-white overflow-hidden font-body text-slate-700 pt-20 pb-10">
 
             {/* Elegant Watercolor Background Elements (Four Corners - Subtle) */}
-            <div className="absolute -top-12 -left-12 w-32 md:w-64 opacity-80 z-0 pointer-events-none">
-                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply contrast-[1.1] brightness-[1.05]" />
+            <div className="absolute -top-6 -left-6 md:-top-12 md:-left-12 w-48 md:w-64 z-[5] pointer-events-none">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -top-12 -right-12 w-32 md:w-64 opacity-80 z-0 pointer-events-none scale-x-[-1]">
-                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply contrast-[1.1] brightness-[1.05]" />
+            <div className="absolute -top-6 -right-6 md:-top-12 md:-right-12 w-48 md:w-64 z-[5] pointer-events-none scale-x-[-1]">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-12 -left-12 w-32 md:w-64 opacity-80 z-0 pointer-events-none rotate-90 scale-x-[-1]">
-                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply contrast-[1.1] brightness-[1.05]" />
+            <div className="absolute -bottom-6 -left-6 md:-bottom-12 md:-left-12 w-48 md:w-64 z-[5] pointer-events-none scale-y-[-1]">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-12 -right-12 w-32 md:w-64 opacity-80 z-0 pointer-events-none -rotate-90">
-                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply contrast-[1.1] brightness-[1.05]" />
+            <div className="absolute -bottom-6 -right-6 md:-bottom-12 md:-right-12 w-48 md:w-64 z-[5] pointer-events-none rotate-180">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
 
             {/* Main Content Card Container */}

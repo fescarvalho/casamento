@@ -116,19 +116,29 @@ export default function GiftRegistry() {
 
     const getCategoryIcon = (category: string) => {
         switch (category.toLowerCase()) {
-            case "cozinha": return <Utensils size={20} className="text-sage-400" />;
-            case "eletro": return <Coffee size={20} className="text-sage-400" />;
-            case "cama/banho": return <Bed size={20} className="text-sage-400" />;
-            case "eletrodoméstico": return <Tv size={20} className="text-sage-400" />;
-            default: return <Gift size={20} className="text-sage-400" />;
+            case "cozinha": return <Utensils size={20} className="text-sage" />;
+            case "eletro": return <Coffee size={20} className="text-sage" />;
+            case "cama/banho": return <Bed size={20} className="text-sage" />;
+            case "eletrodoméstico": return <Tv size={20} className="text-sage" />;
+            default: return <Gift size={20} className="text-sage" />;
         }
     };
 
     return (
         <section className="relative min-h-screen bg-ivory font-body text-slate-800 pb-20 overflow-x-hidden">
-            {/* Botanical Corners */}
-            <div className="fixed top-0 left-0 w-[300px] h-[300px] opacity-15 pointer-events-none z-0 bg-[url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVBDO02Hq9k8zUv7wBKjU_nDcdrNiqiSx2kmj7Vsttpnr1LmgbffIaY6BqIf5QFCn14DtWfVSmSnRoE3xpqWzND1P-ptSmJiyCx5FKZ5nULIeu5Nyxy_UzipVuWDbex7-Ku4oQCajzxWrMfvBVaVqfLEBXlm1NYQX1sXxsgSUBSrq_eeSC_6B0ID4pV7rljtS4FZ46A9XtiaB66vfXYX5hZkwi2QMVOH5vEhjuihx6lquN2KiJevkm1gqO6T3ncS4qx2isCE_otGuY')] bg-contain bg-no-repeat" />
-            <div className="fixed bottom-0 right-0 w-[350px] h-[350px] opacity-15 pointer-events-none z-0 bg-[url('https://lh3.googleusercontent.com/aida-public/AB6AXuAo0O8JjnIqraFjWSb9pH3qF_uIlKrt4IsFel8KU7E6EhC2x3hbXXXABMO9iHswKqcitNeu_qg4Oc2edRgT2fqf6l9ZT1tVYd6cLU0_y_SNXoDeqoB2s81uHpbQUgxVrYANxwqnFpf1GLgckkbqxTexs0Pl5IYCvifl13pYSQ1hDh6C5DgUPM2rZoXiAkLi5Cy-t7Uw5P2OHNvWLejqG0lxiFdnEf5QIYShXKkr7bxvoQQfa38ucJkn7-jFt9yz1awELu8hYxuLpl0M')] bg-contain bg-no-repeat bg-bottom bg-right" />
+            {/* Elegant Watercolor Background Elements (Four Corners - Fixed) */}
+            <div className="fixed -top-6 -left-6 md:-top-12 md:-left-12 w-48 md:w-64 opacity-50 z-0 pointer-events-none">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            </div>
+            <div className="fixed -top-6 -right-6 md:-top-12 md:-right-12 w-48 md:w-64 opacity-50 z-0 pointer-events-none scale-x-[-1]">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            </div>
+            <div className="fixed -bottom-6 -left-6 md:-bottom-12 md:-left-12 w-48 md:w-64 opacity-50 z-0 pointer-events-none scale-y-[-1]">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            </div>
+            <div className="fixed -bottom-6 -right-6 md:-bottom-12 md:-right-12 w-48 md:w-64 opacity-50 z-0 pointer-events-none rotate-180">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            </div>
 
             <main className="relative z-10 flex flex-col items-center px-4 md:px-24 pt-32">
                 <header className="text-center max-w-2xl mb-12">
@@ -238,7 +248,7 @@ export default function GiftRegistry() {
                         alert("Chave PIX copiada!");
                     }}
                 >
-                    <div className="bg-sage p-3 rounded-xl text-white shadow-inner group-hover:bg-gold transition-colors shrink-0">
+                    <div className="bg-sage p-3 rounded-xl text-white shadow-inner group-hover:bg-sage transition-colors shrink-0">
                         <QrCode size={20} />
                     </div>
                     <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pr-4">

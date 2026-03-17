@@ -4,7 +4,7 @@ import { z } from "zod";
 
 const rsvpSchema = z.object({
     nomeCompleto: z.string().min(3, "Nome muito curto"),
-    numeroAcompanhantes: z.number().int().min(0),
+    numeroAcompanhantes: z.number().int().min(0).max(2),
     nomesAcompanhantes: z.string().optional(),
     telefone: z.string().optional(),
 });

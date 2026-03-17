@@ -9,7 +9,7 @@ import * as z from "zod";
 const rsvpSchema = z.object({
     nomeCompleto: z.string().min(3, "Por favor, informe seu nome completo"),
     telefone: z.string().min(10, "Por favor, informe um telefone válido"),
-    numeroAcompanhantes: z.number().min(0).max(5),
+    numeroAcompanhantes: z.number().min(0).max(2),
     acompanhantes: z.array(z.object({
         nome: z.string().min(2, "Nome do acompanhante é obrigatório")
     })).optional(),
@@ -84,12 +84,18 @@ export default function RSVP() {
             {/* Elegant Card Texture Overlay - Matching HomeCover */}
             <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />
 
-            {/* Subtle Botanical Decoration */}
-            <div className="absolute -top-16 -right-16 w-48 md:w-64 opacity-20 pointer-events-none scale-x-[-1]">
-                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            {/* Elegant Watercolor Background Elements (Four Corners - Subtle) */}
+            <div className="absolute -top-6 -left-6 md:-top-16 md:-left-16 w-56 md:w-64 opacity-40 z-[5] pointer-events-none">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-16 -left-16 w-48 md:w-64 opacity-20 pointer-events-none rotate-90 scale-x-[-1]">
-                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -top-8 -right-8 md:-top-16 md:-right-16 w-56 md:w-64 opacity-40 z-[5] pointer-events-none scale-x-[-1]">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            </div>
+            <div className="absolute -bottom-8 -left-8 md:-bottom-16 md:-left-16 w-56 md:w-64 opacity-40 z-[5] pointer-events-none scale-y-[-1]">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            </div>
+            <div className="absolute -bottom-8 -right-8 md:-bottom-16 md:-right-16 w-56 md:w-64 opacity-40 z-[5] pointer-events-none rotate-180">
+                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
 
             <div className="relative z-10 w-full max-w-lg px-6 md:px-8">
@@ -166,7 +172,7 @@ export default function RSVP() {
                                                 {...register("numeroAcompanhantes", { valueAsNumber: true })}
                                                 className="w-full bg-transparent border-b border-slate-200 py-3 px-1 focus:ring-0 focus:border-gold transition-colors text-lg text-slate-700 font-headline appearance-none cursor-pointer"
                                             >
-                                                {[0, 1, 2, 3, 4, 5].map((num) => (
+                                                {[0, 1, 2].map((num) => (
                                                     <option key={num} value={num} className="bg-white">
                                                         {num === 0 ? "Apenas eu" : `${num} acompanhante${num > 1 ? "s" : ""}`}
                                                     </option>
