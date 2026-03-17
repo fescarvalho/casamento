@@ -381,6 +381,7 @@ function GuestTable({ rsvps, onDelete }: { rsvps: RSVP[], onDelete: (id: number)
             <thead>
                 <tr className="border-b border-gold/10 text-[10px] uppercase font-bold text-charcoal/40">
                     <th className="pb-4 pl-2">Nome</th>
+                    <th className="pb-4">Grupo</th>
                     <th className="pb-4">Acomp.</th>
                     <th className="pb-4">Nomes Acompanhantes</th>
                     <th className="pb-4">Telefone</th>
@@ -392,6 +393,7 @@ function GuestTable({ rsvps, onDelete }: { rsvps: RSVP[], onDelete: (id: number)
                 {rsvps.map(r => (
                     <tr key={r.id} className="border-b border-gold/5 hover:bg-white/40 transition-colors">
                         <td className="py-4 pl-2 font-medium">{r.nomeCompleto}</td>
+                        <td className="py-4 text-xs text-charcoal/40 italic">-</td>
                         <td className="py-4">{r.numeroAcompanhantes || 0}</td>
                         <td className="py-4 text-xs text-charcoal/60 italic max-w-xs">{r.nomesAcompanhantes || "-"}</td>
                         <td className="py-4 font-mono text-xs">{r.telefone}</td>
