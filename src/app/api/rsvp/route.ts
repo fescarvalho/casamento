@@ -5,7 +5,8 @@ import { z } from "zod";
 const rsvpSchema = z.object({
     nomeCompleto: z.string().min(3, "Nome muito curto"),
     numeroAcompanhantes: z.number().int().min(0),
-    telefone: z.string().min(10, "Telefone inválido"),
+    nomesAcompanhantes: z.string().optional(),
+    telefone: z.string().optional(),
 });
 
 export async function POST(request: Request) {
@@ -13,11 +14,12 @@ export async function POST(request: Request) {
         const body = await request.json();
         const validatedData = rsvpSchema.parse(body);
 
-        const rsvp = await prisma.rSVP.create({
+        const rsvp = await (prisma as any).rSVP.create({
             data: {
-                nomeCompleto: validatedData.nomeCompleto,
+                nomeCompleto: validatedData.nomeCompleto.trim(),
                 numeroAcompanhantes: validatedData.numeroAcompanhantes,
-                telefone: validatedData.telefone,
+                nomesAcompanhantes: validatedData.nomesAcompanhantes || "",
+                telefone: validatedData.telefone?.trim() || "",
             },
         });
 

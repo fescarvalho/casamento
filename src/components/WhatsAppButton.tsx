@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function WhatsAppButton() {
     const phoneNumber = "5522988255351"; // Placeholder, user didn't specify. I'll use a generic one or let them edit.
-    const message = encodeURIComponent("Olá! Estou com uma dúvida sobre o casamento de Fernando e Vittorya.");
+    const message = encodeURIComponent("Olá! Estou com uma dúvida sobre o casamento de Fernando e Vittórya.");
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
     return (

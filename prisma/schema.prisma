@@ -10,8 +10,9 @@ datasource db {
 model RSVP {
   id                 Int      @id @default(autoincrement())
   nomeCompleto       String
-  numeroAcompanhantes Int
-  telefone           String
+  numeroAcompanhantes Int      @default(0)
+  nomesAcompanhantes  String?
+  telefone           String?
   dataConfirmacao    DateTime @default(now())
 }
 

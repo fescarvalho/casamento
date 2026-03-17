@@ -29,8 +29,8 @@ export default function Navbar() {
     return (
         <nav
             className={`fixed top-0 w-full z-[100] transition-all duration-500 px-6 py-4 ${scrolled || isMenuOpen
-                    ? "bg-white/80 backdrop-blur-md border-b border-gold/10"
-                    : "bg-transparent"
+                ? "bg-white/80 backdrop-blur-md border-b border-gold/10"
+                : "bg-transparent"
                 }`}
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between relative">
@@ -42,8 +42,8 @@ export default function Navbar() {
                             key={item.href}
                             href={item.href}
                             className={`text-[10px] font-label tracking-[0.2em] transition-all uppercase ${pathname === item.href
-                                    ? "text-gold font-bold"
-                                    : "text-charcoal/70 hover:text-gold"
+                                ? "text-gold font-bold"
+                                : "text-charcoal/70 hover:text-gold"
                                 }`}
                         >
                             {item.label}
@@ -51,10 +51,10 @@ export default function Navbar() {
                     ))}
                 </div>
 
-                {/* Logo - Centered on mobile and desktop */}
+                {/* Logo - Centered on all screen sizes */}
                 <Link
                     href="/"
-                    className="text-2xl font-headline tracking-[0.3em] text-gold font-bold z-[110] md:absolute md:left-1/2 md:-translate-x-1/2"
+                    className="text-2xl font-headline tracking-[0.3em] text-gold font-bold z-[110] absolute left-1/2 -translate-x-1/2"
                 >
                     F&V
                 </Link>
@@ -65,8 +65,8 @@ export default function Navbar() {
                     <Link
                         href="/presentes"
                         className={`hidden md:block text-[10px] font-label tracking-[0.2em] transition-all uppercase ${pathname === "/presentes"
-                                ? "text-gold font-bold"
-                                : "text-charcoal/70 hover:text-gold"
+                            ? "text-gold font-bold"
+                            : "text-charcoal/70 hover:text-gold"
                             }`}
                     >
                         Presentes
@@ -119,8 +119,8 @@ export default function Navbar() {
                                             href={item.href}
                                             onClick={() => setIsMenuOpen(false)}
                                             className={`text-2xl font-headline tracking-[0.15em] transition-colors uppercase ${pathname === item.href
-                                                    ? "text-gold font-bold"
-                                                    : "text-charcoal/40"
+                                                ? "text-gold font-bold"
+                                                : "text-charcoal/40"
                                                 }`}
                                         >
                                             {item.label}

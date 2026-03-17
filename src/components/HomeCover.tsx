@@ -1,138 +1,132 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Church, Heart, Gift, Leaf, Sprout } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Church, Heart, Gift, MessageCircle, MapPin } from "lucide-react";
 import Link from "next/link";
 
 export default function HomeCover() {
-    const [mounted, setMounted] = useState(false);
-    const [timeLeft, setTimeLeft] = useState({
-        days: 0,
-        hours: 0,
-        mins: 0,
-    });
-
-    useEffect(() => {
-        setMounted(true);
-        const weddingDate = new Date("2026-05-22T18:00:00").getTime();
-
-        const timer = setInterval(() => {
-            const now = new Date().getTime();
-            const difference = weddingDate - now;
-
-            if (difference > 0) {
-                setTimeLeft({
-                    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                    hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-                    mins: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-                });
-            } else {
-                setTimeLeft({ days: 0, hours: 0, mins: 0 });
-            }
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, []);
-
     return (
-        <section className="relative min-h-screen flex items-center justify-center px-6 py-20 text-charcoal overflow-hidden shrink-0">
-            {/* Background Image */}
-            <div className="absolute inset-0 z-0">
-                <img
-                    src="/fundo.jpg"
-                    alt="Background"
-                    className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-ivory/40 backdrop-blur-[5px]" />
+        <section className="relative min-h-[100dvh] flex flex-col items-center justify-center bg-white overflow-hidden font-body text-slate-700 pt-20 pb-10">
+
+            {/* Elegant Watercolor Background Elements (Four Corners - Subtle) */}
+            <div className="absolute -top-12 -left-12 w-32 md:w-64 opacity-80 z-0 pointer-events-none">
+                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply contrast-[1.1] brightness-[1.05]" />
+            </div>
+            <div className="absolute -top-12 -right-12 w-32 md:w-64 opacity-80 z-0 pointer-events-none scale-x-[-1]">
+                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply contrast-[1.1] brightness-[1.05]" />
+            </div>
+            <div className="absolute -bottom-12 -left-12 w-32 md:w-64 opacity-80 z-0 pointer-events-none rotate-90 scale-x-[-1]">
+                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply contrast-[1.1] brightness-[1.05]" />
+            </div>
+            <div className="absolute -bottom-12 -right-12 w-32 md:w-64 opacity-80 z-0 pointer-events-none -rotate-90">
+                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply contrast-[1.1] brightness-[1.05]" />
             </div>
 
-            {/* Lateral Decorative Elements (Left) */}
-            <div className="absolute -left-12 md:left-0 top-1/2 -translate-y-1/2 w-48 md:w-64 h-full flex flex-col justify-between items-center py-20 pointer-events-none opacity-20 z-0">
-                <Leaf className="w-16 h-16 md:w-40 md:h-40 text-sage" strokeWidth={1} />
-                <Heart className="text-gold w-10 h-10 opacity-30" />
-                <Sprout className="w-16 h-16 md:w-40 md:h-40 text-sage rotate-180" strokeWidth={1} />
-            </div>
-
-            {/* Lateral Decorative Elements (Right) */}
-            <div className="absolute -right-12 md:right-0 top-1/2 -translate-y-1/2 w-48 md:w-64 h-full flex flex-col justify-between items-center py-20 pointer-events-none opacity-20 z-0">
-                <Sprout className="w-16 h-16 md:w-40 md:h-40 text-sage scale-x-[-1]" strokeWidth={1} />
-                <Heart className="text-gold w-10 h-10 opacity-30 fill-gold" />
-                <Leaf className="w-16 h-16 md:w-40 md:h-40 text-sage scale-x-[-1] rotate-180" strokeWidth={1} />
-            </div>
-
-            {/* Central Hero Section */}
+            {/* Main Content Card Container */}
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-                className="max-w-4xl w-full text-center space-y-8 md:space-y-10 z-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.5 }}
+                className="relative z-10 flex flex-col items-center text-center px-6 max-w-2xl w-full space-y-8 md:space-y-10"
             >
-                <div className="space-y-4 px-4">
-                    <span className="block text-gold font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs mb-2 md:mb-4 bg-white/30 md:bg-transparent w-fit mx-auto px-2 py-1 rounded">Save Our Date</span>
-                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-headline text-charcoal drop-shadow-sm leading-tight">Fernando & Vittorya</h1>
-                    <div className="flex items-center justify-center gap-4 py-2">
-                        <div className="h-[1px] w-12 bg-gold/30"></div>
-                        <Church className="text-gold w-6 h-6" />
-                        <div className="h-[1px] w-12 bg-gold/30"></div>
-                    </div>
 
-                    <div className="space-y-2 mt-4">
-                        <p className="text-gold font-bold tracking-[0.2em] text-sm uppercase">22 de Maio de 2026 • 19:00h</p>
-                        <a
-                            href="https://www.google.com/maps/search/?api=1&query=Capela+Nossa+Senhora+da+Assunção+Rio+de+Janeiro"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-charcoal/80 hover:text-gold transition-colors text-[10px] md:text-xs uppercase tracking-[0.15em] border-b border-gold/20 block w-fit mx-auto pb-1 font-medium"
-                        >
-                            Capela Nossa Senhora da Assunção • Natividade-RJ
-                        </a>
+
+                {/* Quote */}
+                <div className="space-y-2 px-4 italic">
+                    <p className="text-[10px] md:text-xs leading-relaxed max-w-xs mx-auto text-slate-400 uppercase tracking-widest">
+                        "O amor só é lindo quando encontramos alguém que nos transforme no melhor que podemos ser."
+                    </p>
+                    <p className="text-[8px] md:text-[10px] uppercase tracking-tighter text-slate-300">(Mário Quintana)</p>
+                </div>
+
+                {/* Sub-header */}
+                <div className="space-y-1">
+                    <p className="text-[10px] md:text-sm uppercase tracking-[0.3em] text-slate-400">Com a bênção de Deus e de nossas famílias</p>
+                </div>
+
+                {/* Names */}
+                <h1 className="text-6xl md:text-8xl font-script text-slate-700 py-2">
+                    Fernando e Vittórya
+                </h1>
+
+                {/* Ceremony Text */}
+                <div className="space-y-4">
+                    <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-slate-500 leading-loose">
+                        Convidam para a celebração de seu casamento <br className="hidden md:block" /> a ser realizado em
+                    </p>
+
+                    <div className="space-y-6 pt-4">
+                        <div className="flex items-center justify-center gap-4">
+                            <div className="h-[0.5px] w-8 md:w-12 bg-gold/40"></div>
+                            <h2 className="text-2xl md:text-4xl font-headline tracking-[0.2em] text-slate-800 uppercase">
+                                22 <span className="text-gold">.</span> 05 <span className="text-gold">.</span> 2026
+                            </h2>
+                            <div className="h-[0.5px] w-8 md:w-12 bg-gold/40"></div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <p className="text-xs md:text-sm font-label tracking-[0.5em] text-slate-400 uppercase">
+                                Sexta-feira <span className="text-gold/60 mx-2">|</span> 19:00h
+                            </p>
+
+                            <div className="space-y-2 pt-2">
+                                <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.25em] text-slate-600 border-t border-slate-100 pt-6 w-fit mx-auto">
+                                    Capela Nossa Senhora da Assunção
+                                </p>
+                                <p className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-gold font-medium">
+                                    Cantinho do Fiorello
+                                </p>
+                                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-slate-400">
+                                    Natividade <span className="text-slate-300 mx-1">•</span> RJ
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <p className="text-base md:text-xl text-charcoal/90 max-w-2xl mx-auto font-medium leading-relaxed italic px-6">
-                    Com a bênção de Deus e de nossas famílias, convidamos você para celebrar o início do nosso "para sempre".
-                </p>
-
-                {/* Wedding Date/Countdown */}
-                {mounted && (
-                    <div className="flex flex-row justify-center gap-2 md:gap-6 mt-8 md:mt-10 px-2 sm:px-4">
-                        <div className="bg-white/60 backdrop-blur-md border border-gold/20 px-3 py-3 md:px-8 md:py-6 rounded-xl flex flex-col items-center min-w-[70px] md:min-w-[100px] shadow-sm">
-                            <span className="text-xl md:text-3xl font-headline text-gold font-bold">{timeLeft.days}</span>
-                            <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-charcoal/70 mt-1">Dias</span>
-                        </div>
-                        <div className="bg-white/60 backdrop-blur-md border border-gold/20 px-3 py-3 md:px-8 md:py-6 rounded-xl flex flex-col items-center min-w-[70px] md:min-w-[100px] shadow-sm">
-                            <span className="text-xl md:text-3xl font-headline text-gold font-bold">{timeLeft.hours}</span>
-                            <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-charcoal/70 mt-1">Horas</span>
-                        </div>
-                        <div className="bg-white/60 backdrop-blur-md border border-gold/20 px-3 py-3 md:px-8 md:py-6 rounded-xl flex flex-col items-center min-w-[70px] md:min-w-[100px] shadow-sm">
-                            <span className="text-xl md:text-3xl font-headline text-gold font-bold">{timeLeft.mins}</span>
-                            <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-charcoal/70 mt-1">Minutos</span>
-                        </div>
-                    </div>
-                )}
-
-
-
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 px-6">
-                    <Link
-                        href="/rsvp"
-                        className="w-full sm:w-auto bg-sage text-white px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-[10px] shadow-lg hover:bg-sage/80 transition-all flex items-center justify-center gap-2"
+                {/* Fast Action Icons (Invited Style) */}
+                <div className="flex flex-row items-center justify-center gap-8 md:gap-12 pt-8">
+                    {/* Location */}
+                    <a
+                        href="https://www.google.com/maps/search/?api=1&query=Capela+Nossa+Senhora+da+Assunção+Natividade+RJ"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-3 group"
                     >
-                        <Heart size={16} className="fill-white" />
-                        Confirmar Presença
+                        <div className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-slate-50 transition-all">
+                            <MapPin size={20} />
+                        </div>
+                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-slate-400 whitespace-nowrap">Localização</span>
+                    </a>
+
+                    {/* RSVP */}
+                    <Link href="/rsvp" className="flex flex-col items-center gap-3 group">
+                        <div className="w-14 h-14 rounded-full border border-slate-200 flex items-center justify-center text-sage group-hover:bg-sage/5 transition-all shadow-sm">
+                            <MessageCircle size={24} />
+                        </div>
+                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-slate-400 whitespace-nowrap">Confirmar</span>
                     </Link>
-                    <Link
-                        href="/presentes"
-                        className="w-full sm:w-auto bg-white/60 backdrop-blur-md border border-gold/20 text-charcoal px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-[10px] shadow-sm hover:bg-white transition-all flex items-center justify-center gap-2"
-                    >
-                        <Gift size={16} className="text-gold" />
-                        Lista de Presentes
+
+                    {/* Gifts */}
+                    <Link href="/presentes" className="flex flex-col items-center gap-3 group">
+                        <div className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-gold group-hover:bg-gold/5 transition-all">
+                            <Gift size={20} />
+                        </div>
+                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-slate-400 whitespace-nowrap">Presentes</span>
                     </Link>
                 </div>
 
+                <div className="pt-4">
+                    <p className="text-[8px] uppercase tracking-widest text-slate-300 flex items-center gap-2">
+                        <span className="w-4 h-[1px] bg-slate-200" />
+                        Clique nos ícones para acessar
+                        <span className="w-4 h-[1px] bg-slate-200" />
+                    </p>
+                </div>
             </motion.div>
+
+            {/* Elegant Card Texture Overlay */}
+            <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />
         </section>
     );
 }

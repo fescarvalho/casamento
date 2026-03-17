@@ -8,7 +8,7 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
 
     useEffect(() => {
         const timer1 = setTimeout(() => setStep(1), 500); // Save the Date
-        const timer2 = setTimeout(() => setStep(2), 1800); // Fernando & Vittorya
+        const timer2 = setTimeout(() => setStep(2), 1800); // Fernando & Vittórya
         const timer3 = setTimeout(() => setStep(3), 3200); // 22.05.2026
         const timer4 = setTimeout(() => onComplete(), 5000); // Final dismiss
 
@@ -49,7 +49,7 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                         transition={{ duration: 1, ease: "circOut" }}
                         className="text-3xl md:text-5xl font-headline text-charcoal tracking-tight"
                     >
-                        Fernando & Vittorya
+                        Fernando & Vittórya
                     </motion.h1>
                 </div>
 

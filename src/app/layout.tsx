@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Public_Sans } from "next/font/google";
+import { Playfair_Display, Public_Sans, Great_Vibes } from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -12,8 +12,14 @@ const publicSans = Public_Sans({
   subsets: ["latin"],
 });
 
+const script = Great_Vibes({
+  weight: "400",
+  variable: "--font-script",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "Casamento Fernando & Vittorya",
+  title: "Casamento Fernando & Vittórya",
   description: "Confirmação de presença e lista de presentes",
 };
 
@@ -28,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body
-        className={`${playfair.variable} ${publicSans.variable} antialiased`}
+        className={`${playfair.variable} ${publicSans.variable} ${script.variable} antialiased`}
       >
         <Navbar />
         {children}

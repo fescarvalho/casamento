@@ -1,172 +1,268 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Calendar, Leaf, Heart, Sprout } from "lucide-react";
-import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
 const rsvpSchema = z.object({
-    nomeCompleto: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
-    numeroAcompanhantes: z.coerce.number().int().min(0),
-    telefone: z.string().min(10, "Informe um telefone válido com DDD"),
+    nomeCompleto: z.string().min(3, "Por favor, informe seu nome completo"),
+    telefone: z.string().min(10, "Por favor, informe um telefone válido"),
+    numeroAcompanhantes: z.number().min(0).max(5),
+    acompanhantes: z.array(z.object({
+        nome: z.string().min(2, "Nome do acompanhante é obrigatório")
+    })).optional(),
 });
 
-type FormInput = z.input<typeof rsvpSchema>;
-type FormOutput = z.output<typeof rsvpSchema>;
+type FormInput = z.infer<typeof rsvpSchema>;
 
 export default function RSVP() {
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-    const [message, setMessage] = useState("");
 
     const {
         register,
         handleSubmit,
-        reset,
-        formState: { errors },
+        control,
+        watch,
+        formState: { errors, isValid },
     } = useForm<FormInput>({
         resolver: zodResolver(rsvpSchema),
         defaultValues: {
             nomeCompleto: "",
-            numeroAcompanhantes: 0,
             telefone: "",
+            numeroAcompanhantes: 0,
+            acompanhantes: [],
         },
+        mode: "onChange"
     });
 
-    const onSubmit: SubmitHandler<FormInput> = async (data) => {
-        // data here is actually the output of the resolver if validated
-        // But SubmitHandler expects FormInput. We'll cast carefully or just use the output type.
-        const validatedData = data as FormOutput;
+    const { fields, replace } = useFieldArray({
+        control,
+        name: "acompanhantes"
+    });
 
+    const numAcompanhantes = watch("numeroAcompanhantes");
+
+    // Dynamic field logic
+    useEffect(() => {
+        const count = parseInt(String(numAcompanhantes)) || 0;
+        const newFields = Array.from({ length: count }, () => ({ nome: "" }));
+        replace(newFields);
+    }, [numAcompanhantes, replace]);
+
+    const onSubmit = async (data: FormInput) => {
         setStatus("loading");
         try {
+            // Transform companions array to comma-separated string for simplicity in DB
+            const companionNames = data.acompanhantes?.map(a => a.nome).join(", ") || "";
+
             const response = await fetch("/api/rsvp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(validatedData),
+                body: JSON.stringify({
+                    nomeCompleto: data.nomeCompleto,
+                    telefone: data.telefone,
+                    numeroAcompanhantes: data.numeroAcompanhantes,
+                    nomesAcompanhantes: companionNames,
+                }),
             });
 
             if (response.ok) {
                 setStatus("success");
-                setMessage("Presença confirmada com sucesso! Mal podemos esperar para te ver.");
-                reset();
             } else {
                 throw new Error("Erro ao confirmar");
             }
         } catch (error) {
             setStatus("error");
-            setMessage("Ocorreu um erro ao enviar. Por favor, tente novamente mais tarde.");
+            setTimeout(() => setStatus("idle"), 3000);
         }
     };
 
     return (
-        <section className="relative min-h-screen w-full flex items-center justify-center pt-32 pb-20 bg-ivory shrink-0 overflow-x-hidden">
-            {/* Background Decorations */}
-            <div className="absolute inset-0 pointer-events-none opacity-15 flex justify-between px-4 md:px-10">
-                <div className="h-full flex flex-col justify-between py-20">
-                    <Leaf className="w-24 h-24 md:w-48 md:h-48 text-sage" />
-                    <Heart className="w-16 h-16 md:w-32 md:h-32 text-sage fill-sage" />
-                </div>
-                <div className="h-full flex flex-col justify-center py-20">
-                    <div className="rotate-180">
-                        <Sprout className="w-32 h-32 md:w-60 md:h-60 text-sage" />
-                    </div>
-                </div>
+        <section className="min-h-[100dvh] w-full flex items-center justify-center bg-white overflow-x-hidden relative py-20 pb-10">
+            {/* Elegant Card Texture Overlay - Matching HomeCover */}
+            <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />
+
+            {/* Subtle Botanical Decoration */}
+            <div className="absolute -top-16 -right-16 w-48 md:w-64 opacity-20 pointer-events-none scale-x-[-1]">
+                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            </div>
+            <div className="absolute -bottom-16 -left-16 w-48 md:w-64 opacity-20 pointer-events-none rotate-90 scale-x-[-1]">
+                <img src="/botanical-corners.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
 
-            {/* RSVP Card */}
-            <div className="relative z-10 w-full max-w-2xl px-4 md:px-6">
-                <motion.div
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    className="bg-white/40 backdrop-blur-xl border border-white/60 p-6 md:p-16 rounded-3xl shadow-2xl shadow-sage/5"
-                >
-                    <div className="text-center mb-12">
-                        <div className="flex justify-center mb-4">
-                            <Calendar className="text-gold w-10 h-10" />
-                        </div>
-                        <h1 className="font-headline text-4xl md:text-5xl font-light text-sage mb-6">Confirme sua Presença</h1>
-                        <p className="text-charcoal/70 max-w-md mx-auto leading-relaxed">
-                            Mal podemos esperar para viver esse sonho ao seu lado. Por favor, confirme sua presença e nos ajude a tornar este dia inesquecível.
-                        </p>
-                    </div>
-
-                    <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-                        <div className="grid grid-cols-1 gap-8">
-                            {/* Nome Completo */}
-                            <div className="relative group">
-                                <label className="block text-[10px] uppercase tracking-[0.2em] text-sage font-bold mb-2">Nome completo</label>
-                                <input
-                                    {...register("nomeCompleto")}
-                                    className="w-full bg-transparent border-0 border-b border-sage/30 py-3 px-0 focus:ring-0 focus:border-gold transition-colors text-lg placeholder:text-charcoal/20"
-                                    placeholder="Como no convite"
-                                    type="text"
-                                />
-                                {errors.nomeCompleto && <span className="text-[10px] text-red-500 uppercase mt-1">{errors.nomeCompleto.message}</span>}
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                {/* Acompanhantes */}
-                                <div className="relative">
-                                    <label className="block text-[10px] uppercase tracking-[0.2em] text-sage font-bold mb-2">Número de acompanhantes</label>
-                                    <select
-                                        {...register("numeroAcompanhantes")}
-                                        className="w-full bg-transparent border-0 border-b border-sage/30 py-3 px-0 focus:ring-0 focus:border-gold transition-colors text-lg appearance-none cursor-pointer"
-                                    >
-                                        <option value="0">Apenas eu</option>
-                                        <option value="1">1 Acompanhante</option>
-                                        <option value="2">2 Acompanhantes</option>
-                                        <option value="3">3 Acompanhantes</option>
-                                    </select>
-                                </div>
-                                {/* Telefone */}
-                                <div className="relative">
-                                    <label className="block text-[10px] uppercase tracking-[0.2em] text-sage font-bold mb-2">Telefone</label>
-                                    <input
-                                        {...register("telefone")}
-                                        className="w-full bg-transparent border-0 border-b border-sage/30 py-3 px-0 focus:ring-0 focus:border-gold transition-colors text-lg placeholder:text-charcoal/20"
-                                        placeholder="(00) 00000-0000"
-                                        type="tel"
-                                    />
-                                    {errors.telefone && <span className="text-[10px] text-red-500 uppercase mt-1">{errors.telefone.message}</span>}
+            <div className="relative z-10 w-full max-w-lg px-6 md:px-8">
+                <AnimatePresence mode="wait">
+                    {status !== "success" ? (
+                        <motion.div
+                            key="form"
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.98 }}
+                            className="space-y-8 md:space-y-10"
+                        >
+                            <div className="text-center space-y-4">
+                                <h1 className="font-headline text-3xl md:text-5xl text-slate-800 font-light tracking-tight px-2 leading-tight">
+                                    Confirmação de Presença
+                                </h1>
+                                <div className="flex flex-col items-center gap-2">
+                                    <div className="w-12 h-[0.5px] bg-gold/30" />
+                                    <p className="text-slate-400 font-body text-[10px] italic">
+                                        Crianças menores de 10 anos não precisam ser informadas.
+                                    </p>
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="pt-8 flex flex-col items-center">
-                            <button
-                                disabled={status === "loading"}
-                                className="group relative px-12 py-4 bg-gold text-white rounded-full font-label tracking-widest text-sm uppercase overflow-hidden transition-all hover:bg-sage shadow-lg shadow-gold/20 disabled:opacity-50"
-                            >
-                                <span className="relative z-10">{status === "loading" ? "Confirmando..." : "Confirmar"}</span>
-                            </button>
+                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                                <div className="space-y-10">
+                                    {/* Nome Completo */}
+                                    <div className="space-y-3">
+                                        <label className="block text-[10px] uppercase tracking-[0.25em] text-slate-600 font-bold ml-1">
+                                            Nome do Convidado Principal
+                                        </label>
+                                        <div className="relative group">
+                                            <input
+                                                {...register("nomeCompleto")}
+                                                type="text"
+                                                placeholder="Como no convite"
+                                                className="w-full bg-transparent border-b border-slate-200 py-3 px-1 focus:ring-0 focus:border-gold transition-all text-lg text-slate-700 font-headline placeholder:text-slate-200"
+                                            />
+                                            {errors.nomeCompleto && (
+                                                <span className="text-[9px] text-red-400 uppercase tracking-widest absolute -bottom-6 left-1 font-bold">
+                                                    {errors.nomeCompleto.message}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
 
-                            {status === "success" && (
-                                <p className="mt-4 text-sage font-medium text-sm animate-fade-in">{message}</p>
-                            )}
-                            {status === "error" && (
-                                <p className="mt-4 text-red-500 font-medium text-sm animate-fade-in">{message}</p>
-                            )}
+                                    {/* Telefone */}
+                                    <div className="space-y-3">
+                                        <label className="block text-[10px] uppercase tracking-[0.25em] text-slate-600 font-bold ml-1">
+                                            Telefone de Contato
+                                        </label>
+                                        <div className="relative group">
+                                            <input
+                                                {...register("telefone")}
+                                                type="tel"
+                                                placeholder="(00) 00000-0000"
+                                                className="w-full bg-transparent border-b border-slate-200 py-3 px-1 focus:ring-0 focus:border-gold transition-all text-lg text-slate-700 font-headline placeholder:text-slate-200"
+                                            />
+                                            {errors.telefone && (
+                                                <span className="text-[9px] text-red-400 uppercase tracking-widest absolute -bottom-6 left-1 font-bold">
+                                                    {errors.telefone.message}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
 
-                            <div className="mt-6 flex items-center space-x-2 text-sage/50">
-                                <Heart className="w-4 h-4 fill-sage opacity-50" />
-                                <span className="text-[10px] uppercase tracking-widest">Até logo!</span>
-                                <Heart className="w-4 h-4 fill-sage opacity-50" />
+                                    {/* Numero de Acompanhantes */}
+                                    <div className="space-y-3">
+                                        <label className="block text-[10px] uppercase tracking-[0.25em] text-slate-600 font-bold ml-1">
+                                            Número de acompanhantes
+                                        </label>
+                                        <div className="relative">
+                                            <select
+                                                {...register("numeroAcompanhantes", { valueAsNumber: true })}
+                                                className="w-full bg-transparent border-b border-slate-200 py-3 px-1 focus:ring-0 focus:border-gold transition-colors text-lg text-slate-700 font-headline appearance-none cursor-pointer"
+                                            >
+                                                {[0, 1, 2, 3, 4, 5].map((num) => (
+                                                    <option key={num} value={num} className="bg-white">
+                                                        {num === 0 ? "Apenas eu" : `${num} acompanhante${num > 1 ? "s" : ""}`}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300 text-[10px]">
+                                                ▼
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Acompanhantes Dinâmicos */}
+                                    <div className="max-h-[30dvh] overflow-y-auto pr-2 custom-scrollbar transition-all">
+                                        <AnimatePresence>
+                                            {fields.map((field, index) => (
+                                                <motion.div
+                                                    key={field.id}
+                                                    initial={{ opacity: 0, x: -5 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    exit={{ opacity: 0, x: 5 }}
+                                                    transition={{ delay: index * 0.05 }}
+                                                    className="relative py-4 space-y-2"
+                                                >
+                                                    <label className="block text-[9px] uppercase tracking-widest text-slate-400 font-medium ml-1">
+                                                        Nome do acompanhante {index + 1}
+                                                    </label>
+                                                    <input
+                                                        {...register(`acompanhantes.${index}.nome` as const)}
+                                                        type="text"
+                                                        placeholder="Nome completo"
+                                                        className="w-full bg-slate-50/50 border-b border-slate-100 py-2 px-2 focus:ring-0 focus:border-gold/40 transition-colors text-base text-slate-600 font-headline placeholder:text-slate-200"
+                                                    />
+                                                </motion.div>
+                                            ))}
+                                        </AnimatePresence>
+                                    </div>
+                                </div>
+
+                                <motion.button
+                                    whileHover={{ scale: 1.01 }}
+                                    whileTap={{ scale: 0.99 }}
+                                    disabled={!isValid || status === "loading"}
+                                    className="w-full py-5 bg-slate-800 text-white rounded-xl font-label tracking-[0.3em] text-[10px] uppercase shadow-xl shadow-slate-200 transition-all hover:bg-slate-900 disabled:bg-slate-50 disabled:text-slate-300 disabled:shadow-none disabled:cursor-not-allowed mt-4"
+                                >
+                                    {status === "loading" ? "Processando..." : "Confirmar Presença"}
+                                </motion.button>
+                            </form>
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            key="success"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="text-center space-y-8"
+                        >
+                            <div className="w-24 h-24 bg-gold/5 rounded-full flex items-center justify-center mx-auto relative">
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1.2 }}
+                                    className="text-gold text-4xl"
+                                >
+                                    ♥
+                                </motion.div>
+                                <div className="absolute inset-0 border border-gold/10 rounded-full animate-ping"></div>
                             </div>
-                        </div>
-                    </form>
-                </motion.div>
+                            <div className="space-y-4">
+                                <h2 className="font-headline text-3xl md:text-4xl text-slate-800 leading-tight">
+                                    Obrigado por celebrar esse <br />
+                                    <span className="text-gold italic font-light lowercase">momento</span>
+                                </h2>
+                                <p className="text-slate-500 font-headline text-xl">com Fernando & Vittórya!</p>
+                            </div>
+                            <div className="pt-6">
+                                <p className="text-slate-300 text-[10px] font-label tracking-widest uppercase flex items-center justify-center gap-3">
+                                    <span className="w-8 h-[0.5px] bg-slate-100"></span>
+                                    Sua confirmação foi recebida
+                                    <span className="w-8 h-[0.5px] bg-slate-100"></span>
+                                </p>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
 
-            {/* Image Detail */}
-            <div className="absolute bottom-10 right-10 hidden xl:block w-48 h-48 rounded-2xl overflow-hidden shadow-2xl rotate-3 border-4 border-white">
-                <img
-                    alt="Wedding invitation details"
-                    className="w-full h-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9MpA2fQ6NeNUMTMhHCezIBsEFACNXLQ3UUDwdL_fDJy2knDnhykeuc1ncYwyggq78iPjb_P3P9tb0URgxXUqbG9PZB-MMyPpzDG5mzsqPruGNOh64q3iaGVQFtHz31NiJ_y3mnxw8Kxq-151k_zmTF5CntoIn4cGf9ySkbnZLtEHeBMM1pstVfpEFu170R1ukXreyzfEDRXYUnZZrmkL2Z25KRHLUlygM9oI0Y9UySYLBNqeDfZKQoLg1D2L-0fuJs1PoqytaKdq3"
-                />
-            </div>
+            <style jsx global>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 2px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: #c5a05933;
+                    border-radius: 10px;
+                }
+            `}</style>
         </section>
     );
 }

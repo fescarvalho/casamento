@@ -14,6 +14,7 @@
   --font-headline: var(--font-playfair);
   --font-body: var(--font-public-sans);
   --font-label: var(--font-public-sans);
+  --font-script: var(--font-script);
 
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
