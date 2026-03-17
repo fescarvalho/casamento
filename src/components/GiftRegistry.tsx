@@ -298,22 +298,41 @@ export default function GiftRegistry() {
                                         <span className="text-gold text-[10px] uppercase tracking-widest font-bold mb-2 block">Presenteando</span>
                                         <h2 className="font-headline text-3xl mb-8 leading-tight">{selectedGift.name}</h2>
 
-                                        <div className="bg-white/60 rounded-2xl p-6 border border-gold/10 mb-8 flex items-center justify-between">
-                                            <div className="flex items-center gap-4">
-                                                <div className="p-3 bg-sage/10 rounded-xl">
-                                                    <QrCode className="text-sage" />
+                                        <div className="bg-white/60 rounded-2xl p-6 border border-gold/10 mb-8 flex flex-col gap-4">
+                                            <div className="flex items-center justify-between border-b border-gold/10 pb-4">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="p-3 bg-sage/10 rounded-xl">
+                                                        <QrCode className="text-sage" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[10px] text-charcoal/50 uppercase tracking-widest mb-1 font-bold">Chave PIX (CPF)</p>
+                                                        <p className="font-bold text-charcoal">151.751.447-90</p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className="text-[10px] text-charcoal/50 uppercase tracking-widest mb-1 font-bold">Chave PIX (CPF)</p>
-                                                    <p className="font-bold text-charcoal">151.751.447-90</p>
-                                                </div>
+                                                <button
+                                                    onClick={() => navigator.clipboard.writeText("15175144790")}
+                                                    className="text-[10px] uppercase tracking-tighter font-bold text-gold hover:text-charcoal transition-colors border-b border-gold/30"
+                                                >
+                                                    Copiar
+                                                </button>
                                             </div>
-                                            <button
-                                                onClick={() => navigator.clipboard.writeText("15175144790")}
-                                                className="text-[10px] uppercase tracking-tighter font-bold text-gold hover:text-charcoal transition-colors border-b border-gold/30"
-                                            >
-                                                Copiar
-                                            </button>
+
+                                            {selectedGift.price && (
+                                                <div className="flex items-center justify-between pt-2">
+                                                    <div>
+                                                        <p className="text-[10px] text-charcoal/50 uppercase tracking-widest mb-1 font-bold">Valor Sugerido</p>
+                                                        <p className="text-xl font-headline text-sage">
+                                                            R$ {selectedGift.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                                        </p>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => navigator.clipboard.writeText(selectedGift.price?.toString() || "")}
+                                                        className="text-[10px] uppercase tracking-tighter font-bold text-gold hover:text-charcoal transition-colors border-b border-gold/30"
+                                                    >
+                                                        Copiar Valor
+                                                    </button>
+                                                </div>
+                                            )}
                                         </div>
 
                                         <form onSubmit={handleSubmitGift} className="space-y-6">
