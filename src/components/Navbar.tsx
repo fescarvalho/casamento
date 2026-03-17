@@ -28,7 +28,7 @@ export default function Navbar() {
 
     return (
         <nav
-            className={`fixed top-0 w-full z-[100] transition-all duration-500 px-6 py-4 ${scrolled || isMenuOpen
+            className={`fixed top-0 w-full z-[200] transition-all duration-500 px-6 py-4 ${scrolled || isMenuOpen
                 ? "bg-white/80 backdrop-blur-md border-b border-gold/10"
                 : "bg-transparent"
                 }`}
@@ -36,14 +36,14 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto flex items-center justify-between relative">
 
                 {/* Desktop Left Links */}
-                <div className="hidden md:flex items-center gap-8 flex-1">
+                <div className="hidden md:flex items-center gap-12 flex-1 md:pl-48">
                     {navItems.slice(0, 2).map((item) => (
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={`text-[10px] font-label tracking-[0.2em] transition-all uppercase ${pathname === item.href
+                            className={`text-[10px] font-label tracking-[0.2em] transition-all uppercase drop-shadow-md drop-shadow-white/80 ${pathname === item.href
                                 ? "text-gold font-bold"
-                                : "text-charcoal/70 hover:text-gold"
+                                : "text-olive hover:text-gold"
                                 }`}
                         >
                             {item.label}
@@ -60,13 +60,13 @@ export default function Navbar() {
                 </Link>
 
                 {/* Right Side Items */}
-                <div className="flex items-center justify-end gap-8 flex-1">
+                <div className="flex items-center justify-end gap-12 flex-1 md:pr-48">
                     {/* Desktop Right Link */}
                     <Link
                         href="/presentes"
-                        className={`hidden md:block text-[10px] font-label tracking-[0.2em] transition-all uppercase ${pathname === "/presentes"
+                        className={`hidden md:block text-[10px] font-label tracking-[0.2em] transition-all uppercase drop-shadow-md drop-shadow-white/80 ${pathname === "/presentes"
                             ? "text-gold font-bold"
-                            : "text-charcoal/70 hover:text-gold"
+                            : "text-olive hover:text-gold"
                             }`}
                     >
                         Presentes
@@ -92,7 +92,7 @@ export default function Navbar() {
                         />
                     </button>
 
-                    <button className="hidden md:block border border-gold/30 text-gold px-6 py-2 text-[9px] font-label tracking-widest hover:bg-gold hover:text-white transition-all rounded-full uppercase">
+                    <button className="hidden md:block border border-gold/30 text-olive px-6 py-2 text-[9px] font-label tracking-widest hover:bg-gold hover:text-white transition-all rounded-full uppercase">
                         22.05.2026
                     </button>
                 </div>
@@ -120,7 +120,7 @@ export default function Navbar() {
                                             onClick={() => setIsMenuOpen(false)}
                                             className={`text-2xl font-headline tracking-[0.15em] transition-colors uppercase ${pathname === item.href
                                                 ? "text-gold font-bold"
-                                                : "text-charcoal/40"
+                                                : "text-olive/60"
                                                 }`}
                                         >
                                             {item.label}
@@ -136,7 +136,7 @@ export default function Navbar() {
                                 className="mt-8 flex flex-col items-center gap-4"
                             >
                                 <div className="w-12 h-[1px] bg-gold/20" />
-                                <p className="text-[10px] tracking-[0.3em] text-gold/60 uppercase font-light">Natividade - RJ</p>
+                                <p className="text-[10px] tracking-[0.3em] text-olive/60 uppercase font-light">Natividade - RJ</p>
                             </motion.div>
                         </motion.div>
                     )}

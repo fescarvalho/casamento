@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import Footer from "./Footer";
 import {
     Heart,
     Gift,
@@ -125,25 +126,25 @@ export default function GiftRegistry() {
     };
 
     return (
-        <section className="relative min-h-screen bg-ivory font-body text-slate-800 pb-20 overflow-x-hidden">
+        <section className="relative min-h-screen bg-ivory font-body text-olive/80 pb-20 overflow-x-hidden">
             {/* Elegant Watercolor Background Elements (Four Corners - Fixed) */}
-            <div className="fixed -top-6 -left-6 md:-top-12 md:-left-12 w-48 md:w-64 opacity-50 z-0 pointer-events-none">
+            <div className="fixed -top-14 -left-14 md:-top-20 md:-left-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none">
                 <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="fixed -top-6 -right-6 md:-top-12 md:-right-12 w-48 md:w-64 opacity-50 z-0 pointer-events-none scale-x-[-1]">
+            <div className="fixed -top-14 -right-14 md:-top-20 md:-right-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none scale-x-[-1]">
                 <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="fixed -bottom-6 -left-6 md:-bottom-12 md:-left-12 w-48 md:w-64 opacity-50 z-0 pointer-events-none scale-y-[-1]">
+            <div className="fixed -bottom-14 -left-14 md:-bottom-20 md:-left-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none scale-y-[-1]">
                 <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="fixed -bottom-6 -right-6 md:-bottom-12 md:-right-12 w-48 md:w-64 opacity-50 z-0 pointer-events-none rotate-180">
+            <div className="fixed -bottom-14 -right-14 md:-bottom-20 md:-right-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none rotate-180">
                 <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
 
             <main className="relative z-10 flex flex-col items-center px-4 md:px-24 pt-32">
                 <header className="text-center max-w-2xl mb-12">
-                    <h1 className="font-headline text-4xl md:text-5xl text-charcoal mb-4">Nossa Lista de Presentes</h1>
-                    <p className="text-charcoal/70 leading-relaxed font-light text-sm md:text-base">
+                    <h1 className="font-headline text-4xl md:text-5xl text-olive mb-4">Nossa Lista de Presentes</h1>
+                    <p className="text-olive/70 leading-relaxed font-light text-sm md:text-base">
                         Sua presença é o que mais importa, mas se quiser nos presentear, aqui estão algumas sugestões para o nosso novo lar.
                     </p>
                 </header>
@@ -229,7 +230,7 @@ export default function GiftRegistry() {
                                             )}
                                             <button
                                                 onClick={() => handleGiftClick(gift)}
-                                                className="flex-1 bg-sage text-white py-3 rounded-xl text-[10px] font-bold uppercase hover:bg-sage/80 transition-colors shadow-lg flex items-center justify-center gap-2"
+                                                className="flex-1 bg-olive text-white py-3 rounded-xl text-[10px] font-bold uppercase hover:bg-olive/80 transition-colors shadow-lg flex items-center justify-center gap-2"
                                             >
                                                 Presentear via PIX
                                             </button>
@@ -377,6 +378,7 @@ export default function GiftRegistry() {
                     </div>
                 )}
             </AnimatePresence>
+            <Footer />
         </section>
     );
 }

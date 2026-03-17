@@ -47,7 +47,7 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                         initial={{ y: 80, opacity: 0 }}
                         animate={step >= 2 ? { y: 0, opacity: 1 } : {}}
                         transition={{ duration: 1, ease: "circOut" }}
-                        className="text-3xl md:text-5xl font-headline text-charcoal tracking-tight"
+                        className="text-3xl md:text-5xl font-headline text-midnight-olive font-bold tracking-tight"
                     >
                         Fernando & Vittórya
                     </motion.h1>
@@ -65,7 +65,7 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                         initial={{ opacity: 0, y: 10 }}
                         animate={step >= 3 ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 1.2, ease: "circOut" }}
-                        className="text-xs md:text-sm font-label tracking-[0.3em] text-charcoal/60"
+                        className="text-xs md:text-sm font-label tracking-[0.3em] text-gold/80"
                     >
                         22 • 05 • 2026
                     </motion.p>
@@ -80,7 +80,7 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 5, ease: "linear" }}
-                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold/20 origin-left"
+                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold/40 origin-left"
             />
         </motion.div>
     );

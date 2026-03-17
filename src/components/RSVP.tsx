@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import Footer from "./Footer";
 import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -80,22 +81,22 @@ export default function RSVP() {
     };
 
     return (
-        <section className="min-h-[100dvh] w-full flex items-center justify-center bg-white overflow-x-hidden relative py-20 pb-10">
+        <section className="min-h-[100dvh] w-full flex items-center justify-center bg-white overflow-x-hidden relative py-20 pb-10 text-olive">
             {/* Elegant Card Texture Overlay - Matching HomeCover */}
             <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />
 
             {/* Elegant Watercolor Background Elements (Four Corners - Subtle) */}
-            <div className="absolute -top-6 -left-6 md:-top-16 md:-left-16 w-56 md:w-64 opacity-40 z-[5] pointer-events-none">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -top-14 -left-14 md:-top-20 md:-left-20 w-64 md:w-80 opacity-60 z-0 pointer-events-none">
+                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -top-8 -right-8 md:-top-16 md:-right-16 w-56 md:w-64 opacity-40 z-[5] pointer-events-none scale-x-[-1]">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -top-14 -right-14 md:-top-20 md:-right-20 w-64 md:w-80 opacity-60 z-0 pointer-events-none scale-x-[-1]">
+                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-8 -left-8 md:-bottom-16 md:-left-16 w-56 md:w-64 opacity-40 z-[5] pointer-events-none scale-y-[-1]">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -bottom-20 -left-20 md:-bottom-28 md:-left-28 w-64 md:w-80 opacity-60 z-0 pointer-events-none scale-y-[-1]">
+                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-8 -right-8 md:-bottom-16 md:-right-16 w-56 md:w-64 opacity-40 z-[5] pointer-events-none rotate-180">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -bottom-20 -right-20 md:-bottom-28 md:-right-28 w-64 md:w-80 opacity-60 z-0 pointer-events-none rotate-180">
+                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
 
             <div className="relative z-10 w-full max-w-lg px-6 md:px-8">
@@ -109,12 +110,12 @@ export default function RSVP() {
                             className="space-y-8 md:space-y-10"
                         >
                             <div className="text-center space-y-4">
-                                <h1 className="font-headline text-3xl md:text-5xl text-slate-800 font-light tracking-tight px-2 leading-tight">
+                                <h1 className="font-headline text-3xl md:text-5xl text-olive font-light tracking-tight px-2 leading-tight">
                                     Confirmação de Presença
                                 </h1>
                                 <div className="flex flex-col items-center gap-2">
                                     <div className="w-12 h-[0.5px] bg-gold/30" />
-                                    <p className="text-slate-400 font-body text-[10px] italic">
+                                    <p className="text-charcoal/40 font-body text-[10px] italic">
                                         Crianças menores de 10 anos não precisam ser informadas.
                                     </p>
                                 </div>
@@ -124,18 +125,18 @@ export default function RSVP() {
                                 <div className="space-y-10">
                                     {/* Nome Completo */}
                                     <div className="space-y-3">
-                                        <label className="block text-[10px] uppercase tracking-[0.25em] text-slate-600 font-bold ml-1">
-                                            Nome do Convidado Principal
+                                        <label className="block text-[10px] uppercase tracking-[0.25em] text-midnight-olive/80 font-bold ml-1">
+                                            Nome do Convidado
                                         </label>
                                         <div className="relative group">
                                             <input
                                                 {...register("nomeCompleto")}
                                                 type="text"
                                                 placeholder="Como no convite"
-                                                className="w-full bg-transparent border-b border-slate-200 py-3 px-1 focus:ring-0 focus:border-gold transition-all text-lg text-slate-700 font-headline placeholder:text-slate-200"
+                                                className="w-full bg-transparent border-b border-midnight-olive/10 py-3 px-1 focus:ring-0 focus:border-gold transition-all text-lg text-midnight-olive font-headline placeholder:text-midnight-olive/20"
                                             />
                                             {errors.nomeCompleto && (
-                                                <span className="text-[9px] text-red-400 uppercase tracking-widest absolute -bottom-6 left-1 font-bold">
+                                                <span className="text-[9px] text-red-500 uppercase tracking-widest absolute -bottom-6 left-1 font-bold">
                                                     {errors.nomeCompleto.message}
                                                 </span>
                                             )}
@@ -144,7 +145,7 @@ export default function RSVP() {
 
                                     {/* Telefone */}
                                     <div className="space-y-3">
-                                        <label className="block text-[10px] uppercase tracking-[0.25em] text-slate-600 font-bold ml-1">
+                                        <label className="block text-[10px] uppercase tracking-[0.25em] text-midnight-olive/80 font-bold ml-1">
                                             Telefone de Contato
                                         </label>
                                         <div className="relative group">
@@ -152,10 +153,10 @@ export default function RSVP() {
                                                 {...register("telefone")}
                                                 type="tel"
                                                 placeholder="(00) 00000-0000"
-                                                className="w-full bg-transparent border-b border-slate-200 py-3 px-1 focus:ring-0 focus:border-gold transition-all text-lg text-slate-700 font-headline placeholder:text-slate-200"
+                                                className="w-full bg-transparent border-b border-midnight-olive/10 py-3 px-1 focus:ring-0 focus:border-gold transition-all text-lg text-midnight-olive font-headline placeholder:text-midnight-olive/20"
                                             />
                                             {errors.telefone && (
-                                                <span className="text-[9px] text-red-400 uppercase tracking-widest absolute -bottom-6 left-1 font-bold">
+                                                <span className="text-[9px] text-red-500 uppercase tracking-widest absolute -bottom-6 left-1 font-bold">
                                                     {errors.telefone.message}
                                                 </span>
                                             )}
@@ -164,13 +165,13 @@ export default function RSVP() {
 
                                     {/* Numero de Acompanhantes */}
                                     <div className="space-y-3">
-                                        <label className="block text-[10px] uppercase tracking-[0.25em] text-slate-600 font-bold ml-1">
+                                        <label className="block text-[10px] uppercase tracking-[0.25em] text-midnight-olive/80 font-bold ml-1">
                                             Número de acompanhantes
                                         </label>
                                         <div className="relative">
                                             <select
                                                 {...register("numeroAcompanhantes", { valueAsNumber: true })}
-                                                className="w-full bg-transparent border-b border-slate-200 py-3 px-1 focus:ring-0 focus:border-gold transition-colors text-lg text-slate-700 font-headline appearance-none cursor-pointer"
+                                                className="w-full bg-transparent border-b border-midnight-olive/10 py-3 px-1 focus:ring-0 focus:border-gold transition-colors text-lg text-midnight-olive font-headline appearance-none cursor-pointer"
                                             >
                                                 {[0, 1, 2].map((num) => (
                                                     <option key={num} value={num} className="bg-white">
@@ -178,7 +179,7 @@ export default function RSVP() {
                                                     </option>
                                                 ))}
                                             </select>
-                                            <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300 text-[10px]">
+                                            <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-midnight-olive/30 text-[10px]">
                                                 ▼
                                             </div>
                                         </div>
@@ -196,14 +197,14 @@ export default function RSVP() {
                                                     transition={{ delay: index * 0.05 }}
                                                     className="relative py-4 space-y-2"
                                                 >
-                                                    <label className="block text-[9px] uppercase tracking-widest text-slate-400 font-medium ml-1">
+                                                    <label className="block text-[9px] uppercase tracking-widest text-midnight-olive/40 font-medium ml-1">
                                                         Nome do acompanhante {index + 1}
                                                     </label>
                                                     <input
                                                         {...register(`acompanhantes.${index}.nome` as const)}
                                                         type="text"
                                                         placeholder="Nome completo"
-                                                        className="w-full bg-slate-50/50 border-b border-slate-100 py-2 px-2 focus:ring-0 focus:border-gold/40 transition-colors text-base text-slate-600 font-headline placeholder:text-slate-200"
+                                                        className="w-full bg-midnight-olive/[0.02] border-b border-midnight-olive/5 py-2 px-2 focus:ring-0 focus:border-gold/40 transition-colors text-base text-midnight-olive/80 font-headline placeholder:text-midnight-olive/20"
                                                     />
                                                 </motion.div>
                                             ))}
@@ -215,7 +216,7 @@ export default function RSVP() {
                                     whileHover={{ scale: 1.01 }}
                                     whileTap={{ scale: 0.99 }}
                                     disabled={!isValid || status === "loading"}
-                                    className="w-full py-5 bg-slate-800 text-white rounded-xl font-label tracking-[0.3em] text-[10px] uppercase shadow-xl shadow-slate-200 transition-all hover:bg-slate-900 disabled:bg-slate-50 disabled:text-slate-300 disabled:shadow-none disabled:cursor-not-allowed mt-4"
+                                    className="w-full py-5 bg-olive text-white rounded-xl font-label tracking-[0.3em] text-[10px] uppercase shadow-xl shadow-olive/10 transition-all hover:bg-olive/90 disabled:bg-olive/10 disabled:text-olive/30 disabled:shadow-none disabled:cursor-not-allowed mt-4"
                                 >
                                     {status === "loading" ? "Processando..." : "Confirmar Presença"}
                                 </motion.button>
@@ -269,6 +270,7 @@ export default function RSVP() {
                     border-radius: 10px;
                 }
             `}</style>
+            <Footer />
         </section>
     );
 }

@@ -8,6 +8,8 @@
 @theme inline {
   --color-ivory: #FDFCF8;
   --color-sage: #8A9A5B;
+  --color-olive: #3D5229;
+  --color-midnight-olive: lab(10% -18.69 12.52);
   --color-charcoal: #36454F;
   --color-gold: #C5A059;
 

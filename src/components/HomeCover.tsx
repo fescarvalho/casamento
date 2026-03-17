@@ -6,20 +6,20 @@ import Link from "next/link";
 
 export default function HomeCover() {
     return (
-        <section className="relative min-h-[100dvh] flex flex-col items-center justify-center bg-white overflow-hidden font-body text-slate-700 pt-20 pb-10">
+        <section className="relative min-h-[100dvh] flex flex-col items-center justify-center bg-white overflow-hidden font-body text-midnight-olive pt-20 pb-10">
 
             {/* Elegant Watercolor Background Elements (Four Corners - Subtle) */}
-            <div className="absolute -top-6 -left-6 md:-top-12 md:-left-12 w-48 md:w-64 z-[5] pointer-events-none">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -top-14 -left-14 md:-top-20 md:-left-20 w-64 md:w-96 z-0 pointer-events-none">
+                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -top-6 -right-6 md:-top-12 md:-right-12 w-48 md:w-64 z-[5] pointer-events-none scale-x-[-1]">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -top-14 -right-14 md:-top-20 md:-right-20 w-64 md:w-96 z-0 pointer-events-none scale-x-[-1]">
+                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-6 -left-6 md:-bottom-12 md:-left-12 w-48 md:w-64 z-[5] pointer-events-none scale-y-[-1]">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -bottom-14 -left-14 md:-bottom-20 md:-left-20 w-64 md:w-96 z-0 pointer-events-none scale-y-[-1]">
+                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-6 -right-6 md:-bottom-12 md:-right-12 w-48 md:w-64 z-[5] pointer-events-none rotate-180">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -bottom-14 -right-14 md:-bottom-20 md:-right-20 w-64 md:w-96 z-0 pointer-events-none rotate-180">
+                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
             </div>
 
             {/* Main Content Card Container */}
@@ -33,51 +33,51 @@ export default function HomeCover() {
 
                 {/* Quote */}
                 <div className="space-y-2 px-4 italic">
-                    <p className="text-[10px] md:text-xs leading-relaxed max-w-xs mx-auto text-slate-400 uppercase tracking-widest">
+                    <p className="text-[10px] md:text-xs leading-relaxed max-w-xs mx-auto text-midnight-olive/40 uppercase tracking-widest">
                         "O amor só é lindo quando encontramos alguém que nos transforme no melhor que podemos ser."
                     </p>
-                    <p className="text-[8px] md:text-[10px] uppercase tracking-tighter text-slate-300">(Mário Quintana)</p>
+                    <p className="text-[8px] md:text-[10px] uppercase tracking-tighter text-midnight-olive/30">(Mário Quintana)</p>
                 </div>
 
                 {/* Sub-header */}
                 <div className="space-y-1">
-                    <p className="text-[10px] md:text-sm uppercase tracking-[0.3em] text-slate-400">Com a bênção de Deus e de nossas famílias</p>
+                    <p className="text-[10px] md:text-sm uppercase tracking-[0.3em] text-midnight-olive/40">Com a bênção de Deus e de nossas famílias</p>
                 </div>
 
                 {/* Names */}
-                <h1 className="text-6xl md:text-8xl font-script text-slate-700 py-2">
+                <h1 className="text-6xl md:text-8xl font-script text-midnight-olive py-2">
                     Fernando e Vittórya
                 </h1>
 
                 {/* Ceremony Text */}
                 <div className="space-y-4">
-                    <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-slate-500 leading-loose">
+                    <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-midnight-olive/50 leading-loose">
                         Convidam para a celebração de seu casamento <br className="hidden md:block" /> a ser realizado em
                     </p>
 
                     <div className="space-y-6 pt-4">
                         <div className="flex items-center justify-center gap-4">
                             <div className="h-[0.5px] w-8 md:w-12 bg-gold/40"></div>
-                            <h2 className="text-2xl md:text-4xl font-headline tracking-[0.2em] text-slate-800 uppercase">
+                            <h2 className="text-2xl md:text-4xl font-headline tracking-[0.2em] text-midnight-olive uppercase">
                                 22 <span className="text-gold">.</span> 05 <span className="text-gold">.</span> 2026
                             </h2>
                             <div className="h-[0.5px] w-8 md:w-12 bg-gold/40"></div>
                         </div>
 
                         <div className="space-y-4">
-                            <p className="text-xs md:text-sm font-label tracking-[0.5em] text-slate-400 uppercase">
+                            <p className="text-xs md:text-sm font-label tracking-[0.5em] text-midnight-olive/40 uppercase">
                                 Sexta-feira <span className="text-gold/60 mx-2">|</span> 19:00h
                             </p>
 
                             <div className="space-y-2 pt-2">
-                                <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.25em] text-slate-600 border-t border-slate-100 pt-6 w-fit mx-auto">
+                                <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.25em] text-midnight-olive/60 border-t border-midnight-olive/10 pt-6 w-fit mx-auto">
                                     Capela Nossa Senhora da Assunção
                                 </p>
                                 <p className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-gold font-medium">
                                     Cantinho do Fiorello
                                 </p>
-                                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-slate-400">
-                                    Natividade <span className="text-slate-300 mx-1">•</span> RJ
+                                <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-midnight-olive/40">
+                                    Natividade <span className="text-midnight-olive/20 mx-1">•</span> RJ
                                 </p>
                             </div>
                         </div>
@@ -93,37 +93,50 @@ export default function HomeCover() {
                         rel="noopener noreferrer"
                         className="flex flex-col items-center gap-3 group"
                     >
-                        <div className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-slate-50 transition-all">
+                        <div className="w-12 h-12 rounded-full border border-midnight-olive/10 flex items-center justify-center text-midnight-olive/40 group-hover:bg-midnight-olive/5 transition-all">
                             <MapPin size={20} />
                         </div>
-                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-slate-400 whitespace-nowrap">Localização</span>
+                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-midnight-olive/40 whitespace-nowrap">Localização</span>
                     </a>
 
                     {/* RSVP */}
                     <Link href="/rsvp" className="flex flex-col items-center gap-3 group">
-                        <div className="w-14 h-14 rounded-full border border-slate-200 flex items-center justify-center text-sage group-hover:bg-sage/5 transition-all shadow-sm">
+                        <div className="w-14 h-14 rounded-full border border-midnight-olive/10 flex items-center justify-center text-sage group-hover:bg-sage/5 transition-all shadow-sm">
                             <MessageCircle size={24} />
                         </div>
-                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-slate-400 whitespace-nowrap">Confirmar</span>
+                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-midnight-olive/40 whitespace-nowrap">Confirmar</span>
                     </Link>
 
                     {/* Gifts */}
                     <Link href="/presentes" className="flex flex-col items-center gap-3 group">
-                        <div className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-gold group-hover:bg-gold/5 transition-all">
+                        <div className="w-12 h-12 rounded-full border border-midnight-olive/10 flex items-center justify-center text-gold group-hover:bg-gold/5 transition-all">
                             <Gift size={20} />
                         </div>
-                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-slate-400 whitespace-nowrap">Presentes</span>
+                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-midnight-olive/40 whitespace-nowrap">Presentes</span>
                     </Link>
                 </div>
 
                 <div className="pt-4">
-                    <p className="text-[8px] uppercase tracking-widest text-slate-300 flex items-center gap-2">
-                        <span className="w-4 h-[1px] bg-slate-200" />
+                    <p className="text-[8px] uppercase tracking-widest text-midnight-olive/20 flex items-center gap-2">
+                        <span className="w-4 h-[1px] bg-midnight-olive/10" />
                         Clique nos ícones para acessar
-                        <span className="w-4 h-[1px] bg-slate-200" />
+                        <span className="w-4 h-[1px] bg-midnight-olive/10" />
                     </p>
                 </div>
             </motion.div>
+            <div className="relative z-10 flex flex-col items-center mt-32 pb-8">
+                <div className="w-12 h-[0.5px] bg-gold/20 mb-4" />
+                <p className="text-[10px] md:text-[11px] font-medium tracking-[0.4em] text-midnight-olive/60 uppercase">Fernando & Vittórya <span className="text-gold/60 mx-1">|</span> 2026</p>
+                <div className="flex items-center gap-2 mt-2">
+                    <span className="text-[8px] text-midnight-olive/30 uppercase tracking-widest">Made with Love</span>
+                </div>
+                <Link
+                    href="/admin"
+                    className="opacity-0 hover:opacity-100 transition-opacity duration-300 text-[9px] md:text-[8px] text-midnight-olive/40 mt-3"
+                >
+                    Acesso Restrito
+                </Link>
+            </div>
 
             {/* Elegant Card Texture Overlay */}
             <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />
