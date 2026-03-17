@@ -2,11 +2,13 @@
 
 import { motion } from "framer-motion";
 import { Church, Heart, Gift, MessageCircle, MapPin } from "lucide-react";
+import Footer from "./Footer";
 import Link from "next/link";
 
 export default function HomeCover() {
     return (
         <section className="relative min-h-[100dvh] flex flex-col items-center justify-center bg-white overflow-hidden font-body text-midnight-olive pt-20 pb-10">
+
 
             {/* Elegant Watercolor Background Elements (Four Corners - Subtle) */}
             <div className="absolute -top-14 -left-14 md:-top-20 md:-left-20 w-64 md:w-96 z-0 pointer-events-none">
@@ -124,19 +126,7 @@ export default function HomeCover() {
                     </p>
                 </div>
             </motion.div>
-            <div className="relative z-10 flex flex-col items-center mt-32 pb-8">
-                <div className="w-12 h-[0.5px] bg-gold/20 mb-4" />
-                <p className="text-[10px] md:text-[11px] font-medium tracking-[0.4em] text-midnight-olive/60 uppercase">Fernando & Vittórya <span className="text-gold/60 mx-1">|</span> 2026</p>
-                <div className="flex items-center gap-2 mt-2">
-                    <span className="text-[8px] text-midnight-olive/30 uppercase tracking-widest">Made with Love</span>
-                </div>
-                <Link
-                    href="/admin"
-                    className="opacity-0 hover:opacity-100 transition-opacity duration-300 text-[9px] md:text-[8px] text-midnight-olive/40 mt-3"
-                >
-                    Acesso Restrito
-                </Link>
-            </div>
+            <Footer />
 
             {/* Elegant Card Texture Overlay */}
             <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />

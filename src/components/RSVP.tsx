@@ -81,7 +81,8 @@ export default function RSVP() {
     };
 
     return (
-        <section className="min-h-[100dvh] w-full flex items-center justify-center bg-white overflow-x-hidden relative py-20 pb-10 text-olive">
+        <section className="min-h-[100dvh] w-full flex flex-col items-center bg-white overflow-x-hidden relative pt-32 pb-10 text-olive">
+
             {/* Elegant Card Texture Overlay - Matching HomeCover */}
             <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />
 
