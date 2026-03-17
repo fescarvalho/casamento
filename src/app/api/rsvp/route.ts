@@ -24,11 +24,12 @@ export async function POST(request: Request) {
         });
 
         return NextResponse.json({ success: true, data: rsvp }, { status: 201 });
-    } catch (error) {
-        console.error("RSVP Error:", error);
-        if (error instanceof z.ZodError) {
-            return NextResponse.json({ success: false, errors: error.issues }, { status: 400 });
-        }
-        return NextResponse.json({ success: false, message: "Erro interno no servidor" }, { status: 500 });
+    } catch (error: any) {
+        console.error("RSVP Error Detailed:", error);
+        return NextResponse.json({
+            success: false,
+            message: error.message || "Erro interno no servidor",
+            details: error.code || undefined
+        }, { status: 500 });
     }
 }
