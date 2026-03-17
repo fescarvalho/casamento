@@ -66,6 +66,10 @@ export default function AdminDashboard() {
     const [activeTab, setActiveTab] = useState<"summary" | "guests" | "gifts" | "pending">("summary");
     const [searchTerm, setSearchTerm] = useState("");
 
+    // New Guest Form State
+    const [newGuest, setNewGuest] = useState({ name: "", group: "", maxCompanions: 0 });
+    const [isAdding, setIsAdding] = useState(false);
+
     useEffect(() => {
         const savedPass = localStorage.getItem("admin_password");
         if (savedPass) {
@@ -150,6 +154,53 @@ export default function AdminDashboard() {
             }
         } catch (err) {
             console.error("Error toggling guest:", err);
+        }
+    };
+
+    const handleAddGuest = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newGuest.name) return;
+
+        setIsAdding(true);
+        try {
+            const pass = localStorage.getItem("admin_password");
+            const res = await fetch(`/api/admin/guests?password=${pass}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newGuest)
+            });
+
+            if (res.ok) {
+                const { guest: createdGuest } = await res.json();
+                setInvitedGuests(prev => [...prev, createdGuest]);
+                setNewGuest({ name: "", group: "", maxCompanions: 0 });
+            } else {
+                const data = await res.json();
+                alert(data.message || "Erro ao adicionar convidado");
+            }
+        } catch (err) {
+            alert("Erro na conexão");
+        } finally {
+            setIsAdding(false);
+        }
+    };
+
+    const handleDeleteGuest = async (id: number) => {
+        if (!confirm("Tem certeza que deseja remover este convidado da lista master?")) return;
+
+        try {
+            const pass = localStorage.getItem("admin_password");
+            const res = await fetch(`/api/admin/guests/${id}?password=${pass}`, {
+                method: "DELETE"
+            });
+
+            if (res.ok) {
+                setInvitedGuests(prev => prev.filter(g => g.id !== id));
+            } else {
+                alert("Erro ao remover convidado");
+            }
+        } catch (err) {
+            alert("Erro na conexão");
         }
     };
     const filteredRSVPs = useMemo(() => {
@@ -284,7 +335,18 @@ export default function AdminDashboard() {
                         {activeTab === "summary" && <SummaryView rsvps={rsvps} gifts={gifts} />}
                         {activeTab === "guests" && <GuestTable rsvps={filteredRSVPs} onDelete={handleDeleteRSVP} />}
                         {activeTab === "gifts" && <GiftTable gifts={filteredGifts} />}
-                        {activeTab === "pending" && <MasterGuestList guests={filteredInvitedGuests} rsvps={rsvps} onToggle={handleToggleGuest} />}
+                        {activeTab === "pending" && (
+                            <MasterGuestList
+                                guests={filteredInvitedGuests}
+                                rsvps={rsvps}
+                                onToggle={handleToggleGuest}
+                                onDelete={handleDeleteGuest}
+                                onAdd={handleAddGuest}
+                                newGuest={newGuest}
+                                setNewGuest={setNewGuest}
+                                isAdding={isAdding}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
@@ -456,7 +518,25 @@ function GiftTable({ gifts }: { gifts: GiftGiven[] }) {
     );
 }
 
-function MasterGuestList({ guests, rsvps, onToggle }: { guests: Guest[], rsvps: RSVP[], onToggle: (id: number) => void }) {
+function MasterGuestList({
+    guests,
+    rsvps,
+    onToggle,
+    onDelete,
+    onAdd,
+    newGuest,
+    setNewGuest,
+    isAdding
+}: {
+    guests: Guest[],
+    rsvps: RSVP[],
+    onToggle: (id: number) => void,
+    onDelete: (id: number) => void,
+    onAdd: (e: React.FormEvent) => void,
+    newGuest: any,
+    setNewGuest: any,
+    isAdding: boolean
+}) {
     const confirmedNames = new Set(rsvps.map(r => r.nomeCompleto.toLowerCase()));
 
     const fernandoGuests = guests.filter(g => g.group === "Fernando");
@@ -472,7 +552,7 @@ function MasterGuestList({ guests, rsvps, onToggle }: { guests: Guest[], rsvps: 
                     {list.map(g => {
                         const isConfirmed = confirmedNames.has(g.name.toLowerCase());
                         return (
-                            <div key={g.id} className="flex items-center justify-between p-3 bg-white/40 rounded-xl border border-gold/5 hover:border-gold/20 transition-all">
+                            <div key={g.id} className="flex items-center justify-between p-3 bg-white/40 rounded-xl border border-gold/5 hover:border-gold/20 transition-all group">
                                 <div className="flex items-center gap-3">
                                     <button
                                         onClick={() => onToggle(g.id)}
@@ -490,6 +570,13 @@ function MasterGuestList({ guests, rsvps, onToggle }: { guests: Guest[], rsvps: 
                                         )}
                                     </div>
                                 </div>
+                                <button
+                                    onClick={() => onDelete(g.id)}
+                                    className="opacity-0 group-hover:opacity-100 p-2 text-red-400 hover:text-red-600 transition-all"
+                                    title="Excluir Convidado"
+                                >
+                                    <Trash2 size={14} />
+                                </button>
                             </div>
                         );
                     })}
@@ -500,6 +587,51 @@ function MasterGuestList({ guests, rsvps, onToggle }: { guests: Guest[], rsvps: 
 
     return (
         <div className="space-y-8">
+            {/* Add Guest Form */}
+            <div className="bg-white/40 p-6 rounded-2xl border border-gold/10 mb-8">
+                <form onSubmit={onAdd} className="flex flex-col md:flex-row gap-4 items-end">
+                    <div className="flex-1 space-y-1 w-full text-left">
+                        <label className="text-[10px] uppercase tracking-widest font-bold text-charcoal/40 ml-1">Nome do Convidado</label>
+                        <input
+                            type="text"
+                            value={newGuest.name}
+                            onChange={(e) => setNewGuest({ ...newGuest, name: e.target.value })}
+                            className="w-full bg-white border border-gold/10 rounded-xl py-2 px-4 focus:ring-2 focus:ring-gold/20 outline-none"
+                            placeholder="Nome Completo"
+                        />
+                    </div>
+                    <div className="w-full md:w-48 space-y-1 text-left">
+                        <label className="text-[10px] uppercase tracking-widest font-bold text-charcoal/40 ml-1">Grupo</label>
+                        <select
+                            value={newGuest.group}
+                            onChange={(e) => setNewGuest({ ...newGuest, group: e.target.value })}
+                            className="w-full bg-white border border-gold/10 rounded-xl py-2 px-4 focus:ring-2 focus:ring-gold/20 outline-none"
+                        >
+                            <option value="">Sem Grupo</option>
+                            <option value="Fernando">Fernando</option>
+                            <option value="Vittorya">Vittórya</option>
+                        </select>
+                    </div>
+                    <div className="w-full md:w-32 space-y-1 text-left">
+                        <label className="text-[10px] uppercase tracking-widest font-bold text-charcoal/40 ml-1">Acomp. Máx.</label>
+                        <input
+                            type="number"
+                            min="0"
+                            value={newGuest.maxCompanions}
+                            onChange={(e) => setNewGuest({ ...newGuest, maxCompanions: parseInt(e.target.value) || 0 })}
+                            className="w-full bg-white border border-gold/10 rounded-xl py-2 px-4 focus:ring-2 focus:ring-gold/20 outline-none"
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        disabled={isAdding || !newGuest.name}
+                        className="bg-gold text-white px-6 py-2.5 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-sage transition-all disabled:opacity-50 h-[42px]"
+                    >
+                        {isAdding ? "..." : "Adicionar"}
+                    </button>
+                </form>
+            </div>
+
             <div className="bg-gold/5 p-4 rounded-2xl border border-gold/10 mb-8">
                 <p className="text-[10px] text-gold font-bold uppercase tracking-widest text-center">
                     Exibindo {guests.length} convidados | {guests.filter(g => g.isChecked).length} Marcados como Presentes
