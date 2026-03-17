@@ -185,41 +185,27 @@ export default function GiftRegistry() {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 w-full max-w-6xl">
-                        {filteredGifts.map((gift, index) => {
-                            // Create a bento pattern: every 5th element is wide
-                            const isLarge = index % 7 === 0;
-                            const isWide = index % 7 === 1;
+                        {filteredGifts.map((gift) => (
 
-                            return (
                                 <motion.div
                                     key={gift.id}
-                                    layout
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     whileHover={{ y: -5 }}
-                                    className={`
-                                        ${isLarge ? "md:col-span-2 md:row-span-2" : ""}
-                                        ${isWide ? "md:col-span-2" : ""}
-                                        bg-white/60 backdrop-blur-md border border-white/30 rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:shadow-xl transition-all duration-300 group
-                                    `}
+                                    className="bg-white/60 backdrop-blur-md border border-white/30 rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:shadow-xl transition-all duration-300 group"
                                 >
                                     <div>
-                                        <div className="flex items-center justify-between mb-6">
+                                        <div className="flex items-center justify-between mb-4">
                                             <span className="text-[10px] font-bold uppercase tracking-widest text-sage border border-sage/20 bg-sage-50/50 px-3 py-1 rounded-full">{gift.category}</span>
-                                            {getCategoryIcon(gift.category)}
                                         </div>
-                                        {isLarge && (
-                                            <div className="hidden border md:flex w-full h-40 bg-gold/5 rounded-2xl mb-6 items-center justify-center">
-                                                <Gift size={48} className="text-gold/20" />
-                                            </div>
-                                        )}
-                                        <h3 className={`font-headline text-charcoal mb-3 ${isLarge ? "text-2xl" : "text-xl"}`}>{gift.name}</h3>
+
+                                        <h3 className="font-headline text-charcoal mb-3 text-xl">{gift.name}</h3>
                                         <p className="text-xs text-charcoal/60 mb-6 leading-relaxed">Um toque de carinho para o nosso lar.</p>
                                     </div>
 
                                     <div className="space-y-4">
                                         <div className="h-[1px] w-full bg-gold/10"></div>
-                                        <div className={`${isWide ? "flex flex-col sm:flex-row gap-3" : "grid grid-cols-1 gap-3"}`}>
+                                        <div className="grid grid-cols-1 gap-3">
                                             {gift.productUrl && (
                                                 <button
                                                     onClick={() => window.open(gift.productUrl, "_blank")}
@@ -237,8 +223,7 @@ export default function GiftRegistry() {
                                         </div>
                                     </div>
                                 </motion.div>
-                            );
-                        })}
+                        ))}
                     </div>
                 )}
 

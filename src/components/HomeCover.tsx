@@ -47,7 +47,7 @@ export default function HomeCover() {
                 </div>
 
                 {/* Names */}
-                <h1 className="text-6xl md:text-8xl font-script text-midnight-olive py-2">
+                <h1 className="text-5xl md:text-8xl font-script text-midnight-olive py-2 whitespace-nowrap">
                     Fernando e Vittórya
                 </h1>
 

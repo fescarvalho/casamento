@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
     return (
-        <footer className="relative w-full py-2 text-center text-olive/60 text-[9px] tracking-[0.3em] uppercase bg-white overflow-hidden">
+        <footer className="relative w-full py-2 text-center text-olive/60 text-[9px] tracking-[0.3em] uppercase overflow-hidden">
             {/* Elegant Card Texture Overlay - Matching HomeCover */}
             <div className="absolute inset-0 opacity-[0.10] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />
 
