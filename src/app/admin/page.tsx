@@ -13,13 +13,15 @@ import {
     Search,
     UserPlus,
     MessageSquare,
-    Phone
+    Phone,
+    Trash2
 } from "lucide-react";
 
 interface RSVP {
     id: number;
     nomeCompleto: string;
     numeroAcompanhantes: number;
+    nomesAcompanhantes: string;
     telefone: string;
     dataConfirmacao: string;
 }
@@ -38,6 +40,8 @@ interface Guest {
     name: string;
     isInvited: boolean;
     maxCompanions: number;
+    group: string;
+    isChecked: boolean;
 }
 
 interface Stats {
@@ -104,6 +108,50 @@ export default function AdminDashboard() {
         localStorage.removeItem("admin_password");
     };
 
+    const handleDeleteRSVP = async (id: number) => {
+        if (!confirm("Tem certeza que deseja remover esta confirmação?")) return;
+
+        try {
+            const pass = localStorage.getItem("admin_password");
+            const res = await fetch(`/api/admin/rsvp/${id}?password=${pass}`, {
+                method: "DELETE"
+            });
+
+            if (res.ok) {
+                setRsvps(prev => prev.filter(r => r.id !== id));
+                // Update stats locally
+                if (stats) {
+                    const removed = rsvps.find(r => r.id === id);
+                    if (removed) {
+                        setStats({
+                            ...stats,
+                            totalRSVPs: stats.totalRSVPs - 1,
+                            totalConfirmed: stats.totalConfirmed - (1 + removed.numeroAcompanhantes)
+                        });
+                    }
+                }
+            } else {
+                alert("Erro ao remover confirmação");
+            }
+        } catch (err) {
+            alert("Erro na conexão");
+        }
+    };
+    const handleToggleGuest = async (id: number) => {
+        try {
+            const pass = localStorage.getItem("admin_password");
+            const res = await fetch(`/api/admin/guests/toggle/${id}?password=${pass}`, {
+                method: "PATCH"
+            });
+
+            if (res.ok) {
+                const { guest: updatedGuest } = await res.json();
+                setInvitedGuests(prev => prev.map(g => g.id === id ? updatedGuest : g));
+            }
+        } catch (err) {
+            console.error("Error toggling guest:", err);
+        }
+    };
     const filteredRSVPs = useMemo(() => {
         return rsvps.filter(r => r.nomeCompleto.toLowerCase().includes(searchTerm.toLowerCase()));
     }, [rsvps, searchTerm]);
@@ -230,9 +278,9 @@ export default function AdminDashboard() {
 
                     <div className="overflow-x-auto">
                         {activeTab === "summary" && <SummaryView rsvps={rsvps} gifts={gifts} />}
-                        {activeTab === "guests" && <GuestTable rsvps={filteredRSVPs} />}
+                        {activeTab === "guests" && <GuestTable rsvps={filteredRSVPs} onDelete={handleDeleteRSVP} />}
                         {activeTab === "gifts" && <GiftTable gifts={filteredGifts} />}
-                        {activeTab === "pending" && <MasterGuestList guests={invitedGuests} rsvps={rsvps} />}
+                        {activeTab === "pending" && <MasterGuestList guests={invitedGuests} rsvps={rsvps} onToggle={handleToggleGuest} />}
                     </div>
                 </div>
             </div>
@@ -263,8 +311,8 @@ function TabButton({ active, onClick, label }: any) {
         <button
             onClick={onClick}
             className={`px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all whitespace-nowrap ${active
-                    ? "bg-sage text-white shadow-lg shadow-sage/20"
-                    : "bg-white/30 text-charcoal/50 hover:bg-white/50"
+                ? "bg-sage text-white shadow-lg shadow-sage/20"
+                : "bg-white/30 text-charcoal/50 hover:bg-white/50"
                 }`}
         >
             {label}
@@ -285,7 +333,11 @@ function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: GiftGiven[] }) {
                         <div key={r.id} className="flex items-center justify-between p-4 bg-sage/5 rounded-2xl border border-sage/10">
                             <div>
                                 <p className="font-bold text-charcoal text-sm">{r.nomeCompleto}</p>
-                                <p className="text-[10px] text-charcoal/50">{r.numeroAcompanhantes > 0 ? `+ ${r.numeroAcompanhantes} acompanhantes` : "Apenas ele(a)"}</p>
+                                <p className="text-[10px] text-charcoal/50">
+                                    {r.numeroAcompanhantes > 0
+                                        ? `+ ${r.numeroAcompanhantes} (${r.nomesAcompanhantes})`
+                                        : "Apenas ele(a)"}
+                                </p>
                             </div>
                             <div className="text-right">
                                 <p className="text-[10px] text-sage font-medium">{new Date(r.dataConfirmacao).toLocaleDateString()}</p>
@@ -319,33 +371,45 @@ function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: GiftGiven[] }) {
     );
 }
 
-function GuestTable({ rsvps }: { rsvps: RSVP[] }) {
+function GuestTable({ rsvps, onDelete }: { rsvps: RSVP[], onDelete: (id: number) => void }) {
     return (
         <table className="w-full text-left border-collapse">
             <thead>
                 <tr className="border-b border-gold/10 text-[10px] uppercase font-bold text-charcoal/40">
                     <th className="pb-4 pl-2">Nome</th>
                     <th className="pb-4">Acomp.</th>
+                    <th className="pb-4">Nomes Acompanhantes</th>
                     <th className="pb-4">Telefone</th>
                     <th className="pb-4">Data</th>
-                    <th className="pb-4">WhatsApp</th>
+                    <th className="pb-4">Ações</th>
                 </tr>
             </thead>
             <tbody className="text-sm">
                 {rsvps.map(r => (
                     <tr key={r.id} className="border-b border-gold/5 hover:bg-white/40 transition-colors">
                         <td className="py-4 pl-2 font-medium">{r.nomeCompleto}</td>
-                        <td className="py-4">{r.numeroAcompanhantes}</td>
+                        <td className="py-4">{r.numeroAcompanhantes || 0}</td>
+                        <td className="py-4 text-xs text-charcoal/60 italic max-w-xs">{r.nomesAcompanhantes || "-"}</td>
                         <td className="py-4 font-mono text-xs">{r.telefone}</td>
                         <td className="py-4 text-xs text-charcoal/60">{new Date(r.dataConfirmacao).toLocaleDateString()}</td>
                         <td className="py-4">
-                            <a
-                                href={`https://wa.me/${r.telefone.replace(/\D/g, "")}`}
-                                target="_blank"
-                                className="p-2 bg-green-500/10 text-green-600 rounded-full inline-block hover:bg-green-500 hover:text-white transition-all"
-                            >
-                                <Phone size={14} />
-                            </a>
+                            <div className="flex items-center gap-2">
+                                <a
+                                    href={`https://wa.me/${r.telefone?.replace(/\D/g, "")}`}
+                                    target="_blank"
+                                    className="p-2 bg-green-500/10 text-green-600 rounded-lg hover:bg-green-500 hover:text-white transition-all"
+                                    title="WhatsApp"
+                                >
+                                    <Phone size={14} />
+                                </a>
+                                <button
+                                    onClick={() => onDelete(r.id)}
+                                    className="p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all"
+                                    title="Remover Confirmação"
+                                >
+                                    <Trash2 size={14} />
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 ))}
@@ -386,49 +450,59 @@ function GiftTable({ gifts }: { gifts: GiftGiven[] }) {
     );
 }
 
-function MasterGuestList({ guests, rsvps }: { guests: Guest[], rsvps: RSVP[] }) {
-    // Check which invited guests have confirmed
-    // This assumes names match exactly or close enough (we'll do lower case comparison)
+function MasterGuestList({ guests, rsvps, onToggle }: { guests: Guest[], rsvps: RSVP[], onToggle: (id: number) => void }) {
     const confirmedNames = new Set(rsvps.map(r => r.nomeCompleto.toLowerCase()));
 
+    const fernandoGuests = guests.filter(g => g.group === "Fernando");
+    const vittoryaGuests = guests.filter(g => g.group === "Vittorya");
+
+    const GuestSection = ({ title, list }: { title: string, list: Guest[] }) => (
+        <div className="mb-12">
+            <h3 className="font-headline text-xl text-sage mb-6 border-b border-gold/10 pb-2">{title}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {list.map(g => {
+                    const isConfirmed = confirmedNames.has(g.name.toLowerCase());
+                    return (
+                        <div key={g.id} className="flex items-center justify-between p-3 bg-white/40 rounded-xl border border-gold/5 hover:border-gold/20 transition-all">
+                            <div className="flex items-center gap-3">
+                                <button
+                                    onClick={() => onToggle(g.id)}
+                                    className={`w-5 h-5 rounded border transition-all flex items-center justify-center ${g.isChecked
+                                            ? "bg-sage border-sage text-white"
+                                            : "border-gold/30 hover:border-gold"
+                                        }`}
+                                >
+                                    {g.isChecked && <CheckCircle size={12} />}
+                                </button>
+                                <div>
+                                    <p className={`text-sm font-medium ${g.isChecked ? "text-sage" : "text-charcoal"}`}>{g.name}</p>
+                                    {isConfirmed && (
+                                        <span className="text-[8px] font-bold text-gold uppercase tracking-tighter">RSVP OK</span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+            {list.length === 0 && <p className="text-xs text-charcoal/40 italic">Sem convidados neste grupo.</p>}
+        </div>
+    );
+
     return (
-        <div>
-            <div className="mb-6 flex items-center justify-between">
-                <p className="text-[10px] font-medium text-charcoal/40 uppercase tracking-widest">
-                    {guests.length > 0 ? `Total: ${guests.length} convidados` : "Nenhum convidado cadastrado na lista master."}
+        <div className="space-y-8">
+            <div className="bg-gold/5 p-4 rounded-2xl border border-gold/10 mb-8">
+                <p className="text-[10px] text-gold font-bold uppercase tracking-widest text-center">
+                    Total: {guests.length} convidados | {guests.filter(g => g.isChecked).length} Presentes (Check)
                 </p>
             </div>
-            <table className="w-full text-left border-collapse">
-                <thead>
-                    <tr className="border-b border-gold/10 text-[10px] uppercase font-bold text-charcoal/40">
-                        <th className="pb-4 pl-2">Nome</th>
-                        <th className="pb-4">Status</th>
-                        <th className="pb-4">Acomp. Máx</th>
-                    </tr>
-                </thead>
-                <tbody className="text-sm">
-                    {guests.map(g => {
-                        const isConfirmed = confirmedNames.has(g.name.toLowerCase());
-                        return (
-                            <tr key={g.id} className="border-b border-gold/5 hover:bg-white/40 transition-colors">
-                                <td className="py-4 pl-2 font-medium">{g.name}</td>
-                                <td className="py-4">
-                                    {isConfirmed ? (
-                                        <span className="bg-sage/10 text-sage text-[9px] font-bold px-3 py-1 rounded-full uppercase">Confirmado</span>
-                                    ) : (
-                                        <span className="bg-gold/10 text-gold text-[9px] font-bold px-3 py-1 rounded-full uppercase">Pendente</span>
-                                    )}
-                                </td>
-                                <td className="py-4 text-xs">{g.maxCompanions}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+
+            <GuestSection title="Grupo do Fernando" list={fernandoGuests} />
+            <GuestSection title="Grupo da Vittórya" list={vittoryaGuests} />
+
             {guests.length === 0 && (
                 <div className="py-12 text-center bg-gold/5 rounded-3xl border border-dashed border-gold/20">
                     <p className="text-sm text-charcoal/60">A lista master está vazia.</p>
-                    <p className="text-[10px] text-charcoal/40 mt-1 uppercase">Use o script de seed para adicionar os convidados esperados.</p>
                 </div>
             )}
         </div>

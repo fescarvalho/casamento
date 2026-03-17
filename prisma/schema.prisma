@@ -33,4 +33,6 @@ model Guest {
   name          String  @unique
   isInvited     Boolean @default(true)
   maxCompanions Int     @default(0)
+  group         String? // 'Fernando' or 'Vittorya'
+  isChecked     Boolean @default(false)
 }
