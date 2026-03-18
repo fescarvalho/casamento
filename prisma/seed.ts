@@ -21,7 +21,7 @@ async function main() {
         { name: "Tabuleiro Inox", category: "Cozinha", productUrl: "https://www.google.com/search?q=Tabuleiro+Inox&tbm=shop" },
         { name: "Bowl Tramontina", category: "Cozinha", productUrl: "https://www.google.com/search?q=Bowl+Tramontina&tbm=shop" },
         { name: "Forma de bolo Inox", category: "Cozinha", productUrl: "https://www.google.com/search?q=Forma+de+bolo+Inox&tbm=shop" },
-        { name: "Jogo de copos tulipas (Água/Suco) (6 uni)", category: "Cozinha", productUrl: "https://www.google.com/search?q=Jogo+de+copos+tulipas&tbm=shop" },
+        { name: "Jogo de taças para água/suco", category: "Cozinha", productUrl: "https://www.google.com/search?q=Jogo+de+taças+para+água/suco&tbm=shop" },
         { name: "Processador de alimentos", category: "Eletro", productUrl: "https://www.google.com/search?q=Processador+de+alimentos&tbm=shop" },
         { name: "Mixer", category: "Eletro", productUrl: "https://www.google.com/search?q=Mixer&tbm=shop" },
         { name: "Lixeira Inox", category: "Cozinha", productUrl: "https://www.google.com/search?q=Lixeira+Inox&tbm=shop" },
@@ -52,12 +52,12 @@ async function main() {
         { name: "Jogo de Panelas de Cerâmica", category: "Cozinha", productUrl: "https://www.google.com/search?q=Jogo+de+Panelas+de+Cerâmica&tbm=shop" },
         { name: "Garrafa de Café", category: "Cozinha", productUrl: "https://www.google.com/search?q=Garrafa+de+Café&tbm=shop" },
         { name: "Batedeira elétrica", category: "Eletro", productUrl: "https://www.google.com/search?q=Batedeira+elétrica&tbm=shop" },
-        { name: "Robô aspirador de pó que passa pano", category: "Eletro", productUrl: "https://www.google.com/search?q=Robô+aspirador+de+pó+que+passa+pano&tbm=shop" },
+
         { name: "Ferro de Passar a vapor", category: "Eletro", productUrl: "https://www.google.com/search?q=Ferro+de+Passar+a+vapor&tbm=shop" },
-        { name: "Geladeira (260 a 591 Litros)", category: "Eletrodoméstico", productUrl: "https://www.google.com/search?q=Geladeira+260+litros&tbm=shop" },
+        { name: "Geladeira Duas Portas", category: "Eletrodoméstico", productUrl: "https://www.google.com/search?q=Geladeira+Duas+Portas&tbm=shop" },
         { name: "Fogão 5 bocas", category: "Eletrodoméstico", productUrl: "https://www.google.com/search?q=Fogão+5+bocas&tbm=shop" },
         { name: "Máquina de lavar 10kg", category: "Eletrodoméstico", productUrl: "https://www.google.com/search?q=Máquina+de+lavar+10kg&tbm=shop" },
-        { name: "Televisão <= 50 polegadas", category: "Eletrônico", productUrl: "https://www.google.com/search?q=Televisão+50+polegadas&tbm=shop" },
+
         { name: "Panela de pressão elétrica", category: "Eletro", productUrl: "https://www.google.com/search?q=Panela+de+pressão+elétrica&tbm=shop" },
         { name: "Mesa de cozinha 6 cadeiras", category: "Móvel", productUrl: "https://www.google.com/search?q=Mesa+de+cozinha+6+cadeiras&tbm=shop" },
     ];
