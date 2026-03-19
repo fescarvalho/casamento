@@ -204,7 +204,9 @@ export default function AdminDashboard() {
         }
     };
     const filteredRSVPs = useMemo(() => {
-        return rsvps.filter(r => r.nomeCompleto.toLowerCase().includes(searchTerm.toLowerCase()));
+        return rsvps
+            .filter(r => r.nomeCompleto.toLowerCase().includes(searchTerm.toLowerCase()))
+            .sort((a, b) => a.nomeCompleto.localeCompare(b.nomeCompleto));
     }, [rsvps, searchTerm]);
 
     const filteredGifts = useMemo(() => {
@@ -212,7 +214,9 @@ export default function AdminDashboard() {
     }, [gifts, searchTerm]);
 
     const filteredInvitedGuests = useMemo(() => {
-        return invitedGuests.filter(g => g.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        return invitedGuests
+            .filter(g => g.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            .sort((a, b) => a.name.localeCompare(b.name));
     }, [invitedGuests, searchTerm]);
 
     if (!isAuthorized) {
