@@ -203,12 +203,12 @@ export default function AdminDashboard() {
             alert("Erro na conexão");
         }
     };
-    // // Comentado a pedido do admin: "comente os confirmados"
-    // const filteredRSVPs = useMemo(() => {
-    //     return rsvps
-    //         .filter(r => r.nomeCompleto.toLowerCase().includes(searchTerm.toLowerCase()))
-    //         .sort((a, b) => a.nomeCompleto.localeCompare(b.nomeCompleto));
-    // }, [rsvps, searchTerm]);
+    // Restaurando a aba Confirmados com proteção contra campos nulos
+    const filteredRSVPs = useMemo(() => {
+        return rsvps
+            .filter(r => r?.nomeCompleto?.toLowerCase().includes(searchTerm.toLowerCase()))
+            .sort((a, b) => (a?.nomeCompleto || "").localeCompare(b?.nomeCompleto || ""));
+    }, [rsvps, searchTerm]);
 
     const filteredGifts = useMemo(() => {
         return gifts.filter(g => g.name.toLowerCase().includes(searchTerm.toLowerCase()) || g.giverName?.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -308,7 +308,7 @@ export default function AdminDashboard() {
             <div className="max-w-7xl mx-auto">
                 <div className="flex gap-4 overflow-x-auto pb-6 no-scrollbar mb-8">
                     <TabButton active={activeTab === "summary"} onClick={() => setActiveTab("summary")} label="Resumo" />
-                    {/* <TabButton active={activeTab === "guests"} onClick={() => setActiveTab("guests")} label="Confirmados" /> */}
+                    <TabButton active={activeTab === "guests"} onClick={() => setActiveTab("guests")} label="Confirmados" />
                     <TabButton active={activeTab === "gifts"} onClick={() => setActiveTab("gifts")} label="Presentes Rec." />
                     <TabButton active={activeTab === "pending"} onClick={() => setActiveTab("pending")} label="Convidados" />
                 </div>
@@ -317,7 +317,7 @@ export default function AdminDashboard() {
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                         <h2 className="font-headline text-2xl text-sage">
                             {activeTab === "summary" && "Visão Geral"}
-                            {/* {activeTab === "guests" && "Lista de Presença"} */}
+                            {activeTab === "guests" && "Lista de Presença"}
                             {activeTab === "gifts" && "Presentes Recebidos"}
                             {activeTab === "pending" && "Master Guest List"}
                         </h2>
@@ -338,7 +338,7 @@ export default function AdminDashboard() {
 
                     <div className="overflow-x-auto">
                         {activeTab === "summary" && <SummaryView rsvps={rsvps} gifts={gifts} />}
-                        {/* {activeTab === "guests" && <GuestTable rsvps={filteredRSVPs} onDelete={handleDeleteRSVP} />} */}
+                        {activeTab === "guests" && <GuestTable rsvps={filteredRSVPs} onDelete={handleDeleteRSVP} />}
                         {activeTab === "gifts" && <GiftTable gifts={filteredGifts} />}
                         {activeTab === "pending" && (
                             <MasterGuestList
@@ -542,7 +542,7 @@ function MasterGuestList({
     setNewGuest: any,
     isAdding: boolean
 }) {
-    // const confirmedNames = new Set(rsvps.map(r => r?.nomeCompleto?.toLowerCase() || ""));
+    const confirmedNames = new Set(rsvps.map(r => r?.nomeCompleto?.toLowerCase() || ""));
 
     const fernandoGuests = guests.filter(g => g.group === "Fernando");
     const vittoryaGuests = guests.filter(g => g.group === "Vittorya");
@@ -555,8 +555,7 @@ function MasterGuestList({
                 <h3 className="font-headline text-xl text-sage mb-6 border-b border-gold/10 pb-2">{title}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {list.map(g => {
-                        // const isConfirmed = confirmedNames.has(g.name.toLowerCase());
-                        const isConfirmed = false;
+                        const isConfirmed = confirmedNames.has((g?.name || "").toLowerCase());
                         return (
                             <div key={g.id} className="flex items-center justify-between p-3 bg-white/40 rounded-xl border border-gold/5 hover:border-gold/20 transition-all group">
                                 <div className="flex items-center gap-3">
