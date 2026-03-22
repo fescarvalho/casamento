@@ -37,7 +37,7 @@ async function main() {
         { name: "Jogo taças grandes (6 uni)", category: "Cozinha", productUrl: "https://www.google.com/search?q=Jogo+taças+grandes&tbm=shop" },
         { name: "Kit Faqueiro Tramontina", category: "Cozinha", productUrl: "https://www.google.com/search?q=Kit+Faqueiro+Tramontina&tbm=shop" },
         { name: "Jogo Frigideiras Antiaderentes", category: "Cozinha", productUrl: "https://www.google.com/search?q=Jogo+Frigideiras+Antiaderentes&tbm=shop" },
-        { name: "Kit Faqueiro Inox", category: "Cozinha", productUrl: "https://www.google.com/search?q=Kit+Faqueiro+Inox&tbm=shop" },
+        { name: "Ventilador", category: "Eletro", productUrl: "https://www.google.com/search?q=Ventilador&tbm=shop" },
         { name: "Escorredor de louça inox", category: "Cozinha", productUrl: "https://www.google.com/search?q=Escorredor+de+louça+inox&tbm=shop" },
         { name: "Jogo de lençol 100% algodão cama box", category: "Cama/Banho", productUrl: "https://www.google.com/search?q=Jogo+de+lençol+100+algodão+cama+box&tbm=shop" },
         { name: "Edredom Casal 100% algodão queen", category: "Cama/Banho", productUrl: "https://www.google.com/search?q=Edredom+Casal+100+algodão+queen&tbm=shop" },
@@ -60,6 +60,13 @@ async function main() {
 
         { name: "Panela de pressão elétrica", category: "Eletro", productUrl: "https://www.google.com/search?q=Panela+de+pressão+elétrica&tbm=shop" },
         { name: "Mesa de cozinha 6 cadeiras", category: "Móvel", productUrl: "https://www.google.com/search?q=Mesa+de+cozinha+6+cadeiras&tbm=shop" },
+        
+        // Group 4 (New Additions)
+        { name: "Travessas/Refratários (tipo Marinex)", category: "Cozinha", productUrl: "https://www.google.com/search?q=Travessas+Refratarios+Marinex&tbm=shop" },
+        { name: "Saladeira", category: "Cozinha", productUrl: "https://www.google.com/search?q=Saladeira&tbm=shop" },
+        { name: "MOP", category: "Casa", productUrl: "https://www.google.com/search?q=MOP+limpeza&tbm=shop" },
+        { name: "Toalhas de banho e rosto", category: "Cama/Banho", productUrl: "https://www.google.com/search?q=Jogo+de+Toalhas+de+banho+e+rosto&tbm=shop" },
+        { name: "Microondas", category: "Eletrodoméstico", productUrl: "https://www.google.com/search?q=Microondas&tbm=shop" },
     ];
 
     console.log("Cleaning and Seeding gifts...");
