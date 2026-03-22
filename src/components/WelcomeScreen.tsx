@@ -78,7 +78,7 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                             initial={{ y: 50, opacity: 0 }}
                             animate={step >= 1 ? { y: 0, opacity: 1 } : {}}
                             transition={{ duration: 0.8, ease: "circOut" }}
-                            className="text-[10px] md:text-[12px] font-label tracking-[0.5em] text-[#C5A059] uppercase"
+                            className="text-[10px] md:text-[12px] font-label tracking-[0.5em] text-midnight-olive/40 uppercase"
                         >
                             Save the Date
                         </motion.p>
@@ -89,9 +89,9 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                             initial={{ y: 80, opacity: 0 }}
                             animate={step >= 2 ? { y: 0, opacity: 1 } : {}}
                             transition={{ duration: 1, ease: "circOut" }}
-                            className="text-4xl md:text-5xl font-headline text-[#36454F] font-bold tracking-tight px-2 leading-tight"
+                            className="text-3xl md:text-5xl font-script text-midnight-olive py-2 px-2 whitespace-nowrap"
                         >
-                            Fernando & Vittórya
+                            Fernando e Vittórya
                         </motion.h1>
                     </div>
 
@@ -100,13 +100,13 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                             initial={{ scaleX: 0 }}
                             animate={step >= 3 ? { scaleX: 1 } : {}}
                             transition={{ duration: 1, ease: "easeInOut" }}
-                            className="h-[1px] w-12 md:w-20 bg-[#C5A059]/40 mb-4"
+                            className="h-[0.5px] w-12 md:w-20 bg-gold/40 mb-4"
                         />
                         <motion.p
                             initial={{ opacity: 0, y: 10 }}
                             animate={step >= 3 ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 1.2, ease: "circOut" }}
-                            className="text-xs md:text-sm font-label tracking-[0.3em] text-[#C5A059]/90"
+                            className="text-xs md:text-sm font-label tracking-[0.3em] text-midnight-olive/60"
                         >
                             22 • 05 • 2026
                         </motion.p>

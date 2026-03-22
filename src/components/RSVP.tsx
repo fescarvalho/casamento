@@ -114,8 +114,12 @@ export default function RSVP() {
                                 <h1 className="font-headline text-3xl md:text-5xl text-olive font-light tracking-tight px-2 leading-tight">
                                     Confirmação de Presença
                                 </h1>
-                                <div className="flex flex-col items-center gap-2">
+                                <div className="flex flex-col items-center gap-3">
                                     <div className="w-12 h-[0.5px] bg-gold/30" />
+                                    <p className="text-midnight-olive/60 font-body text-[10px] md:text-xs uppercase tracking-widest font-medium max-w-[280px] mx-auto leading-relaxed">
+                                        Devido à capacidade do local, <br />
+                                        pedimos a gentileza de confirmar sua presença
+                                    </p>
                                     <p className="text-charcoal/40 font-body text-[10px] italic">
                                         Crianças menores de 10 anos não precisam ser informadas.
                                     </p>

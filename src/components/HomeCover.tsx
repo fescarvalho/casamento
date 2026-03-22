@@ -86,8 +86,16 @@ export default function HomeCover() {
                     </div>
                 </div>
 
+                {/* Capacity Notice */}
+                <div className="pt-4 px-4">
+                    <p className="text-[9px] md:text-[11px] uppercase tracking-[0.15em] text-midnight-olive/60 font-medium max-w-sm mx-auto leading-relaxed">
+                        Devido à capacidade do local, <br className="md:hidden" />
+                        pedimos a gentileza de confirmar sua presença
+                    </p>
+                </div>
+
                 {/* Fast Action Icons (Invited Style) */}
-                <div className="flex flex-row items-center justify-center gap-8 md:gap-12 pt-8">
+                <div className="flex flex-row items-center justify-center gap-8 md:gap-12 pt-4">
                     {/* Location */}
                     <a
                         href="https://www.google.com/maps/search/?api=1&query=Capela+Nossa+Senhora+da+Assunção+Natividade+RJ"
