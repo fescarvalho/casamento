@@ -29,13 +29,9 @@ export default function Navbar() {
     return (
         <nav
             className={`fixed top-0 w-full z-[150] transition-all duration-500 px-6 py-4 ${scrolled || isMenuOpen
-                ? "bg-white/80 border-b border-gold/10"
+                ? "bg-white border-b border-gold/10 shadow-sm"
                 : "bg-transparent"
                 }`}
-            style={scrolled || isMenuOpen ? { 
-                backdropFilter: "blur(12px)", 
-                WebkitBackdropFilter: "blur(12px)" 
-            } : {}}
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between relative">
 
@@ -45,7 +41,7 @@ export default function Navbar() {
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={`text-[10px] font-label tracking-[0.2em] transition-all uppercase drop-shadow-md drop-shadow-white/80 ${pathname === item.href
+                            className={`text-[10px] font-label tracking-[0.2em] transition-all uppercase ${pathname === item.href
                                 ? "text-gold font-bold"
                                 : "text-olive hover:text-gold"
                                 }`}
@@ -68,7 +64,7 @@ export default function Navbar() {
                     {/* Desktop Right Link */}
                     <Link
                         href="/presentes"
-                        className={`hidden md:block text-[10px] font-label tracking-[0.2em] transition-all uppercase drop-shadow-md drop-shadow-white/80 ${pathname === "/presentes"
+                        className={`hidden md:block text-[10px] font-label tracking-[0.2em] transition-all uppercase ${pathname === "/presentes"
                             ? "text-gold font-bold"
                             : "text-olive hover:text-gold"
                             }`}
@@ -109,11 +105,7 @@ export default function Navbar() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.4, ease: "circOut" }}
-                            className="fixed inset-x-0 top-0 h-screen bg-ivory/98 z-[100] flex flex-col items-center justify-center gap-12 md:hidden"
-                            style={{ 
-                                backdropFilter: "blur(24px)", 
-                                WebkitBackdropFilter: "blur(24px)" 
-                            }}
+                            className="fixed inset-x-0 top-0 h-screen bg-ivory z-[100] flex flex-col items-center justify-center gap-12 md:hidden"
                         >
                             <div className="flex flex-col items-center gap-8">
                                 {navItems.map((item, i) => (

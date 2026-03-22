@@ -10,18 +10,18 @@ export default function HomeCover() {
         <section className="relative min-h-[100dvh] flex flex-col items-center justify-center bg-white overflow-hidden font-body text-midnight-olive pt-20 pb-10">
 
 
-            {/* Elegant Watercolor Background Elements (Four Corners - Subtle) */}
-            <div className="absolute -top-14 -left-14 md:-top-20 md:-left-20 w-64 md:w-96 z-0 pointer-events-none">
-                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            {/* Elegant Watercolor Background Elements */}
+            <div className="absolute -top-14 -left-14 md:-top-20 md:-left-20 w-64 md:w-96 z-0 pointer-events-none" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-vibrant.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -top-14 -right-14 md:-top-20 md:-right-20 w-64 md:w-96 z-0 pointer-events-none scale-x-[-1]">
-                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -top-14 -right-14 md:-top-20 md:-right-20 w-64 md:w-96 z-0 pointer-events-none scale-x-[-1]" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-vibrant.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-14 -left-14 md:-bottom-20 md:-left-20 w-64 md:w-96 z-0 pointer-events-none scale-y-[-1]">
-                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -bottom-14 -left-14 md:-bottom-20 md:-left-20 w-64 md:w-96 z-0 pointer-events-none scale-y-[-1]" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-vibrant.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-14 -right-14 md:-bottom-20 md:-right-20 w-64 md:w-96 z-0 pointer-events-none rotate-180">
-                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -bottom-14 -right-14 md:-bottom-20 md:-right-20 w-64 md:w-96 z-0 pointer-events-none rotate-180" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-vibrant.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
 
             {/* Main Content Card Container */}
@@ -136,13 +136,11 @@ export default function HomeCover() {
             </motion.div>
             <Footer />
 
-            {/* Elegant Card Texture Overlay - Subtle & Optimized for Mobile */}
+            {/* Elegant Card Texture Overlay - Hidden on mobile to avoid iOS artifacts */}
             <div 
-                className="absolute inset-0 pointer-events-none opacity-[0.08]" 
+                className="hidden md:block absolute inset-0 pointer-events-none opacity-[0.08]" 
                 style={{ 
                     backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-fibers.png')",
-                    // Evita mix-blend-multiply em overlay full-screen no iOS, 
-                    // que costuma causar blocos cinzas
                 }} 
             />
         </section>

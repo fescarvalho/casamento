@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function Footer() {
     return (
         <footer className="relative w-full py-2 text-center text-olive/60 text-[9px] tracking-[0.3em] uppercase overflow-hidden">
-            {/* Elegant Card Texture Overlay - Matching HomeCover */}
-            <div className="absolute inset-0 opacity-[0.10] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />
+            {/* Elegant Card Texture Overlay - Hidden on mobile to avoid iOS artifacts */}
+            <div className="hidden md:block absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
 
             <div className="relative z-10 flex flex-col items-center gap-3 px-6">
                 <div className="w-12 h-[0.5px] bg-gold/20" />

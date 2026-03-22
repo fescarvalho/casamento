@@ -83,21 +83,21 @@ export default function RSVP() {
     return (
         <section className="min-h-[100dvh] w-full flex flex-col items-center bg-white overflow-x-hidden relative pt-32 pb-10 text-olive">
 
-            {/* Elegant Card Texture Overlay - Matching HomeCover */}
-            <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />
+            {/* Elegant Card Texture Overlay - Hidden on mobile to avoid iOS artifacts */}
+            <div className="hidden md:block absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
 
-            {/* Elegant Watercolor Background Elements (Four Corners - Subtle) */}
-            <div className="absolute -top-14 -left-14 md:-top-20 md:-left-20 w-64 md:w-80 opacity-60 z-0 pointer-events-none">
-                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            {/* Elegant Watercolor Background Elements */}
+            <div className="absolute -top-14 -left-14 md:-top-20 md:-left-20 w-64 md:w-80 opacity-60 z-0 pointer-events-none" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-vibrant.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -top-14 -right-14 md:-top-20 md:-right-20 w-64 md:w-80 opacity-60 z-0 pointer-events-none scale-x-[-1]">
-                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -top-14 -right-14 md:-top-20 md:-right-20 w-64 md:w-80 opacity-60 z-0 pointer-events-none scale-x-[-1]" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-vibrant.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-20 -left-20 md:-bottom-28 md:-left-28 w-64 md:w-80 opacity-60 z-0 pointer-events-none scale-y-[-1]">
-                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -bottom-20 -left-20 md:-bottom-28 md:-left-28 w-64 md:w-80 opacity-60 z-0 pointer-events-none scale-y-[-1]" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-vibrant.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="absolute -bottom-20 -right-20 md:-bottom-28 md:-right-28 w-64 md:w-80 opacity-60 z-0 pointer-events-none rotate-180">
-                <img src="/folhagens-vibrant.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="absolute -bottom-20 -right-20 md:-bottom-28 md:-right-28 w-64 md:w-80 opacity-60 z-0 pointer-events-none rotate-180" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-vibrant.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
 
             <div className="relative z-10 w-full max-w-lg px-6 md:px-8">

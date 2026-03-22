@@ -8,6 +8,7 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
     const [isOpening, setIsOpening] = useState(false);
     const [isFadingOut, setIsFadingOut] = useState(false);
     const [showSeal, setShowSeal] = useState(false);
+    const [isEnvelopeRemoved, setIsEnvelopeRemoved] = useState(false);
 
     useEffect(() => {
         // Mostra o selo logo após o envelope aparecer na tela
@@ -22,6 +23,9 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
         // 0.8s -> Carta sobe levemente (1.2s duração)
         // 1.2s -> Envelope escorrega pra baixo (1.2s duração)
         
+        // Remove envelope do DOM após ele sumir da tela (1.2s delay + 1.2s duration + margem)
+        setTimeout(() => setIsEnvelopeRemoved(true), 2500);
+
         // Textos aparecem após a carta já estar subindo/isolada
         setTimeout(() => setStep(1), 1400); // Save the Date
         setTimeout(() => setStep(2), 2200); // Names
@@ -39,41 +43,35 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="fixed inset-0 z-[300] flex items-center justify-center overflow-hidden bg-black/40 perspective-[1200px]"
+            className="fixed inset-0 z-[300] flex items-center justify-center overflow-hidden"
             style={{ 
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-                // Força aceleração de hardware no iOS para evitar flickers
-                transform: "translateZ(0)"
+                // Fundo sólido ivory - sem backdrop-filter para evitar artefatos no Safari iOS
+                backgroundColor: "#F5F4F0",
+                perspective: "1200px",
             }}
         >
             {/* ENVELOPE WRAPPER */}
             <div className="relative w-[90vw] max-w-[420px] h-[75vh] max-h-[600px] flex items-center justify-center">
 
                 {/* BACK OF ENVELOPE (Darker Ivory) */}
-                <motion.div 
-                    animate={isOpening ? { y: "100vh", opacity: 0 } : { y: 0, opacity: 1 }}
-                    transition={{ delay: 1.2, duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-                    className="absolute inset-0 shadow-2xl rounded-sm bg-[#EAE8E0] overflow-hidden"
-                    style={{
-                        willChange: "transform, opacity",
-                        WebkitBackfaceVisibility: "hidden",
-                        backfaceVisibility: "hidden",
-                        transform: "translateZ(0)"
-                    }}
-                >
-                     <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
-                </motion.div>
+                {!isEnvelopeRemoved && (
+                    <motion.div 
+                        animate={isOpening ? { y: "100vh", opacity: 0 } : { y: 0, opacity: 1 }}
+                        transition={{ delay: 1.2, duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+                        className="absolute inset-0 shadow-lg rounded-sm bg-[#EAE8E0] overflow-hidden"
+                    >
+                    </motion.div>
+                )}
 
                 {/* THE CARD (Inside the envelope) */}
                 <motion.div
                     initial={{ y: 20 }}
                     animate={
                         isFadingOut
-                        ? { y: 0, scale: 1.1, opacity: 0 } // Desaparece no final (centralizado)
+                        ? { y: 0, scale: 1.1, opacity: 0 }
                         : isOpening 
-                        ? { y: 0, scale: 1.05, opacity: 1 } // Sobe e fica no CENTRO exato
-                        : { y: 20, scale: 1, opacity: 1 } // Dentro do envelope
+                        ? { y: 0, scale: 1.05, opacity: 1 }
+                        : { y: 20, scale: 1, opacity: 1 }
                     }
                     transition={
                         isFadingOut 
@@ -82,15 +80,9 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                         ? { y: { delay: 0.8, duration: 1.2, ease: "circOut" }, scale: { delay: 1.6, duration: 2.0, ease: "circOut" } }
                         : {}
                     }
-                    className="absolute w-[90%] md:w-[85%] h-[85%] md:h-[90%] bg-[#FDFCF8] rounded shadow-lg flex flex-col items-center justify-center text-center px-6 z-10 border border-black/5"
-                    style={{
-                        willChange: "transform, opacity",
-                        WebkitBackfaceVisibility: "hidden",
-                        backfaceVisibility: "hidden",
-                        transform: "translateZ(0)"
-                    }}
+                    // Otimização Safari: shadow-lg replaced with more subtle shadow and border
+                    className="absolute w-[90%] md:w-[85%] h-[85%] md:h-[90%] bg-[#FDFCF8] rounded shadow-md flex flex-col items-center justify-center text-center px-6 z-10 border border-gold/10"
                 >
-                    <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
                     
                     <div className="h-8 md:h-12 overflow-hidden mb-2 md:mb-4">
                         <motion.p
@@ -133,46 +125,40 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                 </motion.div>
 
                 {/* BOTTOM POCKET (Front of envelope) */}
-                <motion.div
-                    animate={isOpening ? { y: "100vh", opacity: 0 } : { y: 0, opacity: 1 }}
-                    transition={{ delay: 1.2, duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-                    className="absolute inset-0 z-20 pointer-events-none drop-shadow-2xl"
-                    style={{
-                        clipPath: "polygon(0 40%, 50% 65%, 100% 40%, 100% 100%, 0 100%)",
-                        backgroundColor: "#FDFCF8", // ivory
-                        willChange: "transform, opacity, filter",
-                        WebkitBackfaceVisibility: "hidden",
-                        backfaceVisibility: "hidden",
-                        transform: "translateZ(0)"
-                    }}
-                >
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none" />
-                     <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
-                </motion.div>
+                {!isEnvelopeRemoved && (
+                    <motion.div
+                        animate={isOpening ? { y: "100vh", opacity: 0 } : { y: 0, opacity: 1 }}
+                        transition={{ delay: 1.2, duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+                        className="absolute inset-0 z-20 pointer-events-none"
+                        style={{
+                            clipPath: "polygon(0 40%, 50% 65%, 100% 40%, 100% 100%, 0 100%)",
+                            backgroundColor: "#FDFCF8", // ivory
+                        }}
+                    >
+                         <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none" />
+                    </motion.div>
+                )}
 
                 {/* TOP FLAP */}
-                <motion.div
-                    initial={{ rotateX: 0 }}
-                    animate={isOpening ? { rotateX: 180, y: "100vh", opacity: 0 } : { rotateX: 0, y: 0, opacity: 1 }}
-                    transition={{
-                        rotateX: { duration: 1.0, ease: "easeInOut" },
-                        y: { delay: 1.2, duration: 1.2, ease: [0.76, 0, 0.24, 1] },
-                        opacity: { delay: 1.2, duration: 1.2 }
-                    }}
-                    style={{
-                        clipPath: "polygon(0 0, 100% 0, 50% 50%)",
-                        backgroundColor: "#FDFCF8", // ivory
-                        transformOrigin: "top",
-                        willChange: "transform, opacity, filter",
-                        WebkitBackfaceVisibility: "hidden",
-                        backfaceVisibility: "hidden",
-                        transform: "translateZ(0)"
-                    }}
-                    className="absolute inset-0 z-30 drop-shadow-xl"
-                >
-                     <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 pointer-events-none" />
-                     <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
-                </motion.div>
+                {!isEnvelopeRemoved && (
+                    <motion.div
+                        initial={{ rotateX: 0 }}
+                        animate={isOpening ? { rotateX: 180, y: "100vh", opacity: 0 } : { rotateX: 0, y: 0, opacity: 1 }}
+                        transition={{
+                            rotateX: { duration: 1.0, ease: "easeInOut" },
+                            y: { delay: 1.2, duration: 1.2, ease: [0.76, 0, 0.24, 1] },
+                            opacity: { delay: 1.2, duration: 1.2 }
+                        }}
+                        style={{
+                            clipPath: "polygon(0 0, 100% 0, 50% 50%)",
+                            backgroundColor: "#FDFCF8", // ivory
+                            transformOrigin: "top",
+                        }}
+                        className="absolute inset-0 z-30"
+                    >
+                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 pointer-events-none" />
+                    </motion.div>
+                )}
 
                 {/* WAX SEAL (The Button) */}
                 <AnimatePresence>

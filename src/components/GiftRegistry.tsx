@@ -127,18 +127,18 @@ export default function GiftRegistry() {
 
     return (
         <section className="relative min-h-screen bg-ivory font-body text-olive/80 pb-20 overflow-x-hidden">
-            {/* Elegant Watercolor Background Elements (Four Corners - Fixed) */}
-            <div className="fixed -top-14 -left-14 md:-top-20 md:-left-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            {/* Elegant Watercolor Background Elements */}
+            <div className="fixed -top-14 -left-14 md:-top-20 md:-left-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-premium.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="fixed -top-14 -right-14 md:-top-20 md:-right-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none scale-x-[-1]">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="fixed -top-14 -right-14 md:-top-20 md:-right-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none scale-x-[-1]" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-premium.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="fixed -bottom-14 -left-14 md:-bottom-20 md:-left-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none scale-y-[-1]">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="fixed -bottom-14 -left-14 md:-bottom-20 md:-left-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none scale-y-[-1]" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-premium.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
-            <div className="fixed -bottom-14 -right-14 md:-bottom-20 md:-right-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none rotate-180">
-                <img src="/folhagens-premium.png" alt="" className="w-full mix-blend-multiply brightness-[1.1] contrast-[1.1]" />
+            <div className="fixed -bottom-14 -right-14 md:-bottom-20 md:-right-20 w-48 md:w-64 opacity-50 z-0 pointer-events-none rotate-180" style={{ WebkitMaskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)', maskImage: 'radial-gradient(ellipse at top left, black 30%, transparent 70%)' }}>
+                <img src="/folhagens-premium.png" alt="" className="w-full brightness-[1.1] contrast-[1.1]" />
             </div>
 
             <main className="relative z-10 flex flex-col items-center px-4 md:px-24 pt-32">
@@ -192,7 +192,7 @@ export default function GiftRegistry() {
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     whileHover={{ y: -5 }}
-                                    className="bg-white/60 backdrop-blur-md border border-white/30 rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:shadow-xl transition-all duration-300 group"
+                                    className="bg-white border border-gold/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:shadow-xl transition-all duration-300 group"
                                 >
                                     <div>
                                         <div className="flex items-center justify-between mb-4">
@@ -228,7 +228,7 @@ export default function GiftRegistry() {
                 )}
 
                 {/* Floating Quick PIX Card */}
-                <div className="fixed bottom-12 right-4 md:right-12 z-40 bg-white/80 backdrop-blur-md rounded-2xl p-2 flex items-center shadow-2xl border border-white/50 group transition-all cursor-pointer overflow-hidden max-w-[50px] hover:max-w-[300px]"
+                <div className="fixed bottom-12 right-4 md:right-12 z-40 bg-white rounded-2xl p-2 flex items-center shadow-2xl border border-gold/10 group transition-all cursor-pointer overflow-hidden max-w-[50px] hover:max-w-[300px]"
                     onClick={() => {
                         navigator.clipboard.writeText("15175144790");
                         alert("Chave PIX copiada!");
@@ -254,7 +254,7 @@ export default function GiftRegistry() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => !submitting && setIsModalOpen(false)}
-                            className="absolute inset-0 bg-charcoal/60 backdrop-blur-sm"
+                            className="absolute inset-0 bg-charcoal/70"
                         />
 
                         <motion.div
