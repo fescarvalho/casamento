@@ -28,10 +28,14 @@ export default function Navbar() {
 
     return (
         <nav
-            className={`fixed top-0 w-full z-[200] transition-all duration-500 px-6 py-4 ${scrolled || isMenuOpen
-                ? "bg-white/80 backdrop-blur-md border-b border-gold/10"
+            className={`fixed top-0 w-full z-[150] transition-all duration-500 px-6 py-4 ${scrolled || isMenuOpen
+                ? "bg-white/80 border-b border-gold/10"
                 : "bg-transparent"
                 }`}
+            style={scrolled || isMenuOpen ? { 
+                backdropFilter: "blur(12px)", 
+                WebkitBackdropFilter: "blur(12px)" 
+            } : {}}
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between relative">
 
@@ -105,7 +109,11 @@ export default function Navbar() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.4, ease: "circOut" }}
-                            className="fixed inset-x-0 top-0 h-screen bg-ivory/98 backdrop-blur-xl z-[100] flex flex-col items-center justify-center gap-12 md:hidden"
+                            className="fixed inset-x-0 top-0 h-screen bg-ivory/98 z-[100] flex flex-col items-center justify-center gap-12 md:hidden"
+                            style={{ 
+                                backdropFilter: "blur(24px)", 
+                                WebkitBackdropFilter: "blur(24px)" 
+                            }}
                         >
                             <div className="flex flex-col items-center gap-8">
                                 {navItems.map((item, i) => (

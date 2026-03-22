@@ -37,8 +37,15 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
     return (
         <motion.div
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 1.5, ease: "easeInOut" } }}
-            className="fixed inset-0 z-[200] flex items-center justify-center overflow-hidden bg-black/40 backdrop-blur-md perspective-[1200px]"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="fixed inset-0 z-[300] flex items-center justify-center overflow-hidden bg-black/40 perspective-[1200px]"
+            style={{ 
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                // Força aceleração de hardware no iOS para evitar flickers
+                transform: "translateZ(0)"
+            }}
         >
             {/* ENVELOPE WRAPPER */}
             <div className="relative w-[90vw] max-w-[420px] h-[75vh] max-h-[600px] flex items-center justify-center">

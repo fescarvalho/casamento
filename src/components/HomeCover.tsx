@@ -136,8 +136,15 @@ export default function HomeCover() {
             </motion.div>
             <Footer />
 
-            {/* Elegant Card Texture Overlay */}
-            <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply" />
+            {/* Elegant Card Texture Overlay - Subtle & Optimized for Mobile */}
+            <div 
+                className="absolute inset-0 pointer-events-none opacity-[0.08]" 
+                style={{ 
+                    backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-fibers.png')",
+                    // Evita mix-blend-multiply em overlay full-screen no iOS, 
+                    // que costuma causar blocos cinzas
+                }} 
+            />
         </section>
     );
 }
