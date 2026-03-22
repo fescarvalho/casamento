@@ -55,6 +55,12 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                     animate={isOpening ? { y: "100vh", opacity: 0 } : { y: 0, opacity: 1 }}
                     transition={{ delay: 1.2, duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
                     className="absolute inset-0 shadow-2xl rounded-sm bg-[#EAE8E0] overflow-hidden"
+                    style={{
+                        willChange: "transform, opacity",
+                        WebkitBackfaceVisibility: "hidden",
+                        backfaceVisibility: "hidden",
+                        transform: "translateZ(0)"
+                    }}
                 >
                      <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
                 </motion.div>
@@ -77,6 +83,12 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                         : {}
                     }
                     className="absolute w-[90%] md:w-[85%] h-[85%] md:h-[90%] bg-[#FDFCF8] rounded shadow-lg flex flex-col items-center justify-center text-center px-6 z-10 border border-black/5"
+                    style={{
+                        willChange: "transform, opacity",
+                        WebkitBackfaceVisibility: "hidden",
+                        backfaceVisibility: "hidden",
+                        transform: "translateZ(0)"
+                    }}
                 >
                     <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
                     
@@ -96,7 +108,7 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                             initial={{ y: 80, opacity: 0 }}
                             animate={step >= 2 ? { y: 0, opacity: 1 } : {}}
                             transition={{ duration: 1, ease: "circOut" }}
-                            className="text-3xl md:text-5xl font-script text-midnight-olive py-2 px-2 whitespace-nowrap"
+                            className="text-4xl md:text-5xl font-script text-midnight-olive py-2 px-2 whitespace-nowrap"
                         >
                             Fernando e Vittórya
                         </motion.h1>
@@ -127,7 +139,11 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                     className="absolute inset-0 z-20 pointer-events-none drop-shadow-2xl"
                     style={{
                         clipPath: "polygon(0 40%, 50% 65%, 100% 40%, 100% 100%, 0 100%)",
-                        backgroundColor: "#FDFCF8" // ivory
+                        backgroundColor: "#FDFCF8", // ivory
+                        willChange: "transform, opacity, filter",
+                        WebkitBackfaceVisibility: "hidden",
+                        backfaceVisibility: "hidden",
+                        transform: "translateZ(0)"
                     }}
                 >
                      <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none" />
@@ -146,7 +162,11 @@ export default function WelcomeScreen({ onComplete }: { onComplete: () => void }
                     style={{
                         clipPath: "polygon(0 0, 100% 0, 50% 50%)",
                         backgroundColor: "#FDFCF8", // ivory
-                        transformOrigin: "top"
+                        transformOrigin: "top",
+                        willChange: "transform, opacity, filter",
+                        WebkitBackfaceVisibility: "hidden",
+                        backfaceVisibility: "hidden",
+                        transform: "translateZ(0)"
                     }}
                     className="absolute inset-0 z-30 drop-shadow-xl"
                 >
