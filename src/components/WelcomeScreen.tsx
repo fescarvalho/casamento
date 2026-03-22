@@ -1,114 +1,184 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export default function WelcomeScreen({ onComplete }: { onComplete: () => void }) {
     const [step, setStep] = useState(0);
     const [isOpening, setIsOpening] = useState(false);
+    const [isFadingOut, setIsFadingOut] = useState(false);
+    const [showSeal, setShowSeal] = useState(false);
 
     useEffect(() => {
-        const timer1 = setTimeout(() => setStep(1), 500); // Save the Date
-        const timer2 = setTimeout(() => setStep(2), 1800); // Fernando & Vittórya
-        const timer3 = setTimeout(() => setStep(3), 3200); // 22.05.2026
-        const timer4 = setTimeout(() => setStep(4), 4500); // Show Button
-
-        return () => {
-            clearTimeout(timer1);
-            clearTimeout(timer2);
-            clearTimeout(timer3);
-            clearTimeout(timer4);
-        };
+        // Mostra o selo logo após o envelope aparecer na tela
+        const timer = setTimeout(() => setShowSeal(true), 800);
+        return () => clearTimeout(timer);
     }, []);
 
     const handleOpen = () => {
         setIsOpening(true);
-        // Wait for the slide-up animation to complete before removing the component
-        setTimeout(() => onComplete(), 1500);
+        // Orquestração de tempo:
+        // 0.0s -> Flap abre (1.0s)
+        // 0.8s -> Carta sobe levemente (1.2s duração)
+        // 1.2s -> Envelope escorrega pra baixo (1.2s duração)
+        
+        // Textos aparecem após a carta já estar subindo/isolada
+        setTimeout(() => setStep(1), 1400); // Save the Date
+        setTimeout(() => setStep(2), 2200); // Names
+        setTimeout(() => setStep(3), 3200); // Date & Line
+
+        // Dá tempo de leitura confortável, depois o cartão cresce e dá fade out
+        setTimeout(() => setIsFadingOut(true), 6500);
+        
+        // Finaliza a tela e libera o acesso ao site
+        setTimeout(() => onComplete(), 7500);
     };
 
     return (
         <motion.div
-            initial={{ y: 0 }}
-            animate={isOpening ? { y: "-100vh" } : { y: 0 }}
-            transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }} // Elegant easing for an "envelope pull"
-            className="fixed inset-0 z-[200] bg-ivory flex flex-col items-center justify-center overflow-hidden"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 1.5, ease: "easeInOut" } }}
+            className="fixed inset-0 z-[200] flex items-center justify-center overflow-hidden bg-black/40 backdrop-blur-md perspective-[1200px]"
         >
-            <motion.div 
-                animate={isOpening ? { opacity: 0, scale: 0.95 } : { opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
-                className="relative flex flex-col items-center justify-center text-center px-6 w-full h-full"
-            >
-                {/* Save the Date */}
-                <div className="h-8 md:h-12 overflow-hidden mb-2 md:mb-4">
-                    <motion.p
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={step >= 1 ? { y: 0, opacity: 1 } : {}}
-                        transition={{ duration: 0.8, ease: "circOut" }}
-                        className="text-[10px] md:text-[12px] font-label tracking-[0.5em] text-gold uppercase"
-                    >
-                        Save the Date
-                    </motion.p>
-                </div>
+            {/* ENVELOPE WRAPPER */}
+            <div className="relative w-[90vw] max-w-[420px] h-[75vh] max-h-[600px] flex items-center justify-center">
 
-                {/* Names */}
-                <div className="h-16 md:h-24 overflow-hidden mb-4 md:mb-6">
-                    <motion.h1
-                        initial={{ y: 80, opacity: 0 }}
-                        animate={step >= 2 ? { y: 0, opacity: 1 } : {}}
-                        transition={{ duration: 1, ease: "circOut" }}
-                        className="text-3xl md:text-5xl font-headline text-midnight-olive font-bold tracking-tight"
-                    >
-                        Fernando & Vittórya
-                    </motion.h1>
-                </div>
-
-                {/* Date */}
-                <div className="flex flex-col items-center">
-                    <motion.div
-                        initial={{ scaleX: 0 }}
-                        animate={step >= 3 ? { scaleX: 1 } : {}}
-                        transition={{ duration: 1, ease: "easeInOut" }}
-                        className="h-[1px] w-12 md:w-20 bg-gold/30 mb-4"
-                    />
-                    <motion.p
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={step >= 3 ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 1.2, ease: "circOut" }}
-                        className="text-xs md:text-sm font-label tracking-[0.3em] text-gold/80"
-                    >
-                        22 • 05 • 2026
-                    </motion.p>
-                </div>
-
-                {/* Open Invitation Button */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={step >= 4 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="mt-12 md:mt-16 h-16 flex items-center"
+                {/* BACK OF ENVELOPE (Darker Ivory) */}
+                <motion.div 
+                    animate={isOpening ? { y: "100vh", opacity: 0 } : { y: 0, opacity: 1 }}
+                    transition={{ delay: 1.2, duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+                    className="absolute inset-0 shadow-2xl rounded-sm bg-[#EAE8E0] overflow-hidden"
                 >
-                    {step >= 4 && (
-                        <button 
-                            onClick={handleOpen}
-                            className="text-xs md:text-[13px] uppercase tracking-[0.3em] bg-transparent text-midnight-olive border border-midnight-olive/20 hover:border-gold hover:text-gold px-8 py-3 rounded-full transition-all duration-500 hover:scale-105 active:scale-95 flex items-center justify-center gap-3 backdrop-blur-sm"
-                        >
-                            Abrir Convite
-                        </button>
-                    )}
+                     <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
                 </motion.div>
 
-                {/* Premium Texture Overlay */}
-                <div className="absolute inset-0 -z-10 pointer-events-none opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
-            </motion.div>
+                {/* THE CARD (Inside the envelope) */}
+                <motion.div
+                    initial={{ y: 20 }}
+                    animate={
+                        isFadingOut
+                        ? { y: 0, scale: 1.1, opacity: 0 } // Desaparece no final (centralizado)
+                        : isOpening 
+                        ? { y: 0, scale: 1.05, opacity: 1 } // Sobe e fica no CENTRO exato
+                        : { y: 20, scale: 1, opacity: 1 } // Dentro do envelope
+                    }
+                    transition={
+                        isFadingOut 
+                        ? { duration: 1.0, ease: "easeInOut" } 
+                        : isOpening 
+                        ? { y: { delay: 0.8, duration: 1.2, ease: "circOut" }, scale: { delay: 1.6, duration: 2.0, ease: "circOut" } }
+                        : {}
+                    }
+                    className="absolute w-[90%] md:w-[85%] h-[85%] md:h-[90%] bg-[#FDFCF8] rounded shadow-lg flex flex-col items-center justify-center text-center px-6 z-10 border border-black/5"
+                >
+                    <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
+                    
+                    <div className="h-8 md:h-12 overflow-hidden mb-2 md:mb-4">
+                        <motion.p
+                            initial={{ y: 50, opacity: 0 }}
+                            animate={step >= 1 ? { y: 0, opacity: 1 } : {}}
+                            transition={{ duration: 0.8, ease: "circOut" }}
+                            className="text-[10px] md:text-[12px] font-label tracking-[0.5em] text-[#C5A059] uppercase"
+                        >
+                            Save the Date
+                        </motion.p>
+                    </div>
 
-            {/* Subtle Progress Bar */}
-            <motion.div
-                initial={{ scaleX: 0 }}
-                animate={step >= 4 && !isOpening ? { scaleX: 1 } : { scaleX: 0 }}
-                transition={{ duration: 4.5, ease: "linear" }}
-                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold/40 origin-left"
-            />
+                    <div className="min-h-20 md:min-h-24 mb-4 md:mb-6 flex items-center justify-center py-2">
+                        <motion.h1
+                            initial={{ y: 80, opacity: 0 }}
+                            animate={step >= 2 ? { y: 0, opacity: 1 } : {}}
+                            transition={{ duration: 1, ease: "circOut" }}
+                            className="text-4xl md:text-5xl font-headline text-[#36454F] font-bold tracking-tight px-2 leading-tight"
+                        >
+                            Fernando & Vittórya
+                        </motion.h1>
+                    </div>
+
+                    <div className="flex flex-col items-center">
+                        <motion.div
+                            initial={{ scaleX: 0 }}
+                            animate={step >= 3 ? { scaleX: 1 } : {}}
+                            transition={{ duration: 1, ease: "easeInOut" }}
+                            className="h-[1px] w-12 md:w-20 bg-[#C5A059]/40 mb-4"
+                        />
+                        <motion.p
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={step >= 3 ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 1.2, ease: "circOut" }}
+                            className="text-xs md:text-sm font-label tracking-[0.3em] text-[#C5A059]/90"
+                        >
+                            22 • 05 • 2026
+                        </motion.p>
+                    </div>
+                </motion.div>
+
+                {/* BOTTOM POCKET (Front of envelope) */}
+                <motion.div
+                    animate={isOpening ? { y: "100vh", opacity: 0 } : { y: 0, opacity: 1 }}
+                    transition={{ delay: 1.2, duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+                    className="absolute inset-0 z-20 pointer-events-none drop-shadow-2xl"
+                    style={{
+                        clipPath: "polygon(0 40%, 50% 65%, 100% 40%, 100% 100%, 0 100%)",
+                        backgroundColor: "#FDFCF8" // ivory
+                    }}
+                >
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none" />
+                     <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
+                </motion.div>
+
+                {/* TOP FLAP */}
+                <motion.div
+                    initial={{ rotateX: 0 }}
+                    animate={isOpening ? { rotateX: 180, y: "100vh", opacity: 0 } : { rotateX: 0, y: 0, opacity: 1 }}
+                    transition={{
+                        rotateX: { duration: 1.0, ease: "easeInOut" },
+                        y: { delay: 1.2, duration: 1.2, ease: [0.76, 0, 0.24, 1] },
+                        opacity: { delay: 1.2, duration: 1.2 }
+                    }}
+                    style={{
+                        clipPath: "polygon(0 0, 100% 0, 50% 50%)",
+                        backgroundColor: "#FDFCF8", // ivory
+                        transformOrigin: "top"
+                    }}
+                    className="absolute inset-0 z-30 drop-shadow-xl"
+                >
+                     <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 pointer-events-none" />
+                     <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
+                </motion.div>
+
+                {/* WAX SEAL (The Button) */}
+                <AnimatePresence>
+                    {!isOpening && showSeal && (
+                        <motion.button
+                            onClick={handleOpen}
+                            initial={{ opacity: 0, scale: 0.5, y: -20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 1.5 }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ duration: 0.6, type: "spring" }}
+                            className="absolute z-40 flex items-center justify-center top-[50%] translate-y-[-50%] group"
+                        >
+                            <div className="relative flex items-center justify-center w-20 md:w-24 h-20 md:h-24 rounded-full bg-gradient-to-br from-[#C5A059] to-[#9E7C41] shadow-2xl border-2 border-yellow-100/30 overflow-hidden cursor-pointer hover:shadow-gold/50 hover:shadow-lg transition-shadow duration-300">
+                                <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/worn-dots.png')]" />
+                                <div className="absolute inset-1 rounded-full border border-black/10" />
+                                
+                                <span className="relative z-10 text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-[#FDFCF8] group-hover:text-white drop-shadow-md text-center leading-tight">
+                                    Abrir<br/>Convite
+                                </span>
+                            </div>
+                            
+                            <motion.div 
+                                animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0, 0] }}
+                                transition={{ repeat: Infinity, duration: 2 }}
+                                className="absolute inset-0 rounded-full bg-[#C5A059]"
+                            />
+                        </motion.button>
+                    )}
+                </AnimatePresence>
+
+            </div>
         </motion.div>
     );
 }
