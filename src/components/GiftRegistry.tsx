@@ -190,42 +190,33 @@ export default function GiftRegistry() {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 w-full max-w-6xl">
                         {filteredGifts.map((gift) => (
 
-                                <motion.div
-                                    key={gift.id}
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    whileHover={{ y: -5 }}
-                                    className="bg-white border border-gold/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:shadow-xl transition-all duration-300 group"
-                                >
-                                    <div>
-                                        <div className="flex items-center justify-between mb-4">
-                                            <span className="text-[10px] font-bold uppercase tracking-widest text-sage border border-sage/20 bg-sage-50/50 px-3 py-1 rounded-full">{gift.category}</span>
-                                        </div>
-
-                                        <h3 className="font-headline text-charcoal mb-3 text-xl">{gift.name}</h3>
-                                        <p className="text-xs text-charcoal/60 mb-6 leading-relaxed">Um toque de carinho para o nosso lar.</p>
+                            <motion.div
+                                key={gift.id}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                whileHover={{ y: -5 }}
+                                className="bg-white border border-gold/10 rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:shadow-xl transition-all duration-300 group"
+                            >
+                                <div>
+                                    <div className="flex items-center justify-between mb-4">
+                                        <span className="text-[10px] font-bold uppercase tracking-widest text-sage border border-sage/20 bg-sage-50/50 px-3 py-1 rounded-full">{gift.category}</span>
                                     </div>
 
-                                    <div className="space-y-4">
-                                        <div className="h-[1px] w-full bg-gold/10"></div>
-                                        <div className="grid grid-cols-1 gap-3">
-                                            {gift.productUrl && (
-                                                <button
-                                                    onClick={() => window.open(gift.productUrl, "_blank")}
-                                                    className="flex-1 border border-gold/30 text-charcoal py-3 rounded-xl text-[10px] font-bold uppercase hover:bg-white transition-colors"
-                                                >
-                                                    Ver na Loja
-                                                </button>
-                                            )}
-                                            <button
-                                                onClick={() => handleGiftClick(gift)}
-                                                className="flex-1 bg-olive text-white py-3 rounded-xl text-[10px] font-bold uppercase hover:bg-olive/80 transition-colors shadow-lg flex items-center justify-center gap-2"
-                                            >
-                                                Presentear via PIX
-                                            </button>
-                                        </div>
-                                    </div>
-                                </motion.div>
+                                    <h3 className="font-headline text-charcoal mb-3 text-xl">{gift.name}</h3>
+                                    <p className="text-xs text-charcoal/60 mb-6 leading-relaxed">Um toque de carinho para o nosso lar.</p>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="h-[1px] w-full bg-gold/10"></div>
+                                    <button
+                                        onClick={() => handleGiftClick(gift)}
+                                        className="w-full bg-olive text-white py-3 rounded-xl text-[10px] font-bold uppercase hover:bg-olive/80 transition-all shadow-lg flex items-center justify-center gap-2 group-hover:scale-[1.02]"
+                                    >
+                                        <Heart size={14} />
+                                        Escolher Presente
+                                    </button>
+                                </div>
+                            </motion.div>
                         ))}
                     </div>
                 )}
@@ -287,41 +278,71 @@ export default function GiftRegistry() {
                                         <span className="text-gold text-[10px] uppercase tracking-widest font-bold mb-2 block">Presenteando</span>
                                         <h2 className="font-headline text-3xl mb-8 leading-tight">{selectedGift.name}</h2>
 
-                                        <div className="bg-white/60 rounded-2xl p-6 border border-gold/10 mb-8 flex flex-col gap-4">
-                                            <div className="flex items-center justify-between border-b border-gold/10 pb-4">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="p-3 bg-sage/10 rounded-xl">
-                                                        <QrCode className="text-sage" />
+                                        <div className="space-y-4 mb-8">
+                                            {selectedGift.productUrl && (
+                                                <div className="bg-white/60 rounded-2xl p-6 border border-gold/10 flex flex-col gap-4">
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="flex items-center gap-4">
+                                                            <div className="p-3 bg-sage/10 rounded-xl text-sage">
+                                                                <ShoppingCart size={20} />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-[10px] text-charcoal/50 uppercase tracking-widest mb-1 font-bold">Opção 1: Comprar Online</p>
+                                                                <p className="font-bold text-charcoal text-xs">Ver produto na loja parceira</p>
+                                                            </div>
+                                                        </div>
+                                                        <button
+                                                            onClick={() => window.open(selectedGift.productUrl, "_blank")}
+                                                            className="bg-sage text-white px-4 py-2 rounded-lg text-[10px] font-bold uppercase hover:bg-sage/80 transition-colors"
+                                                        >
+                                                            Ir para Loja
+                                                        </button>
                                                     </div>
-                                                    <div>
-                                                        <p className="text-[10px] text-charcoal/50 uppercase tracking-widest mb-1 font-bold">Chave PIX (CPF)</p>
-                                                        <p className="font-bold text-charcoal">151.751.447-90</p>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    onClick={() => navigator.clipboard.writeText("15175144790")}
-                                                    className="text-[10px] uppercase tracking-tighter font-bold text-gold hover:text-charcoal transition-colors border-b border-gold/30"
-                                                >
-                                                    Copiar
-                                                </button>
-                                            </div>
-
-                                            {selectedGift.price && (
-                                                <div className="flex items-center justify-between pt-2">
-                                                    <div>
-                                                        <p className="text-[10px] text-charcoal/50 uppercase tracking-widest mb-1 font-bold">Valor Sugerido</p>
-                                                        <p className="text-xl font-headline text-sage">
-                                                            R$ {selectedGift.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                                                        </p>
-                                                    </div>
-                                                    <button
-                                                        onClick={() => navigator.clipboard.writeText(selectedGift.price?.toString() || "")}
-                                                        className="text-[10px] uppercase tracking-tighter font-bold text-gold hover:text-charcoal transition-colors border-b border-gold/30"
-                                                    >
-                                                        Copiar Valor
-                                                    </button>
                                                 </div>
                                             )}
+
+                                            <div className="bg-white/60 rounded-2xl p-6 border border-gold/10 flex flex-col gap-4">
+                                                <div className="flex items-center justify-between border-b border-gold/10 pb-4">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="p-3 bg-sage/10 rounded-xl">
+                                                            <QrCode className="text-sage" />
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-[10px] text-charcoal/50 uppercase tracking-widest mb-1 font-bold">Opção {selectedGift.productUrl ? "2" : "1"}: Enviar via PIX</p>
+                                                            <p className="font-bold text-charcoal text-xs">151.751.447-90 (CPF)</p>
+                                                        </div>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => {
+                                                            navigator.clipboard.writeText("15175144790");
+                                                            alert("Chave PIX copiada!");
+                                                        }}
+                                                        className="text-[10px] uppercase tracking-tighter font-bold text-gold hover:text-charcoal transition-colors border-b border-gold/30"
+                                                    >
+                                                        Copiar Chave
+                                                    </button>
+                                                </div>
+
+                                                {selectedGift.price && (
+                                                    <div className="flex items-center justify-between pt-2">
+                                                        <div>
+                                                            <p className="text-[10px] text-charcoal/50 uppercase tracking-widest mb-1 font-bold">Valor Sugerido</p>
+                                                            <p className="text-xl font-headline text-sage">
+                                                                R$ {selectedGift.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                                            </p>
+                                                        </div>
+                                                        <button
+                                                            onClick={() => {
+                                                                navigator.clipboard.writeText(selectedGift.price?.toString() || "");
+                                                                alert("Valor copiado!");
+                                                            }}
+                                                            className="text-[10px] uppercase tracking-tighter font-bold text-gold hover:text-charcoal transition-colors border-b border-gold/30"
+                                                        >
+                                                            Copiar Valor
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
 
                                         <form onSubmit={handleSubmitGift} className="space-y-6">
@@ -349,12 +370,12 @@ export default function GiftRegistry() {
                                             <button
                                                 type="submit"
                                                 disabled={submitting}
-                                                className="w-full py-4 bg-sage text-white rounded-2xl font-label tracking-widest uppercase hover:bg-sage/80 transition-all shadow-xl shadow-sage/10 flex items-center justify-center gap-2 disabled:opacity-50"
+                                                className="w-full py-4 bg-olive text-white rounded-2xl font-label tracking-widest uppercase hover:bg-olive/80 transition-all shadow-xl shadow-sage/10 flex items-center justify-center gap-2 disabled:opacity-50"
                                             >
                                                 {submitting ? "Processando..." : (
                                                     <>
-                                                        <Send size={18} />
-                                                        Enviar Presente
+                                                        <CheckCircle2 size={18} />
+                                                        Confirmar Escolha
                                                     </>
                                                 )}
                                             </button>

@@ -26,13 +26,16 @@ interface RSVP {
     dataConfirmacao: string;
 }
 
-interface GiftGiven {
+interface Gift {
     id: number;
     name: string;
-    giverName: string;
-    giverMessage: string;
+    category: string;
     price?: number;
-    givenAt: string;
+    productUrl?: string;
+    isGiven: boolean;
+    giverName?: string;
+    giverMessage?: string;
+    givenAt?: string;
 }
 
 interface Guest {
@@ -59,7 +62,7 @@ export default function AdminDashboard() {
     const [error, setError] = useState("");
 
     const [rsvps, setRsvps] = useState<RSVP[]>([]);
-    const [gifts, setGifts] = useState<GiftGiven[]>([]);
+    const [gifts, setGifts] = useState<Gift[]>([]);
     const [invitedGuests, setInvitedGuests] = useState<Guest[]>([]);
 
     const [activeTab, setActiveTab] = useState<"summary" | "guests" | "gifts" | "pending">("summary");
@@ -141,6 +144,24 @@ export default function AdminDashboard() {
             }
         } catch (err) {
             console.error("Error toggling guest:", err);
+        }
+    };
+
+    const handleToggleGift = async (id: number, isGiven: boolean) => {
+        try {
+            const pass = localStorage.getItem("admin_password");
+            const res = await fetch(`/api/admin/gifts/${id}?password=${pass}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ isGiven })
+            });
+
+            if (res.ok) {
+                const { gift: updatedGift } = await res.json();
+                setGifts(prev => prev.map(g => g.id === id ? updatedGift : g));
+            }
+        } catch (err) {
+            console.error("Error toggling gift:", err);
         }
     };
 
@@ -316,8 +337,8 @@ export default function AdminDashboard() {
                 <div className="flex gap-4 overflow-x-auto pb-6 no-scrollbar mb-8">
                     <TabButton active={activeTab === "summary"} onClick={() => setActiveTab("summary")} label="Resumo" />
                     <TabButton active={activeTab === "guests"} onClick={() => setActiveTab("guests")} label="Confirmados" />
-                    <TabButton active={activeTab === "gifts"} onClick={() => setActiveTab("gifts")} label="Presentes Rec." />
                     <TabButton active={activeTab === "pending"} onClick={() => setActiveTab("pending")} label="Convidados" />
+                    <TabButton active={activeTab === "gifts"} onClick={() => setActiveTab("gifts")} label="Gerenciar Presentes" />
                 </div>
 
                 <div className="bg-white/60 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-xl min-h-[500px]">
@@ -325,7 +346,7 @@ export default function AdminDashboard() {
                         <h2 className="font-headline text-2xl text-sage">
                             {activeTab === "summary" && "Visão Geral"}
                             {activeTab === "guests" && "Lista de Presença"}
-                            {activeTab === "gifts" && "Presentes Recebidos"}
+                            {activeTab === "gifts" && "Catálogo de Presentes"}
                             {activeTab === "pending" && "Master Guest List"}
                         </h2>
 
@@ -346,7 +367,7 @@ export default function AdminDashboard() {
                     <div className="overflow-x-auto">
                         {activeTab === "summary" && <SummaryView rsvps={rsvps} gifts={gifts} />}
                         {activeTab === "guests" && <GuestTable rsvps={filteredRSVPs} onDelete={handleDeleteRSVP} />}
-                        {activeTab === "gifts" && <GiftTable gifts={filteredGifts} />}
+                        {activeTab === "gifts" && <GiftManagementTable gifts={filteredGifts} onToggle={handleToggleGift} />}
                         {activeTab === "pending" && (
                             <MasterGuestList
                                 guests={filteredInvitedGuests}
@@ -398,7 +419,7 @@ function TabButton({ active, onClick, label }: any) {
     );
 }
 
-function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: GiftGiven[] }) {
+function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: Gift[] }) {
     const getTimeAgo = (date: string) => {
         const now = new Date();
         const past = new Date(date);
@@ -553,30 +574,57 @@ function GuestTable({ rsvps, onDelete }: { rsvps: RSVP[], onDelete: (id: number)
     );
 }
 
-function GiftTable({ gifts }: { gifts: GiftGiven[] }) {
+function GiftManagementTable({ gifts, onToggle }: { gifts: Gift[], onToggle: (id: number, isGiven: boolean) => void }) {
     return (
         <table className="w-full text-left border-collapse">
             <thead>
                 <tr className="border-b border-gold/10 text-[10px] uppercase font-bold text-charcoal/40">
                     <th className="pb-4 pl-2">Presente</th>
-                    <th className="pb-4">De</th>
-                    <th className="pb-4">Mensagem</th>
+                    <th className="pb-4">Categoria</th>
+                    <th className="pb-4">Status</th>
+                    <th className="pb-4">De / Mensagem</th>
                     <th className="pb-4">Valor</th>
+                    <th className="pb-4">Ação</th>
                 </tr>
             </thead>
             <tbody className="text-sm">
                 {gifts.map(g => (
                     <tr key={g.id} className="border-b border-gold/5 hover:bg-white/40 transition-colors">
-                        <td className="py-4 pl-2 font-medium">{g.name}</td>
-                        <td className="py-4">{g.giverName}</td>
+                        <td className="py-4 pl-2">
+                            <p className="font-medium text-charcoal">{g.name}</p>
+                            {g.productUrl && (
+                                <a href={g.productUrl} target="_blank" className="text-[9px] text-sage hover:underline">Ver na Loja</a>
+                            )}
+                        </td>
+                        <td className="py-4 text-xs text-charcoal/60">{g.category}</td>
+                        <td className="py-4">
+                            {g.isGiven ? (
+                                <span className="bg-sage/10 text-sage text-[10px] font-bold px-2 py-1 rounded-full">DADO</span>
+                            ) : (
+                                <span className="bg-gold/10 text-gold text-[10px] font-bold px-2 py-1 rounded-full">DISPONÍVEL</span>
+                            )}
+                        </td>
                         <td className="py-4 text-xs text-charcoal/60 max-w-xs">
-                            <div className="flex items-start gap-2">
-                                <MessageSquare size={12} className="mt-1 shrink-0 opacity-40" />
-                                <span>{g.giverMessage || "-"}</span>
-                            </div>
+                            {g.isGiven ? (
+                                <div>
+                                    <p className="font-bold text-charcoal">{g.giverName}</p>
+                                    <p className="italic text-[10px] truncate">{g.giverMessage}</p>
+                                </div>
+                            ) : "-"}
                         </td>
                         <td className="py-4 font-mono text-xs text-gold">
                             {g.price ? `R$ ${g.price}` : "-"}
+                        </td>
+                        <td className="py-4">
+                            <button
+                                onClick={() => onToggle(g.id, !g.isGiven)}
+                                className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase transition-all ${g.isGiven
+                                    ? "bg-gold/10 text-gold hover:bg-gold hover:text-white"
+                                    : "bg-sage/10 text-sage hover:bg-sage hover:text-white"
+                                    }`}
+                            >
+                                {g.isGiven ? "Marcar Disponível" : "Marcar como Dado"}
+                            </button>
                         </td>
                     </tr>
                 ))}
@@ -584,6 +632,7 @@ function GiftTable({ gifts }: { gifts: GiftGiven[] }) {
         </table>
     );
 }
+
 
 function MasterGuestList({
     guests,

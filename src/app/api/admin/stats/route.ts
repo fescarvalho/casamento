@@ -15,14 +15,14 @@ export async function GET(request: Request) {
                 orderBy: { dataConfirmacao: 'desc' }
             }),
             prisma.gift.findMany({
-                where: { isGiven: true },
-                orderBy: { givenAt: 'desc' }
+                orderBy: { name: 'asc' }
             }),
             prisma.guest.findMany()
         ]);
 
+        const givenGifts = gifts.filter((g: any) => g.isGiven);
         const totalConfirmed = rsvps.reduce((acc: number, curr: any) => acc + 1 + curr.numeroAcompanhantes, 0);
-        const giftsTotal = gifts.reduce((acc: number, curr: any) => acc + (curr.price || 0), 0);
+        const giftsTotal = givenGifts.reduce((acc: number, curr: any) => acc + (curr.price || 0), 0);
 
         // Map of confirmed names to avoid double counting
         const confirmedNames = new Set(rsvps.map(r => r.nomeCompleto.toLowerCase()));
@@ -38,7 +38,7 @@ export async function GET(request: Request) {
                 totalRSVPs: rsvps.length,
                 totalConfirmed,
                 pendingCount: Math.max(0, pendingCount),
-                giftsCount: gifts.length,
+                giftsCount: givenGifts.length,
                 giftsTotalValue: giftsTotal,
             },
             rsvps,
