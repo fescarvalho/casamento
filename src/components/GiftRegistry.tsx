@@ -224,7 +224,7 @@ export default function GiftRegistry() {
                 {/* Floating Quick PIX Card */}
                 <div className="fixed bottom-12 right-4 md:right-12 z-40 bg-white rounded-2xl p-2 flex items-center shadow-2xl border border-gold/10 group transition-all cursor-pointer overflow-hidden max-w-[50px] hover:max-w-[300px]"
                     onClick={() => {
-                        navigator.clipboard.writeText("15175144790");
+                        navigator.clipboard.writeText("22999983316");
                         alert("Chave PIX copiada!");
                     }}
                 >
@@ -232,8 +232,8 @@ export default function GiftRegistry() {
                         <QrCode size={20} />
                     </div>
                     <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pr-4">
-                        <p className="text-[9px] font-bold uppercase tracking-widest text-sage">Chave PIX Rápida (CPF)</p>
-                        <p className="text-xs font-mono text-charcoal">151.751.447-90</p>
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-sage">Chave PIX Rápida (Celular)</p>
+                        <p className="text-xs font-mono text-charcoal">(22) 99998-3316</p>
                     </div>
                 </div>
                 <WhatsAppButton />
@@ -309,12 +309,12 @@ export default function GiftRegistry() {
                                                         </div>
                                                         <div>
                                                             <p className="text-[10px] text-charcoal/50 uppercase tracking-widest mb-1 font-bold">Opção {selectedGift.productUrl ? "2" : "1"}: Enviar via PIX</p>
-                                                            <p className="font-bold text-charcoal text-xs">151.751.447-90 (CPF)</p>
+                                                            <p className="font-bold text-charcoal text-xs">(22) 99998-3316 (Celular)</p>
                                                         </div>
                                                     </div>
                                                     <button
                                                         onClick={() => {
-                                                            navigator.clipboard.writeText("15175144790");
+                                                            navigator.clipboard.writeText("22999983316");
                                                             alert("Chave PIX copiada!");
                                                         }}
                                                         className="w-full sm:w-auto bg-gold/10 text-gold hover:bg-gold hover:text-white px-6 py-3 sm:py-2.5 rounded-xl sm:rounded-lg text-[10px] uppercase tracking-widest font-bold transition-all text-center shrink-0 border border-gold/20 hover:border-transparent"
