@@ -194,7 +194,7 @@ export default function AdminDashboard() {
     const filteredRSVPs = useMemo(() => {
         return rsvps
             .filter(r => r?.nomeCompleto?.toLowerCase().includes(searchTerm.toLowerCase()))
-            .sort((a, b) => (a?.nomeCompleto || "").localeCompare(b?.nomeCompleto || ""));
+            .sort((a, b) => new Date(b.dataConfirmacao).getTime() - new Date(a.dataConfirmacao).getTime());
     }, [rsvps, searchTerm]);
 
     const filteredGifts = useMemo(() => {
@@ -427,16 +427,16 @@ function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: GiftGiven[] }) {
                     <UserPlus size={14} />
                     Últimas Confirmações
                 </h3>
-                <div className="space-y-4">
-                    {rsvps.slice(0, 8).map((r, index) => (
+                <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 no-scrollbar">
+                    {rsvps.map((r, index) => (
                         <motion.div
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
                             key={r.id}
                             className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${isRecent(r.dataConfirmacao)
-                                    ? "bg-white border-gold/30 shadow-sm"
-                                    : "bg-sage/5 border-sage/10"
+                                ? "bg-white border-gold/30 shadow-sm"
+                                : "bg-sage/5 border-sage/10"
                                 }`}
                         >
                             <div className="flex-1">
@@ -474,8 +474,8 @@ function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: GiftGiven[] }) {
                             transition={{ delay: index * 0.1 }}
                             key={g.id}
                             className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${isRecent(g.givenAt!)
-                                    ? "bg-white border-gold/30 shadow-sm"
-                                    : "bg-gold/5 border-gold/10"
+                                ? "bg-white border-gold/30 shadow-sm"
+                                : "bg-gold/5 border-gold/10"
                                 }`}
                         >
                             <div className="flex-1">
@@ -513,6 +513,7 @@ function GuestTable({ rsvps, onDelete }: { rsvps: RSVP[], onDelete: (id: number)
                     <th className="pb-4">Nomes Acompanhantes</th>
                     <th className="pb-4">Telefone</th>
                     <th className="pb-4">Data</th>
+                    <th className="pb-4">Hora</th>
                     <th className="pb-4">Ações</th>
                 </tr>
             </thead>
@@ -525,6 +526,7 @@ function GuestTable({ rsvps, onDelete }: { rsvps: RSVP[], onDelete: (id: number)
                         <td className="py-4 text-xs text-charcoal/60 italic max-w-xs">{r.nomesAcompanhantes || "-"}</td>
                         <td className="py-4 font-mono text-xs">{r.telefone}</td>
                         <td className="py-4 text-xs text-charcoal/60">{new Date(r.dataConfirmacao).toLocaleDateString()}</td>
+                        <td className="py-4 text-xs text-charcoal/60 font-mono">{new Date(r.dataConfirmacao).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                         <td className="py-4">
                             <div className="flex items-center gap-2">
                                 <a
