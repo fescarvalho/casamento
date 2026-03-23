@@ -147,6 +147,9 @@ export default function GiftRegistry() {
                     <p className="text-olive/70 leading-relaxed font-light text-sm md:text-base">
                         Sua presença é o que mais importa, mas se quiser nos presentear, aqui estão algumas sugestões para o nosso novo lar.
                     </p>
+                    <p className="text-olive/60 leading-relaxed font-light text-xs md:text-sm mt-4 bg-white/50 border border-gold/10 rounded-2xl px-6 py-4 text-center">
+                        🏠 Também teremos lista de presentes na <strong className="text-olive font-medium">Ricardo Móveis</strong> (Natividade) e na <strong className="text-olive font-medium">Super Útil</strong> (Porciúncula).
+                    </p>
                 </header>
 
                 {/* Search & Filter */}
