@@ -58,7 +58,6 @@ export default function AdminDashboard() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const [stats, setStats] = useState<Stats | null>(null);
     const [rsvps, setRsvps] = useState<RSVP[]>([]);
     const [gifts, setGifts] = useState<GiftGiven[]>([]);
     const [invitedGuests, setInvitedGuests] = useState<Guest[]>([]);
@@ -84,7 +83,6 @@ export default function AdminDashboard() {
             const res = await fetch(`/api/admin/stats?password=${pass}`);
             if (res.ok) {
                 const data = await res.json();
-                setStats(data.stats);
                 setRsvps(data.rsvps);
                 setGifts(data.gifts);
                 setInvitedGuests(data.invitedGuests);
@@ -123,17 +121,6 @@ export default function AdminDashboard() {
 
             if (res.ok) {
                 setRsvps(prev => prev.filter(r => r.id !== id));
-                // Update stats locally
-                if (stats) {
-                    const removed = rsvps.find(r => r.id === id);
-                    if (removed) {
-                        setStats({
-                            ...stats,
-                            totalRSVPs: stats.totalRSVPs - 1,
-                            totalConfirmed: stats.totalConfirmed - (1 + removed.numeroAcompanhantes)
-                        });
-                    }
-                }
             } else {
                 alert("Erro ao remover confirmação");
             }
@@ -219,6 +206,26 @@ export default function AdminDashboard() {
             .filter(g => g?.name?.toLowerCase().includes(searchTerm.toLowerCase()))
             .sort((a, b) => (a?.name || "").localeCompare(b?.name || ""));
     }, [invitedGuests, searchTerm]);
+
+    const stats = useMemo<Stats>(() => {
+        const totalRSVPs = rsvps.length;
+        const totalConfirmed = rsvps.reduce((acc, curr) => acc + 1 + (curr.numeroAcompanhantes || 0), 0);
+        const giftsCount = gifts.length;
+        const giftsTotalValue = gifts.reduce((acc, curr) => acc + (curr.price || 0), 0);
+
+        const confirmedNames = new Set(rsvps.map(r => r.nomeCompleto.toLowerCase()));
+        const pendingCount = invitedGuests.filter(g =>
+            !g.isChecked && !confirmedNames.has(g.name.toLowerCase())
+        ).length;
+
+        return {
+            totalRSVPs,
+            totalConfirmed,
+            pendingCount: Math.max(0, pendingCount),
+            giftsCount,
+            giftsTotalValue
+        };
+    }, [rsvps, gifts, invitedGuests]);
 
     if (!isAuthorized) {
         return (
@@ -392,6 +399,27 @@ function TabButton({ active, onClick, label }: any) {
 }
 
 function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: GiftGiven[] }) {
+    const getTimeAgo = (date: string) => {
+        const now = new Date();
+        const past = new Date(date);
+        const diffInMs = now.getTime() - past.getTime();
+        const diffInMins = Math.floor(diffInMs / (1000 * 60));
+        const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+        const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+        if (diffInMins < 1) return "Agora mesmo";
+        if (diffInMins < 60) return `Há ${diffInMins} min`;
+        if (diffInHours < 24) return `Há ${diffInHours} h`;
+        return past.toLocaleDateString();
+    };
+
+    const isRecent = (date: string) => {
+        const now = new Date();
+        const past = new Date(date);
+        const diffInMs = now.getTime() - past.getTime();
+        return diffInMs < (24 * 60 * 60 * 1000); // 24 hours
+    };
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
@@ -400,20 +428,35 @@ function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: GiftGiven[] }) {
                     Últimas Confirmações
                 </h3>
                 <div className="space-y-4">
-                    {rsvps.slice(0, 5).map(r => (
-                        <div key={r.id} className="flex items-center justify-between p-4 bg-sage/5 rounded-2xl border border-sage/10">
-                            <div>
-                                <p className="font-bold text-charcoal text-sm">{r.nomeCompleto}</p>
+                    {rsvps.slice(0, 8).map((r, index) => (
+                        <motion.div
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            key={r.id}
+                            className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${isRecent(r.dataConfirmacao)
+                                    ? "bg-white border-gold/30 shadow-sm"
+                                    : "bg-sage/5 border-sage/10"
+                                }`}
+                        >
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                    <p className="font-bold text-charcoal text-sm">{r.nomeCompleto}</p>
+                                    {isRecent(r.dataConfirmacao) && (
+                                        <span className="bg-gold text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full animate-pulse">RECENTE</span>
+                                    )}
+                                </div>
                                 <p className="text-[10px] text-charcoal/50">
                                     {r.numeroAcompanhantes > 0
                                         ? `+ ${r.numeroAcompanhantes} (${r.nomesAcompanhantes})`
                                         : "Apenas ele(a)"}
                                 </p>
                             </div>
-                            <div className="text-right">
-                                <p className="text-[10px] text-sage font-medium">{new Date(r.dataConfirmacao).toLocaleDateString()}</p>
+                            <div className="text-right ml-4">
+                                <p className="text-[10px] text-sage font-bold whitespace-nowrap">{getTimeAgo(r.dataConfirmacao)}</p>
+                                <p className="text-[8px] text-charcoal/30 font-mono">{r.telefone}</p>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                     {rsvps.length === 0 && <p className="text-sm text-charcoal/40 italic">Nenhuma confirmação ainda.</p>}
                 </div>
@@ -424,16 +467,33 @@ function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: GiftGiven[] }) {
                     Mimos Recebidos
                 </h3>
                 <div className="space-y-4">
-                    {gifts.slice(0, 5).map(g => (
-                        <div key={g.id} className="flex items-center justify-between p-4 bg-gold/5 rounded-2xl border border-gold/10">
-                            <div>
-                                <p className="font-bold text-charcoal text-sm">{g.name}</p>
+                    {gifts.slice(0, 8).map((g, index) => (
+                        <motion.div
+                            initial={{ opacity: 0, x: 10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            key={g.id}
+                            className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${isRecent(g.givenAt!)
+                                    ? "bg-white border-gold/30 shadow-sm"
+                                    : "bg-gold/5 border-gold/10"
+                                }`}
+                        >
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                    <p className="font-bold text-charcoal text-sm">{g.name}</p>
+                                    {isRecent(g.givenAt!) && (
+                                        <span className="bg-sage text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">NOVO</span>
+                                    )}
+                                </div>
                                 <p className="text-[10px] text-charcoal/50">por {g.giverName}</p>
                             </div>
-                            <div className="text-right text-gold">
-                                <ChevronRight size={16} />
+                            <div className="text-right ml-4">
+                                <p className="text-[10px] text-gold font-bold whitespace-nowrap">{getTimeAgo(g.givenAt!)}</p>
+                                <p className="text-[8px] text-charcoal/30 flex items-center justify-end gap-1">
+                                    {g.price ? `R$ ${g.price}` : "Mimoo"}
+                                </p>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                     {gifts.length === 0 && <p className="text-sm text-charcoal/40 italic">Nenhum presente ainda.</p>}
                 </div>

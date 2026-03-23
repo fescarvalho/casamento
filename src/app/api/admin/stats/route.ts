@@ -11,9 +11,12 @@ export async function GET(request: Request) {
 
     try {
         const [rsvps, gifts, invitedGuests] = await Promise.all([
-            prisma.rSVP.findMany(),
+            prisma.rSVP.findMany({
+                orderBy: { dataConfirmacao: 'desc' }
+            }),
             prisma.gift.findMany({
-                where: { isGiven: true }
+                where: { isGiven: true },
+                orderBy: { givenAt: 'desc' }
             }),
             prisma.guest.findMany()
         ]);
@@ -21,9 +24,13 @@ export async function GET(request: Request) {
         const totalConfirmed = rsvps.reduce((acc: number, curr: any) => acc + 1 + curr.numeroAcompanhantes, 0);
         const giftsTotal = gifts.reduce((acc: number, curr: any) => acc + (curr.price || 0), 0);
 
-        // Pendentes are invited guests who haven't confirmed (we'll need a way to match names)
-        // For now, let's just count them.
-        const pendingCount = invitedGuests.length - rsvps.length;
+        // Map of confirmed names to avoid double counting
+        const confirmedNames = new Set(rsvps.map(r => r.nomeCompleto.toLowerCase()));
+
+        // Pendentes are invited guests who haven't confirmed AND haven't been manually checked
+        const pendingCount = invitedGuests.filter(g =>
+            !g.isChecked && !confirmedNames.has(g.name.toLowerCase())
+        ).length;
 
         return NextResponse.json({
             success: true,

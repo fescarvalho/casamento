@@ -137,7 +137,7 @@ export default function RSVP() {
                                             <input
                                                 {...register("nomeCompleto")}
                                                 type="text"
-                                                placeholder="Como no convite"
+                                                placeholder="Nome completo"
                                                 className="w-full bg-transparent border-b border-midnight-olive/10 py-3 px-1 focus:ring-0 focus:border-gold transition-all text-lg text-midnight-olive font-headline placeholder:text-midnight-olive/20"
                                             />
                                             {errors.nomeCompleto && (
