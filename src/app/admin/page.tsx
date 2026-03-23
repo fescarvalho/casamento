@@ -231,8 +231,9 @@ export default function AdminDashboard() {
     const stats = useMemo<Stats>(() => {
         const totalRSVPs = rsvps.length;
         const totalConfirmed = rsvps.reduce((acc, curr) => acc + 1 + (curr.numeroAcompanhantes || 0), 0);
-        const giftsCount = gifts.length;
-        const giftsTotalValue = gifts.reduce((acc, curr) => acc + (curr.price || 0), 0);
+        const givenGifts = gifts.filter(g => g.isGiven);
+        const giftsCount = givenGifts.length;
+        const giftsTotalValue = givenGifts.reduce((acc, curr) => acc + (curr.price || 0), 0);
 
         const confirmedNames = new Set(rsvps.map(r => r.nomeCompleto.toLowerCase()));
         const pendingCount = invitedGuests.filter(g =>
@@ -488,7 +489,7 @@ function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: Gift[] }) {
                     Mimos Recebidos
                 </h3>
                 <div className="space-y-4">
-                    {gifts.slice(0, 8).map((g, index) => (
+                    {gifts.filter(g => g.isGiven).sort((a, b) => new Date(b.givenAt || 0).getTime() - new Date(a.givenAt || 0).getTime()).slice(0, 8).map((g, index) => (
                         <motion.div
                             initial={{ opacity: 0, x: 10 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -506,7 +507,10 @@ function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: Gift[] }) {
                                         <span className="bg-sage text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">NOVO</span>
                                     )}
                                 </div>
-                                <p className="text-[10px] text-charcoal/50">por {g.giverName}</p>
+                                <p className="text-[10px] text-charcoal/50 mb-1">por {g.giverName}</p>
+                                {g.giverMessage && (
+                                    <p className="text-[10px] text-charcoal/70 italic border-l-2 border-gold/30 pl-2 mt-1 py-0.5">&quot;{g.giverMessage}&quot;</p>
+                                )}
                             </div>
                             <div className="text-right ml-4">
                                 <p className="text-[10px] text-gold font-bold whitespace-nowrap">{getTimeAgo(g.givenAt!)}</p>
@@ -516,7 +520,7 @@ function SummaryView({ rsvps, gifts }: { rsvps: RSVP[], gifts: Gift[] }) {
                             </div>
                         </motion.div>
                     ))}
-                    {gifts.length === 0 && <p className="text-sm text-charcoal/40 italic">Nenhum presente ainda.</p>}
+                    {gifts.filter(g => g.isGiven).length === 0 && <p className="text-sm text-charcoal/40 italic">Nenhum presente ainda.</p>}
                 </div>
             </div>
         </div>
