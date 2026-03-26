@@ -229,8 +229,10 @@ export default function AdminDashboard() {
     }, [invitedGuests, searchTerm]);
 
     const stats = useMemo<Stats>(() => {
-        const totalRSVPs = rsvps.length;
-        const totalConfirmed = rsvps.reduce((acc, curr) => acc + 1 + (curr.numeroAcompanhantes || 0), 0);
+        const checkedGuests = invitedGuests.filter(g => g.isChecked);
+        const totalConfirmed = checkedGuests.reduce((acc, g) => acc + 1 + (g.maxCompanions || 0), 0);
+        const totalRSVPs = checkedGuests.length; // Now represents checked invites count for the subtitle
+
         const givenGifts = gifts.filter(g => g.isGiven);
         const giftsCount = givenGifts.length;
         const giftsTotalValue = givenGifts.reduce((acc, curr) => acc + (curr.price || 0), 0);
@@ -306,7 +308,7 @@ export default function AdminDashboard() {
                 <StatCard
                     title="Confirmados"
                     value={stats?.totalConfirmed || 0}
-                    subtitle={`${stats?.totalRSVPs || 0} formulários`}
+                    subtitle={`${stats?.totalRSVPs || 0} convites marcados`}
                     icon={<CheckCircle className="text-sage" />}
                     color="bg-sage/10"
                 />
