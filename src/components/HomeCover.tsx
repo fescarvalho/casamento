@@ -98,7 +98,7 @@ export default function HomeCover() {
                 <div className="flex flex-row items-center justify-center gap-8 md:gap-12 pt-4">
                     {/* Location */}
                     <a
-                        href="https://www.google.com/maps/search/?api=1&query=Capela+Nossa+Senhora+da+Assunção+Natividade+RJ"
+                        href="https://maps.app.goo.gl/feFWQN7bUTFhrRSX6"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex flex-col items-center gap-3 group"
@@ -137,11 +137,11 @@ export default function HomeCover() {
             <Footer />
 
             {/* Elegant Card Texture Overlay - Hidden on mobile to avoid iOS artifacts */}
-            <div 
-                className="hidden md:block absolute inset-0 pointer-events-none opacity-[0.08]" 
-                style={{ 
+            <div
+                className="hidden md:block absolute inset-0 pointer-events-none opacity-[0.08]"
+                style={{
                     backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-fibers.png')",
-                }} 
+                }}
             />
         </section>
     );
