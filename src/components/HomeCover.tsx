@@ -98,7 +98,7 @@ export default function HomeCover() {
                 <div className="flex flex-row items-center justify-center gap-8 md:gap-12 pt-4">
                     {/* Location */}
                     <a
-                        href="https://maps.app.goo.gl/feFWQN7bUTFhrRSX6"
+                        href="https://maps.app.goo.gl/ZrpiH4w35JY7JQ1B6?g_st=ac"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex flex-col items-center gap-3 group"
