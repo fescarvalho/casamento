@@ -36,9 +36,9 @@ export default function HomeCover() {
                 {/* Quote */}
                 <div className="space-y-2 px-4 italic">
                     <p className="text-[10px] md:text-xs leading-relaxed max-w-xs mx-auto text-midnight-olive/40 uppercase tracking-widest">
-                        "O amor só é lindo quando encontramos alguém que nos transforme no melhor que podemos ser."
+                        "Assim, eles já não são dois, mas sim uma só carne. Portanto, o que Deus uniu, ninguém separa."
                     </p>
-                    <p className="text-[8px] md:text-[10px] uppercase tracking-tighter text-midnight-olive/30">(Mário Quintana)</p>
+                    <p className="text-[8px] md:text-[10px] uppercase tracking-tighter text-midnight-olive/30">(Mateus 19:6)</p>
                 </div>
 
                 {/* Sub-header */}
