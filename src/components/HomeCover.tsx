@@ -4,8 +4,22 @@ import { motion } from "framer-motion";
 import { Church, Heart, Gift, MessageCircle, MapPin } from "lucide-react";
 import Footer from "./Footer";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { RSVP_DEADLINE } from "@/lib/constants";
 
 export default function HomeCover() {
+    const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
+
+    useEffect(() => {
+        const checkDeadline = () => {
+            const now = new Date();
+            setIsDeadlinePassed(now > RSVP_DEADLINE);
+        };
+        checkDeadline();
+        const interval = setInterval(checkDeadline, 60000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <section className="relative min-h-[100dvh] flex flex-col items-center justify-center bg-white overflow-hidden font-body text-midnight-olive pt-20 pb-10">
 
@@ -110,11 +124,21 @@ export default function HomeCover() {
                     </a>
 
                     {/* RSVP */}
-                    <Link href="/rsvp" className="flex flex-col items-center gap-3 group">
-                        <div className="w-14 h-14 rounded-full border border-midnight-olive/10 flex items-center justify-center text-sage group-hover:bg-sage/5 transition-all shadow-sm">
+                    <Link
+                        href={isDeadlinePassed ? "#" : "/rsvp"}
+                        className={`flex flex-col items-center gap-3 group ${isDeadlinePassed ? 'cursor-not-allowed opacity-50' : ''}`}
+                        onClick={(e) => {
+                            if (isDeadlinePassed) {
+                                e.preventDefault();
+                            }
+                        }}
+                    >
+                        <div className={`w-14 h-14 rounded-full border border-midnight-olive/10 flex items-center justify-center ${isDeadlinePassed ? 'text-midnight-olive/20' : 'text-sage group-hover:bg-sage/5'} transition-all shadow-sm`}>
                             <MessageCircle size={24} />
                         </div>
-                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-midnight-olive/40 whitespace-nowrap">Confirmar</span>
+                        <span className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold text-midnight-olive/40 whitespace-nowrap">
+                            {isDeadlinePassed ? "Encerrado" : "Confirmar"}
+                        </span>
                     </Link>
 
                     {/* Gifts */}

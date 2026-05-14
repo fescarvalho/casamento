@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { RSVP_DEADLINE } from "@/lib/constants";
 
 const rsvpSchema = z.object({
     nomeCompleto: z.string().min(3, "Nome muito curto"),
@@ -11,6 +12,13 @@ const rsvpSchema = z.object({
 
 export async function POST(request: Request) {
     try {
+        if (new Date() > RSVP_DEADLINE) {
+            return NextResponse.json({
+                success: false,
+                message: "O prazo para confirmação de presença se encerrou."
+            }, { status: 403 });
+        }
+
         const body = await request.json();
         const validatedData = rsvpSchema.parse(body);
 

@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { RSVP_DEADLINE } from "@/lib/constants";
 
 const rsvpSchema = z.object({
     nomeCompleto: z.string().min(3, "Por favor, informe seu nome completo"),
@@ -20,6 +21,17 @@ type FormInput = z.infer<typeof rsvpSchema>;
 
 export default function RSVP() {
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
+
+    useEffect(() => {
+        const checkDeadline = () => {
+            const now = new Date();
+            setIsDeadlinePassed(now > RSVP_DEADLINE);
+        };
+        checkDeadline();
+        const interval = setInterval(checkDeadline, 60000); // Check every minute
+        return () => clearInterval(interval);
+    }, []);
 
     const {
         register,
@@ -102,7 +114,28 @@ export default function RSVP() {
 
             <div className="relative z-10 w-full max-w-lg px-6 md:px-8">
                 <AnimatePresence mode="wait">
-                    {status !== "success" ? (
+                    {isDeadlinePassed ? (
+                        <motion.div
+                            key="deadline"
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-center space-y-8 py-10"
+                        >
+                            <div className="w-20 h-20 bg-gold/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <span className="text-gold text-3xl">⏳</span>
+                            </div>
+                            <h2 className="font-headline text-3xl md:text-4xl text-midnight-olive leading-tight px-4">
+                                Confirmações Encerradas
+                            </h2>
+                            <p className="text-midnight-olive/60 font-body text-sm md:text-base max-w-xs mx-auto leading-relaxed">
+                                O prazo para confirmação de presença se encerrou. <br />
+                                Caso precise falar conosco, entre em contato diretamente.
+                            </p>
+                            <div className="pt-6">
+                                <div className="w-12 h-[0.5px] bg-gold/30 mx-auto" />
+                            </div>
+                        </motion.div>
+                    ) : status !== "success" ? (
                         <motion.div
                             key="form"
                             initial={{ opacity: 0, y: 15 }}
